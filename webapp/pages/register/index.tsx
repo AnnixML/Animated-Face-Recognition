@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const { logIn } = useAuth(); // Destructure the logIn function from useAuth
 
     const registerUser = async event => {
         event.preventDefault();
@@ -18,6 +20,11 @@ const Register = () => {
 
         const data = await res.json();
         setMessage(data.message);
+
+        // If registration is successful, log the user in
+        if (res.ok) {
+            logIn();
+        }
     };
 
     return (
