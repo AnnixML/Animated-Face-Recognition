@@ -2,55 +2,78 @@ import React from "react";
 import Link from "next/link";
 import Logo from "./logo";
 import Button from "./button";
+import RegisterButton from "./registerbutton";
+import { useAuth } from '../../../context/AuthContext';
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
+
+  //placeholder until user auth is setup
+  const { isLoggedIn, LogOut} = useAuth();
+
   return (
     <>
-      <div className="w-full h-20 bg-emerald-800 sticky top-0">
+      <div className="w-full h-20 bg-emerald-600 sticky top-0 z-50">
         <div className="container mx-auto px-4 h-full">
           <div className="flex justify-between items-center h-full">
             <Logo />
-            <button
-              type="button"
-              className="inline-flex items-center md:hidden"
-              onClick={toggle}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                viewBox="0 0 24 24"
+            <div className="md:hidden">
+              <button
+                type="button"
+                className="inline-flex items-center"
+                onClick={toggle}
               >
-                <path
-                  fill="#fff"
-                  d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"
-                />
-              </svg>
-            </button>
-            <ul className="hidden md:flex gap-x-6 text-white ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </button>
+            </div>
+            <ul className="hidden md:flex gap-x-6 items-center">
               <li>
-                <Link href="/search">
-                  <p>Search for Characters</p>
+              <Link href="/search" legacyBehavior>
+                <a className="text-white">Search for Characters</a>
+              </Link>
+              </li>
+              <li>
+                <Link href="/request" legacyBehavior>
+                  <a className="text-white">Request New Features</a>
                 </Link>
               </li>
               <li>
-                <Link href="/request">
-                  <p>Request New Features</p>
+                <Link href="/forums" legacyBehavior>
+                  <a className="text-white">Forums</a>
                 </Link>
               </li>
               <li>
-                <Link href="/forums">
-                  <p>Forums</p>
+                <Link href="/faq" legacyBehavior>
+                  <a className="text-white">FAQ</a>
                 </Link>
               </li>
-              <li>
-                <Link href="/faq">
-                  <p>FAQ</p>
-                </Link>
-              </li>
+              {isLoggedIn ? (
+                <>
+                  <li><Link href="/profile" legacyBehavior><a className="text-white">View My Profile</a></Link></li>
+                  <li><button onClick={LogOut} className="text-white bg-transparent">Log Out</button></li>
+                </>
+              ) : (
+                <>
+                  <li><Button /></li>
+                  <li><RegisterButton /></li>
+                </>
+              )}
             </ul>
-            <Button />
-            <Button />
+            <div className="flex gap-x-4">
+            </div>
           </div>
         </div>
       </div>
@@ -58,4 +81,4 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
   );
 };
 
-export default Navbar
+export default Navbar;

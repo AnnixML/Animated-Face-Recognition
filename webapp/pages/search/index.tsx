@@ -1,7 +1,8 @@
 import React from "react";
 
 const request = () => {
-  return <div>Request Placeholder</div>;
+  
+  return <div>Find Character Placeholder</div>;
 };
 
 export default request;
