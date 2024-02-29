@@ -3,7 +3,7 @@ import { useAuth } from '../../../context/AuthContext';
 
 const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): JSX.Element => {
   //placeholder until user auth is setup
-  const { isLoggedIn, LogOut} = useAuth();
+  const { isLoggedIn, logOut} = useAuth();
 
   return (
     <div
@@ -22,6 +22,15 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
           <li>
             <Link href="/search" legacyBehavior><a onClick={toggle} className="block py-2">Search for Characters</a></Link>
           </li>
+          {isLoggedIn ? (
+            <>
+              <li>
+              <Link href="/history" legacyBehavior><a onClick={toggle} className="block py-2">View Search History</a></Link>
+              </li>
+            </>
+          ) : (
+            null
+          )}
           <li>
             <Link href="/request" legacyBehavior><a onClick={toggle} className="block py-2">Request New Features</a></Link>
           </li>
@@ -34,13 +43,13 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
           <hr></hr>
           {isLoggedIn ? (
                 <>
-                  <li><Link href="/signin" legacyBehavior><a onClick={toggle} className="block py-2">Sign In</a></Link></li>
-                  <li><Link href="/register" legacyBehavior><a onClick={toggle} className="block py-2">Register</a></Link></li>
+                  <li><Link href="/profile" legacyBehavior><a onClick={toggle} className="block py-2">View My Profile</a></Link></li>
+                  <li><button onClick={logOut} className="text-black bg-transparent">Log Out</button></li>
                 </>
               ) : (
                 <>
-                  <li><Link href="/profile" legacyBehavior><a onClick={toggle} className="block py-2">View My Profile</a></Link></li>
-                  <li><button onClick={LogOut} className="text-white bg-transparent">Log Out</button></li>
+                  <li><Link href="/login" legacyBehavior><a onClick={toggle} className="block py-2">Log In</a></Link></li>
+                  <li><Link href="/register" legacyBehavior><a onClick={toggle} className="block py-2">Sign Up</a></Link></li>
                 </>
               )}
         </ul>

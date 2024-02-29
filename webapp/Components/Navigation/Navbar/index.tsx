@@ -45,6 +45,15 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                 <a className="text-white">Search for Characters</a>
               </Link>
               </li>
+              {isLoggedIn ? (
+                <li>
+                <Link href="/history" legacyBehavior>
+                  <a className="text-white">View Search History</a>
+                </Link>
+                </li>
+              ): (
+                null
+              )}
               <li>
                 <Link href="/request" legacyBehavior>
                   <a className="text-white">Request New Features</a>
