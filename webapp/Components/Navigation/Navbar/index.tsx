@@ -8,7 +8,7 @@ import { useAuth } from '../../../context/AuthContext';
 const Navbar = ({ toggle }: { toggle: () => void }) => {
 
   //placeholder until user auth is setup
-  const { isLoggedIn, LogOut} = useAuth();
+  const { isLoggedIn, logOut} = useAuth();
 
   return (
     <>
@@ -63,7 +63,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
               {isLoggedIn ? (
                 <>
                   <li><Link href="/profile" legacyBehavior><a className="text-white">View My Profile</a></Link></li>
-                  <li><button onClick={LogOut} className="text-white bg-transparent">Log Out</button></li>
+                  <li><button onClick={logOut} className="text-white bg-transparent">Log Out</button></li>
                 </>
               ) : (
                 <>

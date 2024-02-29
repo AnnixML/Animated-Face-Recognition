@@ -8,11 +8,12 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// Provider component that wraps your app and makes auth object available to any child component that calls useAuth().
+//component that wraps app and makes auth object available to any child component that calls useAuth().
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Mock function to simulate login/logout
+  
   const logIn = () => setIsLoggedIn(true);
   const logOut = () => setIsLoggedIn(false);
 
