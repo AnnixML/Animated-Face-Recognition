@@ -32,7 +32,7 @@ const search: React.FC = () => {
             console.log("CURRENT RESPONSE: " + data["prediction"]);
 
             if (response.ok) {
-                const predictions = data.prediction;
+                const predictions = data['prediction'];
                 const parsed = JSON.parse(predictions)
                 const filteredCharacters = []
                 for (const key in parsed) {
@@ -110,9 +110,7 @@ const search: React.FC = () => {
                 <p> Thank you for your feedback!</p>
                 </>
               ) : (
-                <>
                   null
-                </>
               )}
         </div>
     );
