@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import ImageUploader from '../../components/ImageUploader'; 
-import { useAuth } from '../../context/AuthContext';
+import ImageUploader from '../../components/ImageUploader'; // Adjust the import path if necessary
+import { useAuth } from '../../context/AuthContext'; // Adjust the import path if necessary
 
-const Search = () => {
+
+interface Character {
+    name: string;
+    confidence: number; // Assuming confidence is a decimal representing a percentage
+}
+
+const search: React.FC = () => {
     const { UUID } = useAuth();
-    const [characters, setCharacters] = useState([]);
-    const [uploading, setUploading] = useState(false);
-    const [feedback, setFeedback] = useState('');
-    const [submittingFeedback, setSubmittingFeedback] = useState(false);
+    const [characters, setCharacters] = useState<Character[]>([]);
+    const [uploading, setUploading] = useState<boolean>(false);
+    const [feedback, setFeedback] = useState<string>('');
+    const [submittingFeedback, setSubmittingFeedback] = useState<boolean>(false);
 
-    const handleUpload = async (imageFile) => {
-        console.log("TESTTEST");
+    const handleUpload = async (imageFile: Blob) => {
         setUploading(true);
         const requestHeaders: HeadersInit = new Headers();
         requestHeaders.set('Content-Type', 'image/jpeg');
         requestHeaders.set('Access-Control-Allow-Origin', '*');
-        //const formData = new FormData();
-        //formData.append('file', imageFile);
+
         try {
             const response = await fetch('http://localhost:3267/predict', {
                 method: 'POST',
@@ -27,12 +31,19 @@ const Search = () => {
             console.log("CURRENT RESPONSE: " + data["prediction"]);
 
             if (response.ok) {
-                setCharacters(data.characters); 
-                saveSearchHistory(data.characters);
+                const predictions = data.prediction;
+                const filteredCharacters: Character[] = Object.entries(predictions).reduce((acc: Character[], [key, value]) => {
+                    if (value >= 0.5) { 
+                        acc.push({ name: key, confidence: value });
+                    }
+                    return acc;
+                }, []);
+
+                setCharacters(filteredCharacters);
             } else {
                 throw new Error(data.error || 'Failed to get prediction');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error uploading image:', error);
             alert(error.message);
         } finally {
@@ -40,9 +51,8 @@ const Search = () => {
         }
     };
 
-    const saveSearchHistory = async (searchResults) => {
+    const saveSearchHistory = async (searchResults: Character[]) => {
         if (!UUID) return;
-        if (!saveSearchHistory) return;
         await fetch('../api/save', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -53,17 +63,17 @@ const Search = () => {
         });
     };
 
-    const submitFeedback = async (event) => {
+    const submitFeedback = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSubmittingFeedback(true);
 
-        //TODO submit feedback
+        //TODO: Implement feedback submission logic here
 
         setSubmittingFeedback(false);
         setFeedback('');
     };
 
-    const handleFeedbackChange = (event) => {
+    const handleFeedbackChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setFeedback(event.target.value);
     };
 
@@ -74,7 +84,7 @@ const Search = () => {
             {uploading && <p>Uploading and analyzing image...</p>}
             <ul>
                 {characters.map((char, index) => (
-                    <li key={index}>{char.name} - Confidence: {char.confidence}%</li>
+                    <li key={index}>{char.name} - Confidence: {(char.confidence * 100).toFixed(2)}%</li>
                 ))}
             </ul>
             {characters.length > 0 && (
@@ -97,4 +107,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default search;
