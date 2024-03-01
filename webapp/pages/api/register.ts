@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const db = client.db('account_info');
 
     // Check if the email already exists
-    const existingUser = await db.collection('users').findOne({ email });
+    const existingUser = await db.collection("user_info").findOne({ "email": email });
     if (existingUser) {
       return res.status(409).json({ message: 'Email already exists' });
     }
@@ -32,12 +32,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // TODO: Hash the password before storing
     // const hashedPassword = await hash(password, 10);
     const hashedPassword = password;
+    console.log("email: " + email + "\npassword: " + password);
 
     // Insert the new user
-    const result = await db.collection('user_info').insertOne({
-        "email": email,
-        "password": hashedPassword
-    });
+    const result = await db.collection("user_info").insertOne({ "email": email, "password": hashedPassword});
 
     return res.status(201).json({ message: 'User created', userId: result.insertedId.toString() });
   } catch (error) {
