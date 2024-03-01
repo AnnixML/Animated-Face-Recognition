@@ -25,7 +25,7 @@ const Register = () => {
 
         // If registration is successful, log the user in
         if (res.ok) {
-            logIn(data.uuid);
+            logIn(data.userId);
             router.push('/search');
         }
     };

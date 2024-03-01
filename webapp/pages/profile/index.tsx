@@ -60,11 +60,11 @@ const profile = () => {
                 <input
                     type="text"
                     name="username"
-                    defaultValue={userData?.username}
+                    defaultValue={UUID}
                     onChange={handleInputChange}
                     className="input rounded-md border-gray-300 shadow-sm"
                 />
-                <button onClick={() => handleUpdate('username')} className="btn bg-blue-500 text-white rounded-md">
+                <button onClick={() => handleUpdate("username")} className="btn bg-blue-500 text-white rounded-md">
                     Update Username
                 </button>
             </div>
@@ -77,8 +77,20 @@ const profile = () => {
                     onChange={handleInputChange}
                     className="input rounded-md border-gray-300 shadow-sm"
                 />
-                <button onClick={() => handleUpdate('email')} className="btn bg-blue-500 text-white rounded-md">
+                <button onClick={() => handleUpdate("email")} className="btn bg-blue-500 text-white rounded-md">
                     Update Email
+                </button>
+            </div>
+            <div className="space-y-2">
+            <label className="block">Password:</label>
+                <input
+                    type="text"
+                    name="password"
+                    onChange={handleInputChange}
+                    className="input rounded-md border-gray-300 shadow-sm"
+                />
+                <button onClick={() => handleUpdate("password")} className="btn bg-blue-500 text-white rounded-md">
+                    Update Password
                 </button>
             </div>
             <div className="space-y-2">

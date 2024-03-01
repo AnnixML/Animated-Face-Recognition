@@ -1,7 +1,7 @@
 //update from profile
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../../lib/mongodb';
-import { Db, MongoClient } from 'mongodb';
+import { Db, MongoClient, ObjectId } from 'mongodb';
 
 interface ResponseData {
     message: string;
@@ -13,11 +13,12 @@ export default async function handler(
 ) {
     if (req.method === 'POST') {
         try {
+            const UUID = req.headers.Authorization;
             const { field, value } = req.body;
             const client: MongoClient = await clientPromise;
-            const db: Db = client.db("user_info");
-            const updateResult = await db.collection('users').updateOne(
-                { _id: req.headers.Authorization }, 
+            const db: Db = client.db("account_info");
+            const updateResult = await db.collection("user_info").updateOne(
+                { _id: new ObjectId(UUID) }, 
                 { $set: { [field]: value } }
             );
 
