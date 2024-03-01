@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     console.log("email: " + email + "\npassword: " + password);
 
     // Insert the new user
-    const result = await db.collection("user_info").insertOne({ "username": username, "email": email, "password": hashedPassword});
+    const result = await db.collection("user_info").insertOne({ "username": username, "email": email, "password": hashedPassword, "saveSearchHist": true});
 
     return res.status(201).json({ message: 'User created', userId: result.insertedId.toString() });
   } catch (error) {

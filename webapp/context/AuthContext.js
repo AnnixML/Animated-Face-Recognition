@@ -21,7 +21,8 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [UUID, setUUID] = useState(null);
 
-  const logIn = (newuuid) => {
+  const logIn = (newuuid, saveSearchHistory) => {
+    setsaveSearchHistory(saveSearchHistory);
     setUUID(newuuid);
     setIsLoggedIn(true);
   };
