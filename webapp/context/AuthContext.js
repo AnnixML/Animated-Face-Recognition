@@ -21,8 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [UUID, setUUID] = useState(null);
 
-  const logIn = (newuuid, saveSearchHistory) => {
-    setsaveSearchHistory(saveSearchHistory);
+  const logIn = (newuuid) => {
     setUUID(newuuid);
     setIsLoggedIn(true);
   };
@@ -33,8 +32,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const changeSearchHistory = () => {
-    setsaveSearchHistory(!saveSearchHistory);
+    setSaveSearchHistory(!saveSearchHistory);
   }
+
 
   const value = { isLoggedIn, UUID, logIn, logOut };
 

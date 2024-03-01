@@ -23,6 +23,25 @@ const useUpdateUserDetails = (UUID) => {
         }
     };
 
+    const updateUserSearch = async (field, value) => {
+        setIsUpdating(true);
+        try {
+            const res = await fetch(`../api/user/update`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UUID
+                },
+                body: JSON.stringify({ field, value }), 
+            });
+            if (!res.ok) throw new Error(`Failed to update ${field}`);
+        } catch (err) {
+            setUpdateError(err.message);
+        } finally {
+            setIsUpdating(false);
+        }
+    }
+
     return { updateUserDetails, isUpdating, updateError };
 };
 

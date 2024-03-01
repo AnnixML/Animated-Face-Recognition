@@ -7,18 +7,22 @@ import { useRouter } from 'next/router';
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
     const { userData, isLoading, error } = useFetchUserDetails(UUID);
-    const { updateUserDetails } = useUpdateUserDetails(UUID);
-    const [localUserData, setLocalUserData] = useState({});
+    const { updateUserDetails, updateUserSearch } = useUpdateUserDetails(UUID);
+    const [username, setUsername] = useState(userData[username]);
+    const [password, setPassword] = useState(userData[password]);
+    const [email, setEmail] = useState(userData[email]);
+    const [searchHistory, setSearchHistory] = useState(userData[saveSearchHist]);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const router = useRouter();
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setLocalUserData({ localUserData, [name]: value });
+    const handleUpdate = (field: string, data: string) => {
+        if (field == searchHistory)
+        updateUserDetails(field, data);
     };
 
-    const handleUpdate = (field: string, data: string) => {
-        updateUserDetails(field, data);
+    const handleSearchUpdate = () => {
+        changeSearchHistory();
+        updateUserSearch(saveSearchHistory, !searchHistory);
     };
 
     const revealHidden = () => {
@@ -41,7 +45,7 @@ const profile = () => {
             });
             if (response.ok) {
                 logOut();
-                router.push('/register'); 
+                router.push('/');
             } else {
                 throw new Error('Failed to delete account');
             }
@@ -58,52 +62,47 @@ const profile = () => {
         <div className="space-y-4">
             <h2>Edit Profile</h2>
             {error && <p className="text-red-500">{error}</p>}
-            <div className="space-y-4">
-            <label className="block">Username:</label>
-                <input
-                    type="text"
-                    name="username"
-                    defaultValue={userData?.username}
-                    onChange={handleInputChange}
-                    className="input rounded-md border-gray-300 shadow-sm"
-                />
-                <button onClick={() => handleUpdate("username", localUserData[username])} className="btn bg-blue-500 text-white rounded-md">
+            <div>
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="username"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="border rounded p-2 w-full"
+                    />
+                <button onClick={() => handleUpdate("username", username)} className="btn bg-blue-500 text-white rounded-md">
                     Update Username
                 </button>
             </div>
             <div className="space-y-4">
-                <label className="block">Email:</label>
-                <input
-                    type="email"
-                    name="email"
-                    defaultValue={userData?.email}
-                    onChange={handleInputChange}
-                    className="input rounded-md border-gray-300 shadow-sm"
-                />
-                <button onClick={() => handleUpdate("email", localUserData[email])} className="btn bg-blue-500 text-white rounded-md">
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="border rounded p-2 w-full"
+                    />
+                <button onClick={() => handleUpdate("email", email)} className="btn bg-blue-500 text-white rounded-md">
                     Update Email
                 </button>
             </div>
             <div className="space-y-4">
-            <label className="block">Password:</label>
-                <input
-                    type="text"
-                    name="password"
-                    onChange={handleInputChange}
-                    className="input rounded-md border-gray-300 shadow-sm"
-                />
-                <button onClick={() => handleUpdate("password", localUserData[password])} className="btn bg-blue-500 text-white rounded-md">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="border rounded p-2 w-full"
+                    />
+                <button onClick={() => handleUpdate("password", password)} className="btn bg-blue-500 text-white rounded-md">
                     Update Password
                 </button>
             </div>
-            <div className="space-y-2">
-                <label className="block">Enable Search History:</label>
-                <input
-                    type="checkbox"
-                    name="searchHistoryEnabled"
-                    defaultChecked={userData?.saveSearchHistory}
-                    onClick={changeSearchHistory}
-                />
+            <div className="space-y-4">
+            <button onClick={() => handleSearchUpdate()} className="h-12 rounded-lg bg-red font-bold px-5"> Enable/Disable Search History </button>
             </div>
             <div className="space-y-20">
                 <button onClick={revealHidden} className="h-12 rounded-lg bg-red font-bold px-5"> Delete My Account </button>
