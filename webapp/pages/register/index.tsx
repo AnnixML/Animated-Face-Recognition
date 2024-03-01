@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/router';
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const { logIn } = useAuth(); // Destructure the logIn function from useAuth
+    const router = useRouter();
 
     const registerUser = async event => {
         event.preventDefault();
@@ -23,7 +25,8 @@ const Register = () => {
 
         // If registration is successful, log the user in
         if (res.ok) {
-            logIn();
+            logIn(data.uuid);
+            router.push('/search');
         }
     };
 

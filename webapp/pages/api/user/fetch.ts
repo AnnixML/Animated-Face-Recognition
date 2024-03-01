@@ -8,17 +8,27 @@ interface ResponseData {
     [key: string]: any;
 }
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<ResponseData>
-) {
+export default async function handler(req, res) {
     if (req.method === 'GET') {
+        // Extract UUID from the Authorization header
+        const UUID = req.headers.authorization;
+        
+        if (!UUID) {
+            return res.status(400).json({ message: 'No UUID provided' });
+        }
+
         try {
-            const client: MongoClient = await clientPromise;
-            const db: Db = client.db("account_info");
-            const user = await db.collection("user_info").findOne({ /* UUID when implemented */ });
-            res.status(200).json(user || {});
+            const client = await clientPromise;
+            const db = client.db("account_info");
+            const user = await db.collection("user_info").findOne({ UUID });
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            res.status(200).json(user);
         } catch (error) {
+            console.error(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     } else {

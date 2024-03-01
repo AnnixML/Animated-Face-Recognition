@@ -1,15 +1,18 @@
 import { useState } from 'react';
 
-const useUpdateUserDetails = () => {
+const useUpdateUserDetails = (UUID) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateError, setUpdateError] = useState('');
 
-    const updateUserDetails = async (field, value) => {
+    const updateUserDetails = async (field, value, UUID) => {
         setIsUpdating(true);
         try {
             const res = await fetch(`../api/user/update`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': UUID, 
+                },
                 body: JSON.stringify({ field, value }), 
             });
             if (!res.ok) throw new Error(`Failed to update ${field}`);
