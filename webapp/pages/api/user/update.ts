@@ -17,7 +17,7 @@ export default async function handler(
             const client: MongoClient = await clientPromise;
             const db: Db = client.db("user_info");
             const updateResult = await db.collection('users').updateOne(
-                { "UUID": req.body.userId }, 
+                { _id: req.headers.Authorization }, 
                 { $set: { [field]: value } }
             );
 

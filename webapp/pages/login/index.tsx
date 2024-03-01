@@ -1,7 +1,7 @@
 // pages/signin.js
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../context/AuthContext'; // Adjust the path as necessary
+import { useAuth } from '../../context/AuthContext';
 
 const signin = () => {
     const [email, setEmail] = useState('');

@@ -10,7 +10,7 @@ const history = () => {
     useEffect(() => {
         const fetchHistory = async () => {
             if (UUID) {
-                const response = await fetch(`/api/history?uuid=${UUID}&page=${page}&limit=${limit}`);
+                const response = await fetch(`../api/history?uuid=${UUID}&page=${page}&limit=${limit}`);
                 if (response.ok) {
                     const data = await response.json();
                     setHistory(data);

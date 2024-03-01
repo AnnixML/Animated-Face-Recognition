@@ -1,47 +1,61 @@
 import React, { useState } from 'react';
-import ImageUploader from '../../components/ImageUploader';
-import * as fs from 'fs';
+import ImageUploader from '../../components/ImageUploader'; 
+import { useAuth } from '../../context/AuthContext';
 
-const search = () => {
+const Search = () => {
+    const { UUID } = useAuth();
     const [characters, setCharacters] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [feedback, setFeedback] = useState('');
     const [submittingFeedback, setSubmittingFeedback] = useState(false);
 
     const handleUpload = async (imageFile) => {
-        const handleUpload = async (imageFile) => {
-            setUploading(true);
-            const formData = new FormData();
-            formData.append('file', imageFile);
-            
-        
-            try {
-                const response = await fetch('http://localhost:3267/predict', {
-                    method: 'POST',
-                    body: formData, 
-                })
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('file', imageFile);
 
-                //parse json
-                const data = await response.json(); 
-        
-                if (response.ok) {
-                    setCharacters([{ name: 'Character Name'}]); //What does the model actually return?
-                } else {
-                    throw new Error(data.error || 'Failed to get prediction');
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-                alert(error.message);
-            } finally {
-                setUploading(false);
+        try {
+            const response = await fetch('http://localhost:3267/predict', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                setCharacters(data.characters); 
+                saveSearchHistory(data.characters);
+            } else {
+                throw new Error(data.error || 'Failed to get prediction');
             }
-        };
-        
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            alert(error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const saveSearchHistory = async (searchResults) => {
+        if (!UUID) return;
+        if (!saveSearchHistory) return;
+        await fetch('../api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uuid: UUID,
+                searchHistory: searchResults.map(result => result.name),
+            }),
+        });
     };
 
     const submitFeedback = async (event) => {
         event.preventDefault();
-        <p>Thank you for your feedback! We will take this into account.</p>
+        setSubmittingFeedback(true);
+
+        //TODO submit feedback
+
+        setSubmittingFeedback(false);
+        setFeedback('');
     };
 
     const handleFeedbackChange = (event) => {
@@ -58,7 +72,7 @@ const search = () => {
                     <li key={index}>{char.name} - Confidence: {char.confidence}%</li>
                 ))}
             </ul>
-            {characters.length > 0 && ( // This line ensures the form is only shown when there are characters
+            {characters.length > 0 && (
                 <form onSubmit={submitFeedback} className="mt-4">
                     <label htmlFor="feedback" className="block mb-2">Report Incorrect Results:</label>
                     <textarea
@@ -67,7 +81,7 @@ const search = () => {
                         onChange={handleFeedbackChange}
                         className="border rounded p-2 w-full"
                         rows={4}
-                        placeholder="Describe the issue..."
+                        placeholder="We're sorry we got the character wrong! Please describe the issue..."
                     ></textarea>
                     <button type="submit" className="bg-blue-500 text-white rounded p-2 mt-2" disabled={submittingFeedback}>
                         {submittingFeedback ? 'Submitting...' : 'Submit Feedback'}
@@ -78,4 +92,4 @@ const search = () => {
     );
 };
 
-export default search;
+export default Search;

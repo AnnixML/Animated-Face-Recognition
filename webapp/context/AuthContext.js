@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useState } from 'react';
 
+
 // Creating the context
 const AuthContext = createContext({
     isLoggedIn: false,
     UUID: null,
+    saveSearchHistory: true,
+    changeSearchHistory: () => {},
     logIn: (uuid) => {},
     logOut: () => {},
 });
@@ -18,8 +21,8 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [UUID, setUUID] = useState(null);
 
-  const logIn = (uuid) => {
-    setUUID(uuid);
+  const logIn = (newuuid) => {
+    setUUID(newuuid);
     setIsLoggedIn(true);
   };
 
@@ -27,6 +30,10 @@ export const AuthProvider = ({ children }) => {
     setUUID(null);
     setIsLoggedIn(false);
   };
+
+  const changeSearchHistory = () => {
+    setsaveSearchHistory(!saveSearchHistory);
+  }
 
   const value = { isLoggedIn, UUID, logIn, logOut };
 
