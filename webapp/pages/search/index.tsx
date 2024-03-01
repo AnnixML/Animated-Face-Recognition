@@ -9,7 +9,7 @@ interface Character {
 }
 
 const search: React.FC = () => {
-    const { UUID } = useAuth();
+    const { UUID, saveSearchHistory } = useAuth();
     const [characters, setCharacters] = useState<Character[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
     const [feedback, setFeedback] = useState<string>('');
@@ -41,7 +41,7 @@ const search: React.FC = () => {
                     }
                 }
                 setCharacters(filteredCharacters);
-                saveSearchHistory(filteredCharacters);
+                saveSearchHistoryFunction(filteredCharacters);
             } else {
                 throw new Error(data.error || 'Failed to get prediction');
             }
@@ -53,8 +53,9 @@ const search: React.FC = () => {
         }
     };
 
-    const saveSearchHistory = async (searchResults: Character[]) => {
+    const saveSearchHistoryFunction = async (searchResults: Character[]) => {
         if (!UUID) return;
+        if (!saveSearchHistory) return;
         await fetch('../api/save', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

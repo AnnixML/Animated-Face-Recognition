@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const history = await db
                 .collection("search_history")
-                .find({UUID: uuid })
+                .find({"uuid": uuid })
                 .skip(skip)
                 .limit(parseInt(limit as string))
                 .toArray();
