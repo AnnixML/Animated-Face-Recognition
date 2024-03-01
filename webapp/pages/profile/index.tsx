@@ -3,7 +3,8 @@ import useFetchUserDetails from '../hooks/useFetchUserDetails';
 import useUpdateUserDetails from '../hooks/useUpdateUserDetails';
 
 const profile = () => {
-    const { userData, isLoading, error } = useFetchUserDetails();
+    const { UUID } = useAuth();
+    const { userData, isLoading, error } = useFetchUserDetails(UUID);
     const { updateUserDetails, isUpdating, updateError } = useUpdateUserDetails();
     const [localUserData, setLocalUserData] = useState({});
 

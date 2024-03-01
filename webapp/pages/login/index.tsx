@@ -24,9 +24,10 @@ const signin = () => {
         });
 
         const data = await response.json();
+        
 
         if (response.ok) {
-            logIn(); // Update global state
+            logIn(data.uuid);
             router.push('/'); // Redirect to home page or dashboard
         } else {
             setError(data.message || 'An error occurred');
