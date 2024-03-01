@@ -4,7 +4,10 @@ const useFetchUserDetails = (UUID) => {
     const [userData, setUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
-
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [saveSearchHist, setSaveSearchHist] = useState('');
     useEffect(() => {
         const fetchUserData = async () => {
             if (!UUID) {
@@ -22,7 +25,12 @@ const useFetchUserDetails = (UUID) => {
                     },
                 });
                 if (!response.ok) throw new Error('Failed to fetch user details');
+
                 const data = await response.json();
+                setUsername(data.username);
+                setPassword(data.password);
+                setEmail(data.email);
+                setSaveSearchHist(data.saveSearchHist);
                 setUserData(data);
             } catch (err) {
                 setError(err.message);
@@ -34,7 +42,7 @@ const useFetchUserDetails = (UUID) => {
         fetchUserData();
     }, [UUID]); // Re-fetch when UUID changes
 
-    return { userData, isLoading, error };
+    return { username, password, email, saveSearchHist, isLoading, error };
 };
 
 export default useFetchUserDetails;

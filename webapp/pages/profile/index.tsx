@@ -6,23 +6,22 @@ import { useRouter } from 'next/router';
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
-    const { userData, isLoading, error } = useFetchUserDetails(UUID);
+    const {username, password, email, saveSearchHist, isLoading, error } = useFetchUserDetails(UUID);
     const { updateUserDetails, updateUserSearch } = useUpdateUserDetails(UUID);
-    const [username, setUsername] = useState(userData[username]);
-    const [password, setPassword] = useState(userData[password]);
-    const [email, setEmail] = useState(userData[email]);
-    const [searchHistory, setSearchHistory] = useState(userData[saveSearchHist]);
+    const [currusername, setUsername] = useState(username);
+    const [currpassword, setPassword] = useState(password);
+    const [curremail, setEmail] = useState(email);
+    const [currsearchHist, setSearchHistory] = useState(saveSearchHist);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const router = useRouter();
 
     const handleUpdate = (field: string, data: string) => {
-        if (field == searchHistory)
         updateUserDetails(field, data);
     };
 
     const handleSearchUpdate = () => {
         changeSearchHistory();
-        updateUserSearch(saveSearchHistory, !searchHistory);
+        updateUserSearch(saveSearchHistory, !currsearchHist);
     };
 
     const revealHidden = () => {
@@ -67,11 +66,11 @@ const profile = () => {
                     <input
                         type="username"
                         id="username"
-                        value={username}
+                        value={currusername}
                         onChange={(e) => setUsername(e.target.value)}
                         className="border rounded p-2 w-full"
                     />
-                <button onClick={() => handleUpdate("username", username)} className="btn bg-blue-500 text-white rounded-md">
+                <button onClick={() => handleUpdate("username", currusername)} className="btn bg-blue-500 text-white rounded-md">
                     Update Username
                 </button>
             </div>
@@ -80,11 +79,11 @@ const profile = () => {
                     <input
                         type="email"
                         id="email"
-                        value={email}
+                        value={curremail}
                         onChange={(e) => setEmail(e.target.value)}
                         className="border rounded p-2 w-full"
                     />
-                <button onClick={() => handleUpdate("email", email)} className="btn bg-blue-500 text-white rounded-md">
+                <button onClick={() => handleUpdate("email", curremail)} className="btn bg-blue-500 text-white rounded-md">
                     Update Email
                 </button>
             </div>
@@ -93,11 +92,11 @@ const profile = () => {
                     <input
                         type="password"
                         id="password"
-                        value={password}
+                        value={currpassword}
                         onChange={(e) => setPassword(e.target.value)}
                         className="border rounded p-2 w-full"
                     />
-                <button onClick={() => handleUpdate("password", password)} className="btn bg-blue-500 text-white rounded-md">
+                <button onClick={() => handleUpdate("password", currpassword)} className="btn bg-blue-500 text-white rounded-md">
                     Update Password
                 </button>
             </div>
