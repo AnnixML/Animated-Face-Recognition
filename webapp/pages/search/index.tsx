@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ImageUploader from '../../components/ImageUploader'; // Adjust the import path if necessary
-import { useAuth } from '../../context/AuthContext'; // Adjust the import path if necessary
+import ImageUploader from '../../Components/ImageUploader';
+import { useAuth } from '../../context/AuthContext';
 
 
 interface Character {
