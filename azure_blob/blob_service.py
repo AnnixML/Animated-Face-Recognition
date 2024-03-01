@@ -1,20 +1,18 @@
+from operator import not_
 import os
-import ntpath
 import uuid
+import ntpath
+from PIL import Image 
 from datetime import datetime, timedelta
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
 
 # Credentials for connection string
-# KEEP THIS PRIVATE!!!
+# KEEP THIS PRIVATE!!! 
 # account_name = ''
 # account_key = ''
 # container_name = ''
 # connection_string = ''
-account_name = 'anniximagestorage'
-account_key = 'wYjZ2aeHMDX+pyUHmwFtV4LYkHgP7tKHa+TKIuBinVOU1Sa76L8stmoLDh51XvSnkPBxn/J62QED+AStowt7iA=='
-container_name = 'images'
-connection_string = 'DefaultEndpointsProtocol=https;AccountName=' + account_name + ';AccountKey=' + account_key + ';EndpointSuffix=core.windows.net'
 
 # Create a blob service client
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
@@ -32,11 +30,9 @@ for blob in blobs_list:
                                 permission=BlobSasPermissions(read=True),
                                 expiry=datetime.utcnow() + timedelta(hours=1))
     sas_url = f"https://{account_name}.blob.core.windows.net/{container_name}/{blob.name}?{sas_token}"
-    print("SAS_URL: " + sas_url)
 
 # Change local directory to the folder where the files are located
-print(os.getcwd())
-os.chdir('azure_blob/')
+os.chdir(os.path.dirname(__file__))
 
 def download_file(path):
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=path)
@@ -47,13 +43,20 @@ def download_file(path):
 def upload_file(path, image=True):
      with open(path, "rb") as data:
         if (image):
+            if (not path.endswith(".jpg")):
+                print("Converting to jpg")
+                not_jpg = Image.open(path)
+                rbg_im = not_jpg.convert('RGB')
+                rbg_im.save("tmp" + ".jpg")
+                data = open("tmp.jpg", "rb")
             path = uuid.uuid4().hex + ".jpg"
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=path)
-        blob_client.upload_blob(data)
+        blob_client.upload_blob(data, overwrite=True)
 
 def delete_file(path):
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=path)
     blob_client.delete_blob()
 
 upload_file("test.txt", False)
+upload_file("dogg.png")
 upload_file("monke.jpg")
