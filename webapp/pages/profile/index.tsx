@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/router';
 
@@ -32,29 +32,36 @@ const profile = () => {
         }
     };
 
-    const fetchDetails = async (UUID: string) => {
-        try {
-            const response = await fetch('../api/user/fetch', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': UUID,
+    useEffect(() => {
+        // This function is now inside useEffect
+        const fetchDetails = async (UUID: string) => {
+            try {
+                const response = await fetch('../api/user/fetch', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': UUID,
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setUsername(data.username);
+                    setPassword(data.password);
+                    setEmail(data.email);
+                    setSearchHist(data.saveSearchHist);
+                } else {
+                    throw new Error('Failed to fetch');
                 }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setUsername(data.username);
-                setPassword(data.password);
-                setEmail(data.email);
-                setSearchHist(data.searchHist);
-            } else {
-                throw new Error('Failed to fetch');
+            } catch (error) {
+                console.error('Error fetching account details:', error);
+                alert(error.message);
             }
-        } catch (error) {
-            console.error('Error fetching account details:', error);
-            alert(error.message);
+        };
+
+        if (UUID) {
+            fetchDetails(UUID);
         }
-    };
+    }, [UUID]); // Runs only once when UUID changes, i.e., typically after initial render when UUID becomes available
 
     const revealHidden = () => {
         setShowDeleteConfirm(true); 
@@ -88,8 +95,6 @@ const profile = () => {
 
     //if (isLoading) return <div>Loading...</div>;
     //if (error) return <div>Error: {<p>error</p>}</div>;
-
-    fetchDetails(UUID);
 
     return (
         
