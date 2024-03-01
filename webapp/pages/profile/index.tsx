@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import useFetchUserDetails from '../hooks/useFetchUserDetails'
-import useUpdateUserDetails from '../hooks/useUpdateUserDetails'
+import useFetchUserDetails from '../hooks/useFetchUserDetails';
+import useUpdateUserDetails from '../hooks/useUpdateUserDetails';
 
-const ProfilePage = () => {
+const profile = () => {
     const { userData, isLoading, error } = useFetchUserDetails();
     const { updateUserDetails, isUpdating, updateError } = useUpdateUserDetails();
     const [localUserData, setLocalUserData] = useState({});
@@ -20,40 +20,50 @@ const ProfilePage = () => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
+        <div className="space-y-4"> {}
             <h2>Edit Profile</h2>
-            {error && <p className="error">{error}</p>}
-            <div>
-                <label>Username:</label>
+            {error && <p className="text-red-500">{error}</p>} {}
+            <div className="space-y-2"> {}
+                <label className="block">Username:</label>
                 <input
+                    type="text"
                     name="username"
                     defaultValue={userData?.username}
                     onChange={handleInputChange}
+                    className="input rounded-md border-gray-300 shadow-sm"
                 />
-                <button onClick={() => handleUpdate('username')}>Update Username</button>
+                <button onClick={() => handleUpdate('username')} className="btn bg-blue-500 text-white rounded-md">
+                    Update Username
+                </button>
             </div>
-            <div>
-                <label>Email:</label>
+            <div className="space-y-2">
+                <label className="block">Email:</label>
                 <input
+                    type="email"
                     name="email"
                     defaultValue={userData?.email}
                     onChange={handleInputChange}
+                    className="input rounded-md border-gray-300 shadow-sm"
                 />
-                <button onClick={() => handleUpdate('email')}>Update Email</button>
+                <button onClick={() => handleUpdate('email')} className="btn bg-blue-500 text-white rounded-md">
+                    Update Email
+                </button>
             </div>
-            {/* Repeat for other fields as necessary */}
-            <div>
-                <label>Enable Search History:</label>
+            <div className="space-y-2">
+                <label className="block">Enable Search History:</label>
                 <input
                     type="checkbox"
                     name="searchHistoryEnabled"
                     defaultChecked={userData?.searchHistoryEnabled}
                     onChange={(e) => setLocalUserData({ ...localUserData, searchHistoryEnabled: e.target.checked })}
+                    className="rounded"
                 />
-                <button onClick={() => handleUpdate('searchHistoryEnabled')}>Update Search History Setting</button>
+                <button onClick={() => handleUpdate('searchHistoryEnabled')} className="btn bg-blue-500 text-white rounded-md">
+                    Update Search History Setting
+                </button>
             </div>
         </div>
     );
 };
 
-export default ProfilePage;
+export default profile;
