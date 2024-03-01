@@ -14,7 +14,8 @@ export default async function handler(
     if (req.method === 'POST') {
         try {
             const UUID = req.headers.Authorization;
-            const { field, value } = req.body;
+            const field = req.body.field;
+            const value = req.body.value;
             const client: MongoClient = await clientPromise;
             const db: Db = client.db("account_info");
             const updateResult = await db.collection("user_info").updateOne(
