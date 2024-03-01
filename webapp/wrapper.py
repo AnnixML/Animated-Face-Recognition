@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 import tensorflow_hub as hub
+import keras
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import tensorflow as tf
 import numpy as np
 import io
+from tensorflow.compat.v2.saved_model import load
 from PIL import Image
 import json
 
@@ -15,7 +17,8 @@ with open('output.txt') as f:
 labels = json.loads(data)  
 layer = hub.KerasLayer("https://www.kaggle.com/models/spsayakpaul/convnext/frameworks/TensorFlow2/variations/base-21k-224/versions/1", trainable=False)
 
-model = load_model('temp.keras', custom_objects={"KerasLayer": hub.KerasLayer})
+model = tf.keras.saving.load_model('temp.keras', custom_objects={"KerasLayer": hub.KerasLayer})
+model.summary()
 
 @app.route('/predict', methods=['POST'])
 def predict():

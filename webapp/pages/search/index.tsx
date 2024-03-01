@@ -10,15 +10,19 @@ const Search = () => {
     const [submittingFeedback, setSubmittingFeedback] = useState(false);
 
     const handleUpload = async (imageFile) => {
+        console.log("TESTTEST");
         setUploading(true);
-        const formData = new FormData();
-        formData.append('file', imageFile);
-
+        const requestHeaders: HeadersInit = new Headers();
+        requestHeaders.set('Content-Type', 'image/jpeg');
+        //const formData = new FormData();
+        //formData.append('file', imageFile);
         try {
             const response = await fetch('http://localhost:3267/predict', {
                 method: 'POST',
-                body: formData,
+                headers: requestHeaders,
+                body: imageFile,
             });
+            console.log("CURRENT RESPONSE: " + response);
             const data = await response.json();
 
             if (response.ok) {
