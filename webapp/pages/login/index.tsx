@@ -14,7 +14,6 @@ const signin = () => {
         event.preventDefault();
         setError(''); // Reset error message
 
-        // API request to your sign-in endpoint
         const response = await fetch('/api/login', {
             method: 'POST',
             headers: {

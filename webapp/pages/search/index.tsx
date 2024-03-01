@@ -33,13 +33,13 @@ const search: React.FC = () => {
 
             if (response.ok) {
                 const predictions = data.prediction;
-                const filteredCharacters: Character[] = Object.entries(predictions).reduce((acc: Character[], [key, value]) => {
-                    if (value >= 0.5) { 
-                        acc.push({ name: key, confidence: value });
+                const parsed = JSON.parse(predictions)
+                const filteredCharacters = []
+                for (const key in parsed) {
+                    if (parsed[key] > 0.5) {
+                        filteredCharacters.push({ name: key, confidence: parsed[key] })
                     }
-                    return acc;
-                }, []);
-
+                }
                 setCharacters(filteredCharacters);
             } else {
                 throw new Error(data.error || 'Failed to get prediction');
