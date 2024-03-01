@@ -13,10 +13,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { email, password } = req.body;
+  const {username, email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
   }
 
   try {
@@ -29,13 +29,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.status(409).json({ message: 'Email already exists' });
     }
 
+     // Check if the email already exists
+    const existingUsername = await db.collection("user_info").findOne({ "username": username});
+    if (existingUsername) {
+        return res.status(409).json({ message: 'Username already exists' });
+      }
+
     // TODO: Hash the password before storing
     // const hashedPassword = await hash(password, 10);
     const hashedPassword = password;
     console.log("email: " + email + "\npassword: " + password);
 
     // Insert the new user
-    const result = await db.collection("user_info").insertOne({ "email": email, "password": hashedPassword});
+    const result = await db.collection("user_info").insertOne({ "username": username, "email": email, "password": hashedPassword});
 
     return res.status(201).json({ message: 'User created', userId: result.insertedId.toString() });
   } catch (error) {

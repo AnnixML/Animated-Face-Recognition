@@ -41,6 +41,7 @@ const search: React.FC = () => {
                     }
                 }
                 setCharacters(filteredCharacters);
+                saveSearchHistory(filteredCharacters);
             } else {
                 throw new Error(data.error || 'Failed to get prediction');
             }

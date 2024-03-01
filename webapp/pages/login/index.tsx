@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 const signin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const { logIn } = useAuth();
     const router = useRouter();
@@ -37,13 +38,23 @@ const signin = () => {
         <div className="signin-container">
             <form onSubmit={handleSubmit} className="signin-form">
                 <div>
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="username"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="border rounded p-2 w-full"
+                    />
+                </div>
+
+                <div>
                     <label htmlFor="email">Email:</label>
                     <input
                         type="email"
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                         className="border rounded p-2 w-full"
                     />
                 </div>

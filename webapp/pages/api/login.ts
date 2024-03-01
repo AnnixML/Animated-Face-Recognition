@@ -7,17 +7,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ message: 'Email and password are required' });
+    if ((!username && !email) || !password) {
+        return res.status(400).json({ message: 'Username or Email and password are required' });
     }
 
     try {
         const client = await clientPromise;
         const db = client.db('account_info');
-
-        const user = await db.collection("user_info").findOne({ "email": email });
+        var user = null;
+        if (email) {
+            user = await db.collection("user_info").findOne({ "email": email });
+        }
+        if (username) {
+            user = await db.collection("user_info").findOne({ "username": username });
+        }
+        
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

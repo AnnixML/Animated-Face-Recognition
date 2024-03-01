@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 const Register = () => {
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const { logIn } = useAuth(); // Destructure the logIn function from useAuth
@@ -17,7 +18,7 @@ const Register = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({username, email, password }),
         });
 
         const data = await res.json();
@@ -33,12 +34,21 @@ const Register = () => {
     return (
         <form onSubmit={registerUser} className="space-y-4">
             <div>
+                <label htmlFor="username" className="block">Username:</label>
+                <input
+                    type="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    className="border rounded p-2 w-full"
+                />
+            </div>
+            <div>
                 <label htmlFor="email" className="block">Email:</label>
                 <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                     className="border rounded p-2 w-full"
                 />
             </div>
