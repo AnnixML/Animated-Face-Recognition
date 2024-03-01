@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ImageUploader from '../../components/ImageUploader';
+import * as fs from 'fs';
 
 const search = () => {
     const [characters, setCharacters] = useState([]);
@@ -8,12 +9,39 @@ const search = () => {
     const [submittingFeedback, setSubmittingFeedback] = useState(false);
 
     const handleUpload = async (imageFile) => {
-        // Existing logic for handling the upload...
+        const handleUpload = async (imageFile) => {
+            setUploading(true);
+            const formData = new FormData();
+            formData.append('file', imageFile);
+            
+        
+            try {
+                const response = await fetch('http://localhost:3267/predict', {
+                    method: 'POST',
+                    body: formData, 
+                })
+
+                //parse json
+                const data = await response.json(); 
+        
+                if (response.ok) {
+                    setCharacters([{ name: 'Character Name'}]); //What does the model actually return?
+                } else {
+                    throw new Error(data.error || 'Failed to get prediction');
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert(error.message);
+            } finally {
+                setUploading(false);
+            }
+        };
+        
     };
 
     const submitFeedback = async (event) => {
         event.preventDefault();
-        // Existing logic for submitting feedback...
+        <p>Thank you for your feedback! We will take this into account.</p>
     };
 
     const handleFeedbackChange = (event) => {

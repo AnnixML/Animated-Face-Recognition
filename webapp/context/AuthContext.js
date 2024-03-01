@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const logIn = () => setIsLoggedIn(true);
   const logOut = () => setIsLoggedIn(false);
 
+
   // The value that will be given to the context
   const value = {
     isLoggedIn,
