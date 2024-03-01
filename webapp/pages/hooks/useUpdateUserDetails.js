@@ -4,14 +4,14 @@ const useUpdateUserDetails = (UUID) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateError, setUpdateError] = useState('');
 
-    const updateUserDetails = async (field, value, UUID) => {
+    const updateUserDetails = async (field, value) => {
         setIsUpdating(true);
         try {
             const res = await fetch(`../api/user/update`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': UUID, 
+                    'Authorization': UUID
                 },
                 body: JSON.stringify({ field, value }), 
             });
