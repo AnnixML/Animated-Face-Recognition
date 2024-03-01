@@ -28,6 +28,7 @@ const search: React.FC = () => {
                 body: imageFile,
             });
             const data = await response.json();
+            console.log("CURRENT RESPONSE: " + data["prediction"]);
 
             if (response.ok) {
                 const predictions = data.prediction;

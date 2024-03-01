@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
 const ImageUploader = ({ onUpload }) => {
+    
     const [error, setError] = useState('');
 
     const handleFileChange = useCallback((event) => {
