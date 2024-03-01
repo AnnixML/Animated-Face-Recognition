@@ -14,6 +14,7 @@ const Search = () => {
         setUploading(true);
         const requestHeaders: HeadersInit = new Headers();
         requestHeaders.set('Content-Type', 'image/jpeg');
+        requestHeaders.set('Access-Control-Allow-Origin', '*');
         //const formData = new FormData();
         //formData.append('file', imageFile);
         try {
@@ -22,8 +23,8 @@ const Search = () => {
                 headers: requestHeaders,
                 body: imageFile,
             });
-            console.log("CURRENT RESPONSE: " + response);
             const data = await response.json();
+            console.log("CURRENT RESPONSE: " + data["prediction"]);
 
             if (response.ok) {
                 setCharacters(data.characters); 
