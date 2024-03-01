@@ -14,6 +14,7 @@ const search: React.FC = () => {
     const [uploading, setUploading] = useState<boolean>(false);
     const [feedback, setFeedback] = useState<string>('');
     const [submittingFeedback, setSubmittingFeedback] = useState<boolean>(false);
+    const [revealThank, setRevealThank] = useState<boolean>(false);
 
     const handleUpload = async (imageFile: Blob) => {
         setUploading(true);
@@ -99,10 +100,20 @@ const search: React.FC = () => {
                         placeholder="We're sorry we got the character wrong! Please describe the issue..."
                     ></textarea>
                     <button type="submit" className="bg-blue-500 text-white rounded p-2 mt-2" disabled={submittingFeedback}>
-                        {submittingFeedback ? 'Submitting...' : 'Submit Feedback'}
+                        {submittingFeedback ? setRevealThank(true) : 'Submit Feedback'}
                     </button>
+                    
                 </form>
             )}
+            {revealThank ? (
+                <>
+                <p> Thank you for your feedback!</p>
+                </>
+              ) : (
+                <>
+                  null
+                </>
+              )}
         </div>
     );
 };
