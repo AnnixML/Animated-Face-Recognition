@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useUpdateUserDetails = () => {
+const useUpdateUserDetails = (UUID) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateError, setUpdateError] = useState('');
 

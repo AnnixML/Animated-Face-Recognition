@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import useFetchUserDetails from '../hooks/useFetchUserDetails';
 import useUpdateUserDetails from '../hooks/useUpdateUserDetails';
+import { useAuth } from '../../context/AuthContext';
 
 const profile = () => {
     const { UUID } = useAuth();
     const { userData, isLoading, error } = useFetchUserDetails(UUID);
-    const { updateUserDetails, isUpdating, updateError } = useUpdateUserDetails();
+    const { updateUserDetails, isUpdating, updateError } = useUpdateUserDetails(UUID);
     const [localUserData, setLocalUserData] = useState({});
 
     const handleInputChange = (e) => {

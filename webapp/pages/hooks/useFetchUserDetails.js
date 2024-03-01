@@ -14,7 +14,7 @@ const useFetchUserDetails = (UUID) => {
             }
             setIsLoading(true);
             try {
-                const response = await fetch('../api/user/fetch', { // Adjust the endpoint as needed
+                const response = await fetch('../api/user/fetch', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
