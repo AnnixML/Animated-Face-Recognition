@@ -18,7 +18,7 @@ const useFetchUserDetails = (UUID) => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': UUID, // Sending UUID in the Authorization header
+                        'Authorization': UUID
                     },
                 });
                 if (!response.ok) throw new Error('Failed to fetch user details');
