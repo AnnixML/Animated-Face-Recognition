@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useFetchUserDetails from '../hooks/useFetchUserDetails';
 import useUpdateUserDetails from '../hooks/useUpdateUserDetails';
 import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/router';
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
@@ -9,6 +10,7 @@ const profile = () => {
     const { updateUserDetails } = useUpdateUserDetails(UUID);
     const [localUserData, setLocalUserData] = useState({});
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const router = useRouter();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -39,6 +41,7 @@ const profile = () => {
             });
             if (response.ok) {
                 logOut();
+                router.push('/register'); 
             } else {
                 throw new Error('Failed to delete account');
             }
