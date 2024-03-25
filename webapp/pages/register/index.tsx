@@ -25,7 +25,10 @@ const Register = () => {
         setMessage(data.message);
 
         // If registration is successful, log the user in
-        if (res.ok) {
+        if (res.ok && email != null) {
+            logIn(data.userId);
+            router.push('/pending');
+        } else if (res.ok) {
             logIn(data.userId);
             router.push('/search');
         }

@@ -108,9 +108,7 @@ const search: React.FC = () => {
                 </form>
             )}
             {revealThank ? (
-                <>
-                <p> Thank you for your feedback!</p>
-                </>
+                <p> Thank you for your feedback!</p>   
               ) : (
                   null
               )}

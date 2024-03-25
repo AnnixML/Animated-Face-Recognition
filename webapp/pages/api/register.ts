@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import clientPromise from '../../lib/mongodb'; // Adjust the path as necessary
-// import { hash } from bcryptjs 
-//TODO: Implement hashing
+import clientPromise from '../../lib/mongodb';
+import bcrypt from 'bcryptjs';
 
 type Data = {
   message: string;
@@ -13,35 +12,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const {username, email, password } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Username, email, and password are required' });
   }
 
   try {
     const client = await clientPromise;
     const db = client.db('account_info');
 
-    // Check if the email already exists
-    const existingUser = await db.collection("user_info").findOne({ "email": email });
+    // Check if the email or username already exists
+    const existingUser = await db.collection("user_info").findOne({ $or: [{"email": email}, {"username": username}] });
     if (existingUser) {
-      return res.status(409).json({ message: 'Email already exists' });
-    }
-
-     // Check if the email already exists
-    const existingUsername = await db.collection("user_info").findOne({ "username": username});
-    if (existingUsername) {
+      if (existingUser.email === email) {
+        return res.status(409).json({ message: 'Email already exists' });
+      }
+      if (existingUser.username === username) {
         return res.status(409).json({ message: 'Username already exists' });
       }
+    }
 
-    // TODO: Hash the password before storing
-    // const hashedPassword = await hash(password, 10);
-    const hashedPassword = password;
-    console.log("email: " + email + "\npassword: " + password);
+    // Hash the password before storing
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user
-    const result = await db.collection("user_info").insertOne({ "username": username, "email": email, "password": hashedPassword, "saveSearchHist": true});
+    const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true });
 
     return res.status(201).json({ message: 'User created', userId: result.insertedId.toString() });
   } catch (error) {
