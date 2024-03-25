@@ -35,6 +35,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // If passwords match, successful
         const uuid = user._id.toString();
+        await db.collection("user_stats").updateOne(
+            {"uuid" : uuid}, { $inc: {"logins": 1} }, {upsert:true});
+
         return res.status(200).json({ message: 'Login successful', uuid});
     } catch (error) {
         console.error(error);
