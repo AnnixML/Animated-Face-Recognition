@@ -41,6 +41,7 @@ const search: React.FC = () => {
                 }
                 setCharacters(filteredCharacters);
                 saveSearchHistoryFunction(filteredCharacters);
+                saveMostRecChar(filteredCharacters);
             } else {
                 throw new Error(data.error || 'Failed to get prediction');
             }
@@ -54,8 +55,21 @@ const search: React.FC = () => {
 
     const saveSearchHistoryFunction = async (searchResults: Character[]) => {
         if (!UUID) return;
-        if (!saveSearchHistory) return;
+        
         await fetch('../api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uuid: UUID,
+                searchHistory: searchResults.map(result => result.name),
+            }),
+        });
+    };
+
+    const saveMostRecChar = async (searchResults: Character[]) => {
+        if (!UUID) return;
+        
+        await fetch('../api/saveRecChar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
