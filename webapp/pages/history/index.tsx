@@ -22,18 +22,18 @@ const History = () => {
     }, [UUID, page]);
 
     return (
-        <div>
-            <h1>Search History</h1>
+        <div className="bg-pl-1 dark:bg-pd-4 min-h-screen">
+            <h1 className="text-black dark:text-white">Search History</h1>
             <table className="table-auto w-full">
                 <thead>
-                    <tr>
+                    <tr className="text-black dark:text-white">
                         <th className="px-4 py-2">Index</th>
                         <th className="px-4 py-2">Search Term</th>
                     </tr>
                 </thead>
                 <tbody>
                     {history.map((item, index) => (
-                        <tr key={index}>
+                        <tr key={index} className="text-black dark:text-white">
                             <td className="border px-4 py-2">{index + 1 + (page - 1) * limit}</td>
                             <td className="border px-4 py-2">{item}</td>
                         </tr>
@@ -42,14 +42,14 @@ const History = () => {
             </table>
             <div className="mt-4">
                 <button 
-                    className="mr-4 bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+                    className="mr-4 bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white"
                     onClick={() => setPage(Math.max(page - 1, 1))}
                     disabled={page === 1}
                 >
                     Previous
                 </button>
                 <button 
-                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+                    className="bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white"
                     onClick={() => setPage(page + 1)}
                 >
                     Next

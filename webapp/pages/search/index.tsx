@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ImageUploader from '../../Components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
 
-
 interface Character {
     name: string;
     confidence: number; // Assuming confidence is a decimal representing a percentage
@@ -33,11 +32,11 @@ const search: React.FC = () => {
 
             if (response.ok) {
                 const predictions = data['prediction'];
-                const parsed = JSON.parse(predictions)
-                const filteredCharacters = []
+                const parsed = JSON.parse(predictions);
+                const filteredCharacters = [];
                 for (const key in parsed) {
                     if (parsed[key] > 0.5) {
-                        filteredCharacters.push({ name: key, confidence: parsed[key] })
+                        filteredCharacters.push({ name: key, confidence: parsed[key] });
                     }
                 }
                 setCharacters(filteredCharacters);
@@ -74,6 +73,7 @@ const search: React.FC = () => {
 
         setSubmittingFeedback(false);
         setFeedback('');
+        setRevealThank(true); // Moved inside the function to correctly update state only on submit
     };
 
     const handleFeedbackChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -81,8 +81,8 @@ const search: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>Search for Characters</h1>
+        <div className="min-h-screen bg-pl-1 dark:bg-pd-4">
+            <h1 className="text-black dark:text-white">Search for Characters</h1>
             <ImageUploader onUpload={handleUpload} />
             {uploading && <p>Uploading and analyzing image...</p>}
             <ul>
@@ -92,26 +92,21 @@ const search: React.FC = () => {
             </ul>
             {characters.length > 0 && (
                 <form onSubmit={submitFeedback} className="mt-4">
-                    <label htmlFor="feedback" className="block mb-2">Report Incorrect Results:</label>
+                    <label htmlFor="feedback" className="block mb-2 text-pl-3 dark:text-white">Report Incorrect Results:</label>
                     <textarea
                         id="feedback"
                         value={feedback}
                         onChange={handleFeedbackChange}
-                        className="border rounded p-2 w-full"
+                        className="border rounded p-2 w-full text-pl-3 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                         rows={4}
                         placeholder="We're sorry we got the character wrong! Please describe the issue..."
                     ></textarea>
-                    <button type="submit" className="bg-blue-500 text-white rounded p-2 mt-2" disabled={submittingFeedback}>
-                        {submittingFeedback ? setRevealThank(true) : 'Submit Feedback'}
+                    <button type="submit" className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2 mt-2" disabled={submittingFeedback}>
+                        {submittingFeedback ? 'Submitting...' : 'Submit Feedback'}
                     </button>
-                    
                 </form>
             )}
-            {revealThank ? (
-                <p> Thank you for your feedback!</p>   
-              ) : (
-                  null
-              )}
+            {revealThank && <p className="text-pl-3 dark:text-white">Thank you for your feedback!</p>}
         </div>
     );
 };

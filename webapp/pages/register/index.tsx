@@ -10,7 +10,7 @@ const Register = () => {
     const { logIn } = useAuth(); // Destructure the logIn function from useAuth
     const router = useRouter();
 
-    const registerUser = async event => {
+    const registerUser = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const res = await fetch('../api/register', {
@@ -35,41 +35,43 @@ const Register = () => {
     };
 
     return (
-        <form onSubmit={registerUser} className="space-y-4">
-            <div>
-                <label htmlFor="username" className="block">Username:</label>
-                <input
-                    type="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    className="border rounded p-2 w-full"
-                />
-            </div>
-            <div>
-                <label htmlFor="email" className="block">Email:</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="border rounded p-2 w-full"
-                />
-            </div>
+        <div className="min-h-screen bg-pl-1 dark:bg-pd-4">
+            <form onSubmit={registerUser} className="space-y-4">
+                <div>
+                    <label htmlFor="username" className="block text-pl-3 dark:text-white">Username:</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email" className="block text-pl-3 dark:text-white">Email:</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                    />
+                </div>
 
-            <div>
-                <label htmlFor="password" className="block">Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="border rounded p-2 w-full"
-                />
-            </div>
+                <div>
+                    <label htmlFor="password" className="block text-pl-3 dark:text-white">Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                    />
+                </div>
 
-            <button type="submit" className="bg-blue-500 text-white rounded p-2">Register</button>
-            <p>{message}</p>
-        </form>
+                <button type="submit" className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2">Register</button>
+                <p className="text-pl-3 dark:text-white">{message}</p>
+            </form>
+        </div>
     );
 };
 

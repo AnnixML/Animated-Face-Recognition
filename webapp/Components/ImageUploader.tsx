@@ -31,7 +31,12 @@ const ImageUploader = ({ onUpload }) => {
 
     return (
         <div
-            className="upload-area border-2 border-dashed p-10 text-center"
+            className="upload-area border-2 border-dashed p-10 text-center
+            py-2 px-4 rounded
+            text-pl-3 border-2 border-rounded border-pl-3
+            bg-pl-2
+            dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+            dark:bg-pd-2"
             onDragOver={handleDragOver}
             onDrop={handleDrop}
         >

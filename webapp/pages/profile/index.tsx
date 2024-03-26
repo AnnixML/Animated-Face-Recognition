@@ -11,27 +11,6 @@ const profile = () => {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const router = useRouter();
 
-    const handleUpdate = async (field: string, data: string) => {
-        try {
-            const response = await fetch('../api/user/update', {
-                method: 'UPDATE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': UUID,
-                },
-                body: JSON.stringify({field, data})
-            });
-            if (response.ok) {
-                null;
-            } else {
-                throw new Error('Failed to update');
-            }
-        } catch (error) {
-            console.error('Error updating account:', error);
-            alert(error.message);
-        }
-    };
-
     useEffect(() => {
         // This function is now inside useEffect
         const fetchDetails = async (UUID: string) => {
@@ -52,9 +31,13 @@ const profile = () => {
                 } else {
                     throw new Error('Failed to fetch');
                 }
-            } catch (error) {
-                console.error('Error fetching account details:', error);
-                alert(error.message);
+            } catch (error: unknown) {
+                console.error('Error updating account:', error);
+                if (error instanceof Error) { // Type-checking the error
+                    alert(error.message);
+                } else {
+                    alert('An unknown error occurred'); // Fallback error message
+                }
             }
         };
 
@@ -62,6 +45,33 @@ const profile = () => {
             fetchDetails(UUID);
         }
     }, [UUID]); // Runs only once when UUID changes, i.e., typically after initial render when UUID becomes available
+
+    const handleUpdate = async (field: string, data: string) => {
+        if (UUID) {
+            try {
+                const response = await fetch('../api/user/update', {
+                    method: 'UPDATE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': UUID,
+                    },
+                    body: JSON.stringify({field, data})
+                });
+                if (response.ok) {
+                    null;
+                } else {
+                    throw new Error('Failed to update');
+                }
+            } catch (error: unknown) {
+                console.error('Error updating account:', error);
+                if (error instanceof Error) { // Type-checking the error
+                    alert(error.message);
+                } else {
+                    alert('An unknown error occurred'); // Fallback error message
+                }
+            }
+        }
+    };
 
     const revealHidden = () => {
         setShowDeleteConfirm(true); 
@@ -72,24 +82,30 @@ const profile = () => {
     };
 
     const handleConfirmDelete = async () => {
-        // delete
-        try {
-            const response = await fetch('../api/user/delete', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': UUID,
-                },
-            });
-            if (response.ok) {
-                logOut();
-                router.push('/');
-            } else {
-                throw new Error('Failed to delete account');
+        if (UUID) {
+            // delete
+            try {
+                const response = await fetch('../api/user/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': UUID,
+                    },
+                });
+                if (response.ok) {
+                    logOut();
+                    router.push('/');
+                } else {
+                    throw new Error('Failed to delete account');
+                }
+            } catch (error: unknown) {
+                console.error('Error updating account:', error);
+                if (error instanceof Error) { // Type-checking the error
+                    alert(error.message);
+                } else {
+                    alert('An unknown error occurred'); // Fallback error message
+                }
             }
-        } catch (error) {
-            console.error('Error deleting account:', error);
-            alert(error.message);
         }
     };
 

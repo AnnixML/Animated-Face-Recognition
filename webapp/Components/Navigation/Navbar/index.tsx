@@ -12,7 +12,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
 
   return (
     <>
-      <div className="w-full h-20 bg-emerald-600 sticky top-0 z-50">
+      <div className="w-full h-20 bg-pl-4 dark:bg-pd-1 sticky top-0 z-50">
         <div className="container mx-auto px-4 h-full">
           <div className="flex justify-between items-center h-full">
             <Logo />
@@ -42,13 +42,25 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
             <ul className="hidden md:flex gap-x-6 items-center">
               <li>
               <Link href="/search" legacyBehavior>
-                <a className="text-white">Search for Characters</a>
+                <a className="
+                  py-2 px-4 rounded
+                  text-pl-3 border-2 border-rounded border-pl-3
+                  bg-pl-2
+                  dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                  dark:bg-pd-2"
+                  >Search for Characters</a>
               </Link>
               </li>
               {isLoggedIn ? (
                 <li>
                 <Link href="/history" legacyBehavior>
-                  <a className="text-white">View Search History</a>
+                  <a className="
+                  py-2 px-4 rounded
+                  text-pl-3 border-2 border-rounded border-pl-3
+                  bg-pl-2
+                  dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                  dark:bg-pd-2"
+                  >View Search History</a>
                 </Link>
                 </li>
               ): (
@@ -56,23 +68,47 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
               )}
               <li>
                 <Link href="/request" legacyBehavior>
-                  <a className="text-white">Request New Features</a>
+                  <a className="
+                  py-2 px-4 rounded
+                  text-pl-3 border-2 border-rounded border-pl-3
+                  bg-pl-2
+                  dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                  dark:bg-pd-2"
+                  >Request New Features</a>
                 </Link>
               </li>
               <li>
                 <Link href="/forums" legacyBehavior>
-                  <a className="text-white">Forums</a>
+                  <a className="
+                  py-2 px-4 rounded
+                  text-pl-3 border-2 border-rounded border-pl-3
+                  bg-pl-2
+                  dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                  dark:bg-pd-2"
+                  >Forums</a>
                 </Link>
               </li>
               <li>
                 <Link href="/faq" legacyBehavior>
-                  <a className="text-white">FAQ</a>
+                  <a className="
+                  py-2 px-4 rounded
+                  text-pl-3 border-2 border-rounded border-pl-3
+                  bg-pl-2
+                  dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                  dark:bg-pd-2"
+                  >FAQ</a>
                 </Link>
               </li>
               {isLoggedIn ? (
                 <>
                   <li><Link href="/profile" legacyBehavior><a className="text-white">View My Profile</a></Link></li>
-                  <li><button onClick={logOut} className="text-white bg-transparent">Log Out</button></li>
+                  <li><button onClick={logOut} className="
+                  py-2 px-4 rounded
+                  text-pl-3 border-2 border-rounded border-pl-3
+                  bg-pl-2
+                  dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                  dark:bg-pd-2"
+                  >Log Out</button></li>
                 </>
               ) : (
                 <>
