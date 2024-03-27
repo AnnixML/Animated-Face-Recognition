@@ -11,7 +11,7 @@ const Logo = () => {
 
   const updateWidth = () => {
     const newWidth = window.innerWidth;
-    setWidth(newWidth);
+    setWidth(newWidth/2);
   };
 
   useEffect(() => {
