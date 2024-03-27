@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
 import bcrypt from 'bcryptjs';
+import Realm from 'realm';
+
 
 type Data = {
   message: string;
@@ -33,9 +35,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
     }
 
+    if (password.length < 6) {
+      return res.status(409).json({message: 'Password is too short'});
+    }
+    if (password.length > 128) {
+      return res.status(409).json({message: 'Password is too long'});
+    }
+
     // Hash the password before storing
     //const hashedPassword = await bcrypt.hash(password, 10);
     const hashedPassword = password;
+
+    const app = new Realm.App({
+      id: "data-vkrre"
+    })
+    await app.emailPasswordAuth.registerUser({
+      email: email,
+      password: hashedPassword,
+    });
 
     // Insert the new user
     const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true, "logins": 1 });
