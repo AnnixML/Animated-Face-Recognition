@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/router';
+import InfoTag from '../../Components/Infotag';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -77,6 +78,7 @@ const Register = () => {
                 >Register</button>
                 <p className="text-pl-3 dark:text-white">{message}</p>
             </form>
+            <InfoTag text="Welcome to the registration page. Please fill out the form with your username, email, and password to create a new account. Your username will be how others see you on this platform. Use a valid email address as it may be needed for account recovery and notification purposes. Choose a strong password to keep your account secure. After registering, you will be redirected to complete your profile setup or to start exploring immediately." />
         </div>
     );
 };

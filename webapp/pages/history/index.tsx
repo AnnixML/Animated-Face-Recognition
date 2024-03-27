@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import InfoTag from '../../Components/Infotag';
 
 const History = () => {
     const { UUID } = useAuth();
@@ -57,6 +58,7 @@ const History = () => {
                     Next
                 </button>
             </div>
+            <InfoTag text="This page displays your search history. Each entry shows the terms you've searched for. Navigate through your history using the 'Previous' and 'Next' buttons. The history is paginated for easier viewing, displaying 20 items per page." />
         </div>
     );
 };

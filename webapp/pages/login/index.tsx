@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/AuthContext';
+import InfoTag from '../../Components/Infotag';
 
 const signin = () => {
     const [email, setEmail] = useState('');
@@ -80,6 +81,7 @@ const signin = () => {
                     title="Click to submit the above three fields"
                     >Sign In</button>
             </form>
+            <InfoTag text="Enter your username and password to log in. Ensure your details are correct. If you are new and don't have an account yet, please register by clicking the Register button. Keep your login credentials secure and do not share them with others." />
         </div>
     );
 };
