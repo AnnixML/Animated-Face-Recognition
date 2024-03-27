@@ -5,13 +5,12 @@ import clientPromise from '../../../lib/mongodb';
 import { ObjectId } from 'mongodb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'UPDATE') {
+    if (req.method !== 'PUT') {
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
     const uuid = req.headers.authorization;
-    const field = req.body.field;
-    const value = req.body.value;
+    const { field, data } = req.body;
 
     if (!uuid) {
         return res.status(400).json({ message: 'No UUID provided' });
@@ -24,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const updateResult = await db.collection("user_info").updateOne(
             { _id: new ObjectId(uuid) }, 
-            { $set: { [field]: value } }
+            { $set: { [field]: data } }
         );
 
         if (updateResult.modifiedCount === 1) {

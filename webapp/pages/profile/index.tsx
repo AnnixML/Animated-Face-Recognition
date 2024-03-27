@@ -50,7 +50,7 @@ const profile = () => {
         if (UUID) {
             try {
                 const response = await fetch('../api/user/update', {
-                    method: 'UPDATE',
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'authorization': UUID,
@@ -113,64 +113,96 @@ const profile = () => {
     //if (error) return <div>Error: {<p>error</p>}</div>;
 
     return (
-        
-        <div className="space-y-4">
-            <h2>Edit Profile</h2>
-            <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="username"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="border rounded p-2 w-full"
-                    />
-                <button onClick={() => handleUpdate("username", username)} className="btn bg-blue-500 text-white rounded-md">
+        <div className="space-y-4 bg-pl-1 dark:bg-pd-4 min-h-screen">
+            <div className="space-y-4">
+                <label htmlFor="username" className="text-black dark:text-white">Username:</label>
+                <input
+                    type="text" // Changed from "username" to "text" as "username" is not a valid type attribute for input
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
+                />
+                <button onClick={() => handleUpdate("username", username)} className="py-2 px-4 rounded
+    text-pl-3 border-2 border-rounded border-pl-3
+    bg-pl-2
+    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+    dark:bg-pd-2">
                     Update Username
                 </button>
             </div>
             <div className="space-y-4">
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="border rounded p-2 w-full"
-                    />
-                <button onClick={() => handleUpdate("email", email)} className="btn bg-blue-500 text-white rounded-md">
+                <label htmlFor="email" className="text-black dark:text-white">Email:</label>
+                <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
+                />
+                <button onClick={() => handleUpdate("email", email)} className="py-2 px-4 rounded
+    text-pl-3 border-2 border-rounded border-pl-3
+    bg-pl-2
+    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+    dark:bg-pd-2">
                     Update Email
                 </button>
             </div>
             <div className="space-y-4">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="border rounded p-2 w-full"
-                    />
-                <button onClick={() => handleUpdate("password", password)} className="btn bg-blue-500 text-white rounded-md">
+                <label htmlFor="password" className="text-black dark:text-white">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
+                />
+                <button onClick={() => handleUpdate("password", password)} className="py-2 px-4 rounded
+    text-pl-3 border-2 border-rounded border-pl-3
+    bg-pl-2
+    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+    dark:bg-pd-2">
                     Update Password
                 </button>
             </div>
             <div className="space-y-4">
-            <button onClick={() => handleUpdate("saveSearchHist", (!saveSearchHistory).toString())} className="h-12 rounded-lg bg-red font-bold px-5"> Enable/Disable Search History </button>
+                <button onClick={() => handleUpdate("saveSearchHist", (!searchHist).toString())} className="py-2 px-4 rounded
+    text-pl-3 border-2 border-rounded border-pl-3
+    bg-pl-2
+    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+    dark:bg-pd-2">
+                    Enable/Disable Search History
+                </button>
             </div>
             <div className="space-y-20">
-                <button onClick={revealHidden} className="h-12 rounded-lg bg-red font-bold px-5"> Delete My Account </button>
+                {!showDeleteConfirm ? (
+                    <button onClick={revealHidden} className="py-2 px-4 rounded
+                    text-pl-3 border-2 border-rounded border-pl-3
+                    bg-pl-2
+                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                    dark:bg-pd-2">
+                        Delete My Account
+                    </button>
+                ) : (
+                    <div className="flex space-x-2">
+                        <button onClick={handleCancelDelete} className="py-2 px-4 rounded
+    text-pl-3 border-2 border-rounded border-pl-3
+    bg-pl-2
+    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+    dark:bg-pd-2">
+                            Cancel
+                        </button>
+                        <button onClick={handleConfirmDelete} className="py-2 px-4 rounded
+    text-pl-3 border-2 border-rounded border-pl-3
+    bg-pl-2
+    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+    dark:bg-pd-2">
+                            Confirm
+                        </button>
+                    </div>
+                )}
             </div>
-            {!showDeleteConfirm ? (
-                <button onClick={revealHidden} className="h-12 rounded-lg bg-red-500 text-white font-bold px-5">Delete My Account</button>
-            ) : (
-                <div className="flex space-x-2">
-                    <button onClick={handleCancelDelete} className="h-12 rounded-lg bg-gray-500 text-white font-bold px-5">Cancel</button>
-                    <button onClick={handleConfirmDelete} className="h-12 rounded-lg bg-red-500 text-white font-bold px-5">Confirm</button>
-                </div>
-            )}
         </div>
     );
-};
-
+};    
 export default profile;
