@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ImageUploader from '../../Components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
+import InfoTag from '../../Components/Infotag';
 
 interface Character {
     name: string;
@@ -98,6 +99,7 @@ const search: React.FC = () => {
         <div className="min-h-screen bg-pl-1 dark:bg-pd-4">
             <h1 className="text-black dark:text-white">Search for Characters</h1>
             <ImageUploader onUpload={handleUpload} />
+            <InfoTag text="This is an informational message." />
             {uploading && <p>Uploading and analyzing image...</p>}
             <ul>
                 {characters.map((char, index) => (
