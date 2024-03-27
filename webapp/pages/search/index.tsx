@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ImageUploader from '../../components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
+import upload_file from '../../../azure_blob/blob_service.py'
 
 interface Character {
     name: string;
@@ -15,6 +16,7 @@ const search: React.FC = () => {
     const [feedback, setFeedback] = useState<string>('');
     const [submittingFeedback, setSubmittingFeedback] = useState<boolean>(false);
     const [revealThank, setRevealThank] = useState<boolean>(false);
+    const [path, setPath] = useState('');
 
     const handleUpload = async (imageFile: Blob) => {
         setUploading(true);
@@ -23,10 +25,15 @@ const search: React.FC = () => {
         requestHeaders.set('Access-Control-Allow-Origin', '*');
 
         try {
-            const response = await fetch('http://localhost:3267/predict', {
+
+            //TODO: Upload imageFile to S3Bucket, then get path from S3 bucket, then pass path below
+            //TODO FOR ETHAN: create function for blob that takes in imagefile uploads it to blob and returns path
+
+            setPath("command_that_calls_imagefile_goes_here"); //ONE PLACEHOLDER HERE
+            const response = await fetch('INSERT_LEO_URL_HERE', { //ONE PLACEHOLDER HERE
                 method: 'POST',
                 headers: requestHeaders,
-                body: imageFile,
+                body: path,
             });
             const data = await response.json();
             console.log("CURRENT RESPONSE: " + data["prediction"]);
@@ -37,7 +44,7 @@ const search: React.FC = () => {
                 const filteredCharacters = [];
                 for (const key in parsed) {
                     if (parsed[key] > 0.5) {
-                        filteredCharacters.push({ name: key, confidence: parsed[key] });
+                        filteredCharacters.push({ name: key, confidence: parsed[key] }); //UPDATE TO TAKE IN TITLE OF SHOW AS WELL
                     }
                 }
                 setCharacters(filteredCharacters);
@@ -119,7 +126,7 @@ const search: React.FC = () => {
             {uploading && <p>Uploading and analyzing image...</p>}
             <ul>
                 {characters.map((char, index) => (
-                    <li key={index}>{char.name} - Confidence: {(char.confidence * 100).toFixed(2)}%</li>
+                    <li key={index}>{char.name} - Confidence: {(char.confidence * 100).toFixed(2)}%</li> //TODO: ALSO ADD TWO BUTTONS: MERCH AND WATCH, SEE TODOLIST
                 ))}
             </ul>
             {characters.length > 0 && (
