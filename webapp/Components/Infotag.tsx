@@ -21,7 +21,7 @@ const InfoTag: React.FC<InfoTagProps> = ({ text }) => {
                     <div className="relative bg-white p-5 rounded-lg">
                         <textarea
                             readOnly
-                            className="w-full h-32 p-4 bg-white text-black border-2 border-black rounded-lg"
+                            className="w-full h-32 p-4 bg-white dark:bg-pl-1 text-black dark:text-white border-2 border-black rounded-lg"
                             value={text}
                         ></textarea>
                         <button 
