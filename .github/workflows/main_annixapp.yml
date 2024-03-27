@@ -13,7 +13,7 @@ env:
 
 jobs:
 
-  build and push:
+  build_and_push:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     defaults:
