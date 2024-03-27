@@ -3,6 +3,11 @@
 
 name: Build and deploy Node.js app to Azure Web App - AnnixApp
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./webapp
+
 on:
   push:
     branches:
