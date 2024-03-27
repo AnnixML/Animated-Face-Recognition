@@ -83,14 +83,15 @@ const search: React.FC = () => {
     const submitFeedback = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission
         setSubmittingFeedback(true);
-    
+        console.log(JSON.stringify({ feedback }));
+        
         try {
             const response = await fetch('../api/feedback', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ feedback })
+                body: JSON.stringify(feedback)
             });
     
             if (!response.ok) {
