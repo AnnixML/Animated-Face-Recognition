@@ -34,7 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     // Hash the password before storing
-    const hashedPassword = await bcrypt.hash(password, 10);
+    //const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = password;
 
     // Insert the new user
     const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true });
