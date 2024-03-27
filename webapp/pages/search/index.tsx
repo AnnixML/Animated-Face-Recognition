@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ImageUploader from '../../components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
-import upload_file from '../../../azure_blob/blob_service.py'
 
 interface Character {
     name: string;
