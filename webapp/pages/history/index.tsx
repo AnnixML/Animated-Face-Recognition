@@ -43,6 +43,7 @@ const History = () => {
             <div className="mt-4">
                 <button 
                     className="mr-4 bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white"
+                    title = "Navigate to Previous Page"
                     onClick={() => setPage(Math.max(page - 1, 1))}
                     disabled={page === 1}
                 >
@@ -50,6 +51,7 @@ const History = () => {
                 </button>
                 <button 
                     className="bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white"
+                    title = "Navigate to Next Page"
                     onClick={() => setPage(page + 1)}
                 >
                     Next

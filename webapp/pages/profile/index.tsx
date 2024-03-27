@@ -121,6 +121,7 @@ const profile = () => {
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    title="Edit your username here!"
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
                 <button onClick={() => handleUpdate("username", username)} className="py-2 px-4 rounded
@@ -138,6 +139,7 @@ const profile = () => {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    title="Edit your email here!"
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
                 <button onClick={() => handleUpdate("email", email)} className="py-2 px-4 rounded
@@ -155,6 +157,7 @@ const profile = () => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    title="Edit your password here!"
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
                 <button onClick={() => handleUpdate("password", password)} className="py-2 px-4 rounded
@@ -166,11 +169,15 @@ const profile = () => {
                 </button>
             </div>
             <div className="space-y-4">
-                <button onClick={() => handleUpdate("saveSearchHist", (!searchHist).toString())} className="py-2 px-4 rounded
-    text-pl-3 border-2 border-rounded border-pl-3
-    bg-pl-2
-    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-    dark:bg-pd-2">
+                <button onClick={() => handleUpdate("saveSearchHist", (!searchHist).toString())} 
+                className="py-2 px-4 rounded
+                text-pl-3 border-2 border-rounded border-pl-3
+                bg-pl-2
+                dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                dark:bg-pd-2"
+                title="Click to enable/disable search history!"
+                >
+        
                     Enable/Disable Search History
                 </button>
             </div>
@@ -180,23 +187,26 @@ const profile = () => {
                     text-pl-3 border-2 border-rounded border-pl-3
                     bg-pl-2
                     dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                    dark:bg-pd-2">
+                    dark:bg-pd-2"
+                    title="Delete your account">
                         Delete My Account
                     </button>
                 ) : (
                     <div className="flex space-x-2">
                         <button onClick={handleCancelDelete} className="py-2 px-4 rounded
-    text-pl-3 border-2 border-rounded border-pl-3
-    bg-pl-2
-    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-    dark:bg-pd-2">
+                        text-pl-3 border-2 border-rounded border-pl-3
+                        bg-pl-2
+                        dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                        dark:bg-pd-2"
+                        title="Cancel deletion">
                             Cancel
                         </button>
                         <button onClick={handleConfirmDelete} className="py-2 px-4 rounded
-    text-pl-3 border-2 border-rounded border-pl-3
-    bg-pl-2
-    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-    dark:bg-pd-2">
+                            text-pl-3 border-2 border-rounded border-pl-3
+                            bg-pl-2
+                            dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                            dark:bg-pd-2"
+                            title="Delete your account">
                             Confirm
                         </button>
                     </div>
