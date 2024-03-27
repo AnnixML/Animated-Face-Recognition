@@ -10,6 +10,14 @@ const profile = () => {
     const [email, setEmail] = useState('');
     const [searchHist, setSearchHist] = useState<boolean>();
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+    //statistics
+    const [recent, setRecent] = useState('');
+    const [numSearches, setNumSearches] = useState('');
+    const [numLogins, setNumLogins] = useState('');
+    const [favChar, setFavChar] = useState('');
+    const [actualChar, setActualChar] = useState('');
+
     const router = useRouter();
 
     useEffect(() => {
@@ -29,6 +37,15 @@ const profile = () => {
                     setPassword(data.password);
                     setEmail(data.email);
                     setSearchHist(data.saveSearchHist);
+                    setNumLogins(data.logins);
+                    setNumSearches(data.numSearches);
+                    setRecent(data.recChar);
+                    setFavChar(data.searchArray);
+                    if (favChar && Object.keys(favChar).length > 0) {
+                        const highest = Object.entries(favChar).reduce((a, b) => a[1] > b[1] ? a : b);
+                        setActualChar(highest[0]);
+                    }
+
                 } else {
                     throw new Error('Failed to fetch');
                 }
@@ -114,7 +131,9 @@ const profile = () => {
     //if (error) return <div>Error: {<p>error</p>}</div>;
 
     return (
-        <div className="space-y-4 bg-pl-1 dark:bg-pd-4 min-h-screen">
+        <div className="flex min-h-screen">
+            <div className="space-y-4 bg-pl-1 dark:bg-pd-4 w-1/2 p-4 overflow-auto">
+            <div className="space-y-4 bg-pl-1 dark:bg-pd-4 min-h-screen">
             <div className="space-y-4">
                 <label htmlFor="username" className="text-black dark:text-white">Username:</label>
                 <input
@@ -215,6 +234,25 @@ const profile = () => {
             </div>
             <InfoTag text="This is your profile page where you can update your personal information such as your username, email, and password. Remember to save changes after editing. You can also manage your search history settings from here. If you decide to delete your account, please be aware that this action is irreversible and will permanently remove all your data." />
         </div>
+            </div>
+            
+            {/* Vertical divider */}
+            <div className="w-px bg-pl-1"></div>
+            
+            {/* User Statistics */}
+            <div className="space-y-4 bg-pl-1 dark:bg-pd-4 w-1/2 p-4 overflow-auto">
+                <h2 className="text-lg font-semibold">User Statistics</h2>
+                <div>
+                    <p>Number of Searches: {numSearches}</p>
+                </div>
+                <div>
+                    <p>Number of Logins: {numLogins}</p>
+                </div>
+                <div>
+                    <p>Recent Character Search: {recent}</p>
+                </div>
+            </div>
+        </div>
     );
-};    
+};
 export default profile;

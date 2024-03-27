@@ -1,6 +1,8 @@
 // pages/api/history/save.js
 import clientPromise from '../../lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Db, MongoClient, ObjectId } from 'mongodb';
+
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -18,14 +20,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const client = await clientPromise;
         const db = client.db("account_info");
         
-        await db.collection("user_stats").updateOne(
-            {"uuid" : uuid}, { $set: {"recChar": searchHistory[0]}, $inc: {"numSearches": 1}}, {upsert:true});
+        await db.collection("user_info").updateOne(
+            {_id: new ObjectId(uuid) }, { $set: {"recChar": searchHistory[0]}, $inc: {"numSearches": 1}}, {upsert:true});
         
         var name = "searchArray." + searchHistory[0];
         var name2 = {} as { [key: string]: any };
         name2[name] = 1;
-        await db.collection("user_stats").updateOne(
-            {"uuid" : uuid}, {$inc: name2}, {upsert:true});
+        await db.collection("user_info").updateOne(
+            {_id: new ObjectId(uuid) }, {$inc: name2}, {upsert:true});
         res.status(201).json({ message: 'History saved' });
     } catch (error) {
         console.error(error);

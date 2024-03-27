@@ -8,10 +8,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     try {
         const { data } = req.body;
+        console.log(data);
         const client = await clientPromise;
         const db = client.db("feedback");
         await db.collection("annix_feedback").insertOne({
-            data
+            "data":data
         });
         res.status(201).json({ message: 'Feedback saved' });
     } catch (error) {
