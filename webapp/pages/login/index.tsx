@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/AuthContext';
-import InfoTag from '../../Components/Infotag';
+import InfoTag from '../../components/Infotag';
 
 const signin = () => {
     const [email, setEmail] = useState('');

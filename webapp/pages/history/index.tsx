@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import InfoTag from '../../Components/Infotag';
+import InfoTag from '../../components/Infotag';
 
 const History = () => {
     const { UUID } = useAuth();

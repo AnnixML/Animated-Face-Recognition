@@ -1,4 +1,4 @@
-import Navigation from "../Components/Navigation";
+import Navigation from "../components/Navigation";
 import { Inter } from "next/font/google";
 import React from 'react';
 

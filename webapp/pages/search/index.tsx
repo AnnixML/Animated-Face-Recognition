@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ImageUploader from '../../Components/ImageUploader';
+import ImageUploader from '../../components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
-import InfoTag from '../../Components/Infotag';
+import InfoTag from '../../components/Infotag';
 
 interface Character {
     name: string;

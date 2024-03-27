@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/router';
-import InfoTag from '../../Components/Infotag';
+import InfoTag from '../../components/Infotag';
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
