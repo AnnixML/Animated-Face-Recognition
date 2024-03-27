@@ -19,13 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         await db.collection("user_stats").updateOne(
             {"uuid" : uuid}, { $set: {"recChar": searchHistory}, $inc: {"numSearches": 1}}, {upsert:true});
-
-        for (const name in searchHistory) {
-            const name2 = "searchArray." + name;
-            await db.collection("user_stats").updateOne(
-                {"uuid" : uuid}, { $inc: {name2: 1}}, {upsert:true});
-    
-        }
+            
         res.status(201).json({ message: 'History saved' });
     } catch (error) {
         console.error(error);
