@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
+import bcrypt from 'bcryptjs';
 //TODO: Import hashing and JWT
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -24,12 +25,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             user = await db.collection("user_info").findOne({ "username": username });
         }
         
+        //const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = password;
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        if (password !== user.password) {
+        if (hashedPassword !== user.password) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
