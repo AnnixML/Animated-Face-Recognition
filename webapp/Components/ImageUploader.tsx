@@ -1,32 +1,42 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, FC } from 'react';
 
-const ImageUploader = ({ onUpload }) => {
+// Define the props for the component
+interface ImageUploaderProps {
+    onUpload: (file: File) => void; // Define onUpload as a function that takes a File and returns void
+}
+
+// Type your component with FC (Functional Component) and the props type
+const ImageUploader: FC<ImageUploaderProps> = ({ onUpload }) => {
     
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string>('');
 
-    const handleFileChange = useCallback((event) => {
-        const file = event.target.files[0];
-        if (!file.type.startsWith('image/')) {
+    const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0]; // Check if there's a file
+        if (file && !file.type.startsWith('image/')) {
             setError('Please select a valid image file.');
             return;
         }
         setError('');
-        onUpload(file);
+        if (file) {
+            onUpload(file); // Assuming the file exists and is an image, call onUpload
+        }
     }, [onUpload]);
 
-    const handleDragOver = useCallback((event) => {
+    const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
     }, []);
 
-    const handleDrop = useCallback((event) => {
+    const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        const file = event.dataTransfer.files[0];
-        if (!file.type.startsWith('image/')) {
+        const file = event.dataTransfer.files && event.dataTransfer.files[0]; // Check if there's a file
+        if (file && !file.type.startsWith('image/')) {
             setError('Please select a valid image file.');
             return;
         }
         setError('');
-        onUpload(file);
+        if (file) {
+            onUpload(file); // Assuming the file exists and is an image, call onUpload
+        }
     }, [onUpload]);
 
     return (
