@@ -44,6 +44,7 @@ const Register = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
+                        title="Type your username here!"
                         className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                     />
                 </div>
@@ -53,6 +54,7 @@ const Register = () => {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        title="Type your email here!"
                         className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                     />
                 </div>
@@ -64,11 +66,15 @@ const Register = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        title="Type your password here!"
                         className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                     />
                 </div>
 
-                <button type="submit" className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2">Register</button>
+                <button type="submit" 
+                className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                title="Click to submit the fields above!"
+                >Register</button>
                 <p className="text-pl-3 dark:text-white">{message}</p>
             </form>
         </div>
