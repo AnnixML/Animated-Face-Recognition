@@ -81,14 +81,29 @@ const search: React.FC = () => {
     };
 
     const submitFeedback = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+        event.preventDefault(); // Prevent default form submission
         setSubmittingFeedback(true);
-
-        //TODO: Implement feedback submission logic here: Write to MongoDB as an entry
-
-        setSubmittingFeedback(false);
-        setFeedback('');
-        setRevealThank(true); // Moved inside the function to correctly update state only on submit
+    
+        try {
+            const response = await fetch('../api/feedback', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ feedback })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to submit feedback');
+            }
+            setRevealThank(true);
+        } catch (error: any) {
+            console.error('Error submitting feedback:', error);
+            alert((error as Error).message || 'An unknown error occurred');
+        } finally {
+            setSubmittingFeedback(false);
+            setFeedback(''); // Clear the feedback after submission
+        }
     };
 
     const handleFeedbackChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
