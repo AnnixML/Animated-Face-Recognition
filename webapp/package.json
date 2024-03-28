@@ -6,7 +6,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@realm/react": "^0.6.2",
     "bcryptjs": "^2.4.3",
     "mongodb": "^4.17.2",
     "next": "^14.1.0",
