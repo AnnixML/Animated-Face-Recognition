@@ -17,6 +17,11 @@ RUN npm install
 # Copy the rest of your app's source code
 COPY . .
 
+ARG mongoURI
+ARG nextCloudName
+ENV MONGODB_URI=mongoURI
+ENV NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=nextCloudName
+
 # Build your Next.js application
 RUN npm run build
 
