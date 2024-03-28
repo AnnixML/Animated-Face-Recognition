@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ImageUploader from '../../components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
+import * as blob_storage from '../../blob_storage';
 
 interface Character {
     name: string;
@@ -16,6 +17,7 @@ const search: React.FC = () => {
     const [submittingFeedback, setSubmittingFeedback] = useState<boolean>(false);
     const [revealThank, setRevealThank] = useState<boolean>(false);
     const [path, setPath] = useState('');
+    
 
     const handleUpload = async (imageFile: Blob) => {
         setUploading(true);
@@ -24,9 +26,12 @@ const search: React.FC = () => {
         requestHeaders.set('Access-Control-Allow-Origin', '*');
 
         try {
-
             //TODO: Upload imageFile to S3Bucket, then get path from S3 bucket, then pass path below
             //TODO FOR ETHAN: create function for blob that takes in imagefile uploads it to blob and returns path
+            const fileName = await blob_storage.uploadImageToStorage(imageFile)
+            console.log("FILE: " + fileName);
+            
+            // await blob_storage.getImageFromStorage(fileName, "download.jpg")
 
             setPath("command_that_calls_imagefile_goes_here"); //ONE PLACEHOLDER HERE
             const response = await fetch('INSERT_LEO_URL_HERE', { //ONE PLACEHOLDER HERE

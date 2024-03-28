@@ -6,12 +6,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@azure/identity": "^4.0.1",
+    "@azure/storage-blob": "^12.17.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
     "mongodb": "^4.17.2",
     "next": "^14.1.0",
     "nodejs": "^0.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "uuid": "^9.0.1"
     "realm": "^12.6.2"
   },
   "devDependencies": {
