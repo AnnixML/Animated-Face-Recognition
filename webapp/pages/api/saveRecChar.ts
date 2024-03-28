@@ -28,6 +28,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         name2[name] = 1;
         await db.collection("user_info").updateOne(
             {_id: new ObjectId(uuid) }, {$inc: name2}, {upsert:true});
+
+        const user = await db.collection("user_info").findOne({_id: new ObjectId(uuid) });
+        var favChar = null;
+        var favCharNum = 0;
+        if (user){
+            for (const key in user.searchArray) {
+                if (user.searchArray[key] > favCharNum) {
+                    favChar = key;
+                    favCharNum = user.searchArray[key];
+                }
+            }
+        }
+        await db.collection("user_info").updateOne(
+            {_id: new ObjectId(uuid) }, { $set: {"favChar": favChar} }, {upsert:true});
         res.status(201).json({ message: 'History saved' });
     } catch (error) {
         console.error(error);

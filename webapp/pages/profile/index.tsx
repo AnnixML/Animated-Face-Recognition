@@ -40,11 +40,11 @@ const profile = () => {
                     setNumLogins(data.logins);
                     setNumSearches(data.numSearches);
                     setRecent(data.recChar);
-                    setFavChar(data.searchArray);
-                    if (favChar && Object.keys(favChar).length > 0) {
-                        const highest = Object.entries(favChar).reduce((a, b) => a[1] > b[1] ? a : b);
-                        setActualChar(highest[0]);
-                    }
+                    setFavChar(data.favChar);
+                    // if (favChar && Object.keys(favChar).length > 0) {
+                    //     const highest = Object.entries(favChar).reduce((a, b) => a[1] > b[1] ? a : b);
+                    //     setActualChar(highest[0]);
+                    // }
 
                 } else {
                     throw new Error('Failed to fetch');
@@ -250,6 +250,9 @@ const profile = () => {
                 </div>
                 <div>
                     <p>Recent Character Search: {recent}</p>
+                </div>
+                <div>
+                    <p>Favorite Character: {favChar}</p>
                 </div>
             </div>
         </div>
