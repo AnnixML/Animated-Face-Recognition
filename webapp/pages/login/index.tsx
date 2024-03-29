@@ -35,6 +35,8 @@ const signin = () => {
             verifed = data.verif;
 
             if (!verifed) {
+                logIn(data.uuid);
+                router.push('/');
                 setError("Didn't verify email");
                 return;
             }
@@ -49,7 +51,8 @@ const signin = () => {
             }
 
             if (response.ok) {
-                await app.emailPasswordAuth.resendConfirmation({ email });
+                logIn(data.uuid);
+                //await app.emailPasswordAuth.resendConfirmation({ email });
 
                 router.push('/pending'); // Redirect to home page or dashboard
             } 

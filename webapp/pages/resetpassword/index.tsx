@@ -13,7 +13,7 @@ const ChangePassword = () => {
         }
         
         try {
-            await app.emailPasswordAuth.sendResetPasswordEmail({ email });
+            //await app.emailPasswordAuth.sendResetPasswordEmail({ email });
             return;
         }
         catch {

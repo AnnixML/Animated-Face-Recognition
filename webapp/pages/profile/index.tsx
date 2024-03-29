@@ -25,6 +25,7 @@ const profile = () => {
     //PFP
     const [previousImages, setPreviousImages] = useState<string[]>([]);
     const [selectedProfilePic, setSelectedProfilePic] = useState<string | null>(null);
+    const [showRecentImages, setShowRecentImages] = useState(false);
 
     const router = useRouter();
 
@@ -86,6 +87,7 @@ const profile = () => {
                     setNumSearches(data.numSearches);
                     setRecent(data.recChar);
                     setFavChar(data.favChar);
+                    setSelectedProfilePic(data.pfp);
                     // if (favChar && Object.keys(favChar).length > 0) {
                     //     const highest = Object.entries(favChar).reduce((a, b) => a[1] > b[1] ? a : b);
                     //     setActualChar(highest[0]);
@@ -170,21 +172,18 @@ const profile = () => {
         }
     };
     
+    const handleChangeProfilePic = async () => {
+        if (selectedProfilePic == null) return;
+        handleUpdate("pfp", selectedProfilePic);
+    };
 
     const handleProfilePicUpload = async (imageFile: File) => {
         // Assume uploadImageToStorage returns the path or URL of the uploaded image
         const uploadedImagePath = await blob_storage.uploadImageToStorage(imageFile);
         setPreviousImages((prevImages) => [...prevImages, uploadedImagePath]);
         setSelectedProfilePic(uploadedImagePath);
-        await fetch('../api/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                uuid: UUID,
-                searchHistory: "uploaded_image",
-                fileName: uploadedImagePath,
-            }),
-        });
+        const fileName = await blob_storage.uploadImageToStorage(imageFile);
+        handleChangeProfilePic();
     };
 
     const revealHidden = () => {
@@ -267,13 +266,27 @@ const profile = () => {
                     Update Email
                 </button>
             </div>
-                <div className="grid grid-cols-5 gap-4 mt-4">
-                    {previousImages.filter(Boolean).map((imageUrl, index) => (
-                        <img key={index} src={imageUrl} alt={`Previous upload ${index + 1}`}
-                            onClick={() => setSelectedProfilePic(imageUrl)}
-                            className="w-full h-auto cursor-pointer" />
-                    ))}
-                </div>
+            {selectedProfilePic && (
+                    <div>
+                        <img src={selectedProfilePic} alt="Current Profile" className="w-20 h-20" />
+                    </div>
+                )}
+
+                <ImageUploader onUpload={handleProfilePicUpload} />
+                <button onClick={() => setShowRecentImages(prev => !prev)}>
+                    {showRecentImages ? 'Hide' : 'Display'} Recent Searches
+                </button>
+                {showRecentImages && (
+                    <div className="grid grid-cols-5 gap-4 mt-4">
+                        {previousImages.filter(Boolean).map((imageUrl, index) => (
+                            <img key={index} src={imageUrl} alt={`Upload ${index + 1}`} onClick={() => setSelectedProfilePic(imageUrl)} className="w-full h-auto cursor-pointer" />
+                        ))}
+                    </div>
+                )}
+
+                <button onClick={() => handleChangeProfilePic()} className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700 mt-4">
+                    Change Profile Picture
+                </button>
 
             <div className="space-y-4">
                 <label htmlFor="Change password" className="text-black dark:text-white">Password:</label>

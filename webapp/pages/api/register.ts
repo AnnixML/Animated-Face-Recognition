@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
 
     // Insert the new user
-    const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true, "logins": 1 , verif: false, twofac: true});
+    const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true, "logins": 1 , verif: false, twofac: true, pfp: "https://anniximagestorage.blob.core.windows.net/images/8d2789c0-ed96-11ee-9578-efe293c6cb16.jpeg"});
 
     return res.status(201).json({ message: 'User created', userId: result.insertedId.toString() });
   } catch (error) {
