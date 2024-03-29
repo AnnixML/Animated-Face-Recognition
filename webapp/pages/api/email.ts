@@ -10,6 +10,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const client = await clientPromise;
         const db = client.db('account_info');
+        await db.collection("user_info").updateOne(
+            { "email": email }, { $set: {"sixdig":  Math.floor(100000 + Math.random() * 900000)}}, {upsert:true})
         const user = await db.collection("user_info").findOne({ "email": email });
         var co = 123456
         if (user) {

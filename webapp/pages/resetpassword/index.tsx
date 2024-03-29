@@ -9,7 +9,18 @@ const ChangePassword = () => {
     
 
     const handleEmail = async () => {
-        //send email that lands on resetpassword2
+        try {
+            const reponsethesequel = await fetch('/api/email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: email})
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
     };
 
     return (
