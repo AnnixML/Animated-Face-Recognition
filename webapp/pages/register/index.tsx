@@ -28,7 +28,8 @@ const Register = () => {
         // If registration is successful, log the user in
         if (res.ok) {
             //saveEmail(email);
-            logInNoAuth(data.uuid);
+            logInNoAuth(data.userId);
+            console.log("LOGGED IN WITH NO AUTH" + data.userId);
             const reponsethesequel = await fetch('../api/send', {
                 method: 'POST',
                 headers: {

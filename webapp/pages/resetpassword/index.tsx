@@ -17,7 +17,6 @@ const ChangePassword = () => {
                 },
                 body: JSON.stringify({email: email})
             })
-            router.push('/resetpassword2')
         }
         catch (error) {
             console.log(error)

@@ -10,12 +10,19 @@ const Pending = () => {
     const router = useRouter();
 
     const verifyCode = async () => {
+        console.log("ALOS USING HERE" + UUID)
         if (!UUID) {
             setError("There's an issue with your session. Please try to log in again.");
             return;
         }
         try {
-            const response = await fetch(`/api/verifyCode?uuid=${UUID}&code=${code}`);
+            const response = await fetch(`/api/verifyCode`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({code: code, uuid: UUID})
+            });
             if (response.ok) {
                 const { success } = await response.json();
                 if (success) {

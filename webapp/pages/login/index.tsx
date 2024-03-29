@@ -10,7 +10,7 @@ const signin = () => {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
-    const { logIn } = useAuth();
+    const { logIn, logInNoAuth } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,6 +48,7 @@ const signin = () => {
             }
 
             if (response.ok) {
+                logInNoAuth(data.uuid);
                 const reponsethesequel = await fetch('/api/send', {
                     method: 'POST',
                     headers: {

@@ -180,7 +180,16 @@ const profile = () => {
         if (selectedProfilePic == null) return;
         handleUpdate("pfp", selectedProfilePic);
     };
-
+    const handleResetPassword = async() => {
+        const reponsethesequel = await fetch('/api/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: email})
+        })
+        router.push("/resetpassword2")
+    }
     const handleProfilePicUpload = async (imageFile: File) => {
         // Assume uploadImageToStorage returns the path or URL of the uploaded image
         const uploadedImagePath = await blob_storage.uploadImageToStorage(imageFile);
@@ -294,7 +303,7 @@ const profile = () => {
 
             <div className="space-y-4">
                 <label htmlFor="Change password" className="text-black dark:text-white">Password:</label>
-                <button onClick={() => router.push('/resetpassword')} className="py-2 px-4 rounded
+                <button onClick={() => handleResetPassword()} className="py-2 px-4 rounded
                     text-pl-3 border-2 border-rounded border-pl-3
                     bg-pl-2
                     dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3

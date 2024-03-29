@@ -18,18 +18,24 @@ const ChangePasswordPage = () => {
 
         try {
             // First, verify the 6-digit code
-            const verifyResponse = await fetch(`/api/verifyCode?uuid=${UUID}&code=${code}`);
+            const verifyResponse = await fetch(`/api/verifyCode`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({code: code, uuid: UUID})
+            });
             if (verifyResponse.ok) {
                 const { success } = await verifyResponse.json();
                 if (success) {
                     // If code verification is successful, update the password
-                    const updateResponse = await fetch('/api/updatePassword', {
-                        method: 'PUT',
+                    const updateResponse = await fetch('/api/user/update', {
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': UUID,
                         },
-                        body: JSON.stringify({ password })
+                        body: JSON.stringify({ field: 'password', data: password })
                     });
 
                     if (updateResponse.ok) {
@@ -80,7 +86,7 @@ const ChangePasswordPage = () => {
 
             <button onClick={verifyCodeAndUpdatePassword} className="btn">Submit</button>
 
-            <p>If you didn't receive an email, <Link href="/register"><a className="text-blue-500">try registering again</a></Link>.</p>
+            <p>If you didn't receive an email, <Link legacyBehavior href="/register"><a className="text-blue-500">try registering again</a></Link>.</p>
         </div>
     );
 };
