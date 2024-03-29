@@ -24,6 +24,9 @@ const search: React.FC = () => {
     const handleUpload = async (imageFile: Blob) => {
         setUploading(true);
         const requestHeaders: HeadersInit = new Headers();
+        setCharacters([]);
+        setHiddenCharacters([]);
+        setRevealThank(false);
         requestHeaders.set('Content-Type', 'image/jpeg');
         requestHeaders.set('Access-Control-Allow-Origin', '*');
 
@@ -50,7 +53,7 @@ const search: React.FC = () => {
             
                 // Filtered characters: always include the first character, then others by confidence > 0.5
                 const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
-                     character.confidence > 0.4);
+                    index === 0 || character.confidence > 0.4);
             
                 // Hidden characters: include every character except the first one, regardless of confidence
                 const hiddenCharacters: Character[] = allCharacters.slice(1); // This takes all characters starting from the second one
