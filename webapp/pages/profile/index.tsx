@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/router';
 import InfoTag from '../../components/Infotag';
 import ImageUploader from '../../components/ImageUploader';
+import * as blob_storage from '../../blob_storage';
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
@@ -75,8 +76,16 @@ const profile = () => {
                 try {
                     const response = await fetch(`../api/imagehistory?uuid=${UUID}`);
                     if (response.ok) {
-                        const { paths } = await response.json();
-                        setPreviousImages(paths);
+                        const { paths } = await response.json(); // Assuming the API returns an object with a 'paths' array
+                        
+                        // Fetch each image URL asynchronously
+                        const imageUrls = await Promise.all(paths.map(async (fileName: string) => {
+                            // Assuming blob_storage.getImageFromStorage returns the URL of the image
+                            const imageUrl = await blob_storage.getImageFromStorage(fileName, "download.jpg");
+                            return imageUrl;
+                        }));
+    
+                        setPreviousImages(imageUrls);
                     } else {
                         throw new Error('Failed to fetch previous images');
                     }
@@ -114,6 +123,22 @@ const profile = () => {
                 }
             }
         }
+    };
+
+    const handleProfilePicUpload = async (imageFile: File) => {
+        // Assume uploadImageToStorage returns the path or URL of the uploaded image
+        const uploadedImagePath = await blob_storage.uploadImageToStorage(imageFile);
+        setPreviousImages((prevImages) => [...prevImages, uploadedImagePath]);
+        setSelectedProfilePic(uploadedImagePath);
+        await fetch('../api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uuid: UUID,
+                searchHistory: "uploaded_image",
+                fileName: uploadedImagePath,
+            }),
+        });
     };
 
     const revealHidden = () => {
@@ -177,6 +202,7 @@ const profile = () => {
                     Update Username
                 </button>
             </div>
+
             <div className="space-y-4">
                 <label htmlFor="email" className="text-black dark:text-white">Email:</label>
                 <input
@@ -188,13 +214,23 @@ const profile = () => {
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
                 <button onClick={() => handleUpdate("email", email)} className="py-2 px-4 rounded
-    text-pl-3 border-2 border-rounded border-pl-3
-    bg-pl-2
-    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-    dark:bg-pd-2">
+                    text-pl-3 border-2 border-rounded border-pl-3
+                    bg-pl-2
+                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                    dark:bg-pd-2">
                     Update Email
                 </button>
             </div>
+            <div className="space-y-4">
+                    {/* Profile Picture Section */}
+                    <label htmlFor="profilePicture" className="text-black dark:text-white">Profile Picture. Upload an image or use a previous search!</label>
+                    <ImageUploader onUpload={handleProfilePicUpload} />
+                    <div className="grid grid-cols-5 gap-4 mt-4">
+                        {previousImages.slice(0, 5).map((imagePath, index) => (
+                            <img key={index} src={imagePath} alt="Previous upload" onClick={() => setSelectedProfilePic(imagePath)} className="w-full h-auto cursor-pointer" />
+                        ))}
+                    </div>
+                </div>
 
             <div className="space-y-4">
                 <label htmlFor="password" className="text-black dark:text-white">Password:</label>
@@ -207,10 +243,10 @@ const profile = () => {
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
                 <button onClick={() => handleUpdate("password", password)} className="py-2 px-4 rounded
-    text-pl-3 border-2 border-rounded border-pl-3
-    bg-pl-2
-    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-    dark:bg-pd-2">
+                    text-pl-3 border-2 border-rounded border-pl-3
+                    bg-pl-2
+                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                    dark:bg-pd-2">
                     Update Password
                 </button>
             </div>

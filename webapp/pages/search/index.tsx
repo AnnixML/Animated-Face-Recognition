@@ -31,7 +31,7 @@ const search: React.FC = () => {
             console.log("FILE: " + fileName);
 
             setPath(fileName);
-            const response = await fetch('annixml.azurewebsites.net/predict', {
+            const response = await fetch('https://annixml.azurewebsites.net/predict', {
                 method: 'POST',
                 headers: requestHeaders,
                 body: imageFile,
@@ -52,8 +52,9 @@ const search: React.FC = () => {
             
                 const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
                     index === 0 || character.confidence > 0.5);
-            
                 // Update state and functions with the filteredCharacters array
+                const unfilteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
+                    index === 0 || character.confidence > 0.5);
                 setCharacters(filteredCharacters);
                 saveSearchHistoryFunction(filteredCharacters, fileName);
                 saveMostRecChar(filteredCharacters);
