@@ -57,7 +57,7 @@ const search: React.FC = () => {
                 saveMostRecChar(filteredCharacters);
             }
              else {
-                throw new Error(data.error || 'Failed to get prediction');
+                throw new Error('Failed to get prediction');
             }
         } catch (error: any) {
             console.error('Error uploading image:', error);
