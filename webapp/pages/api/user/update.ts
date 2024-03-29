@@ -21,6 +21,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const db = client.db("account_info");
         //testing added
 
+        console.log(field, data);
+        const user = await db.collection("user_info").findOne({_id: new ObjectId(uuid) });
+        if (user != null) {
+            console.log("user twofac", user.twofac);
+        }
+        
         const updateResult = await db.collection("user_info").updateOne(
             { _id: new ObjectId(uuid) }, 
             { $set: { [field]: data } }
