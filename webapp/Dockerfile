@@ -22,6 +22,9 @@ ARG nextCloudName
 ENV MONGODB_URI=$mongoURI
 ENV NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$nextCloudName
 
+RUN echo $mongoURI
+RUN echo $nextCloudName
+
 # Build your Next.js application
 RUN npm run build
 
