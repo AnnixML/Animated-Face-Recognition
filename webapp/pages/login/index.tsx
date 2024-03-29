@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
 import clientPromise from '../../lib/mongodb';
 import { Db, MongoClient, ObjectId } from 'mongodb';
+import {app} from '../api/register'
 
 const signin = () => {
     const [email, setEmail] = useState('');
@@ -48,10 +49,8 @@ const signin = () => {
             }
 
             if (response.ok) {
-                //send email specifically for 2fa
+                await app.emailPasswordAuth.resendConfirmation({ email });
 
-                
-                
                 router.push('/pending'); // Redirect to home page or dashboard
             } 
             }
