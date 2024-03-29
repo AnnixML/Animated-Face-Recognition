@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
 import clientPromise from '../../lib/mongodb';
 import { Db, MongoClient, ObjectId } from 'mongodb';
-import {app} from '../api/register'
 
 const signin = () => {
     const [email, setEmail] = useState('');
@@ -35,8 +34,6 @@ const signin = () => {
             verifed = data.verif;
 
             if (!verifed) {
-                logIn(data.uuid);
-                router.push('/');
                 setError("Didn't verify email");
                 return;
             }
@@ -51,9 +48,14 @@ const signin = () => {
             }
 
             if (response.ok) {
-                logIn(data.uuid);
-                //await app.emailPasswordAuth.resendConfirmation({ email });
-
+                const reponsethesequel = await fetch('/api/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({email: email})
+                })
+                
                 router.push('/pending'); // Redirect to home page or dashboard
             } 
             }

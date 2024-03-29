@@ -36,12 +36,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (hashedPassword !== user.password) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-
         // If passwords match, successful
         const uuid = user._id.toString();
         await db.collection("user_info").updateOne(
             {_id: new ObjectId(uuid) }, { $inc: {"logins": 1} }, {upsert:true});
-
+        
+        await db.collection("user_info").updateOne(
+            {_id: new ObjectId(uuid) }, { $set: {"sixdig":  Math.floor(100000 + Math.random() * 900000)}}, {upsert:true})
         return res.status(200).json({ message: 'Login successful', uuid});
     } catch (error) {
         console.error(error);
