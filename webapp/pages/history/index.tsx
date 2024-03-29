@@ -1,16 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
-
 const History = () => {
     const { UUID } = useAuth();
     const [history, setHistory] = useState<string[]>([]);
     const [page, setPage] = useState<number>(1);
+    const [link, setLink] = useState('')
     const limit = 20;
-
+    
+    const DownloadButton = () => {
+      
+        const handleDownload = async () => {
+          const response1 = await fetch(`/api/csv`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({uuid: UUID}),
+          });
+          const response = await fetch('/api/download', {
+            method: 'GET',
+          })
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'history.csv');
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        };
+      
+        return <button onClick={handleDownload}>Download CSV</button>;
+      };
     useEffect(() => {
         const fetchHistory = async () => {
             if (UUID) {
+                setLink('Download History Here')
                 const response = await fetch(`../api/history?uuid=${UUID}&page=${page}&limit=${limit}`);
                 if (response.ok) {
                     const data = await response.json();
@@ -57,6 +83,7 @@ const History = () => {
                 >
                     Next
                 </button>
+                <DownloadButton />
             </div>
             <InfoTag text="This page displays your search history. Each entry shows the terms you've searched for. Navigate through your history using the 'Previous' and 'Next' buttons. The history is paginated for easier viewing, displaying 20 items per page." />
         </div>

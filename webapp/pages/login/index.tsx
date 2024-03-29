@@ -31,7 +31,15 @@ const signin = () => {
         const data = await response.json();
         if (response.ok) {
             const uuid = data.uuid;
-            verifed = data.verif;
+            const response = await fetch('../api/user/fetch', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': data.uuid,
+                }   
+            });
+            const data2 = await response.json()
+            verifed = data2.verif;
 
             if (!verifed) {
                 setError("Didn't verify email");
@@ -39,7 +47,7 @@ const signin = () => {
             }
 
             //old logic for no two fac authentication
-            if (!data.twofac) {
+            if (!data2.twofac) {
                 if (response.ok) {
                     logIn(data.uuid);
                     router.push('/');
@@ -54,7 +62,7 @@ const signin = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({email: email})
+                    body: JSON.stringify({email: data2.email})
                 })
                 
                 router.push('/pending'); // Redirect to home page or dashboard

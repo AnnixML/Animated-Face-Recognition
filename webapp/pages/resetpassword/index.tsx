@@ -18,7 +18,7 @@ const ChangePassword = () => {
                 },
                 body: JSON.stringify({email: email})
             })
-            if (allmy.ok) {
+            if (!allmy.ok) {
                 console.log("real")
                 setMessage("Email not found mf go suck on it")
                 console.log(message)

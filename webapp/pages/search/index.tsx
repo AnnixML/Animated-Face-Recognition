@@ -86,16 +86,16 @@ const search: React.FC = () => {
                 // Filtered characters: always include the first character, then others by confidence > 0.5
                 const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
                     index === 0 || character.confidence > 0.8);
-            
                 // Hidden characters: include every character except the first one, regardless of confidence
                 const hiddenCharacters: Character[] = allCharacters.slice(1); // This takes all characters starting from the second one
+                setCharacters(filteredCharacters);
+                setHiddenCharacters(hiddenCharacters);
                 if (filteredCharacters[0].confidence < 0.8) {
-                    setCharacters(current => [...current, ...hiddencharacters]);
+                    console.log("less than 0.8")
+                    setCharacters(current => [...current, ...hiddenCharacters]);
                     setHiddenCharacters([]);
                 }
-
-                setCharacters(filteredCharacters);
-                setHiddenCharacters(hiddenCharacters); // Update to use the correct variable name
+                 // Update to use the correct variable name
                 if (saveSearchHist == true) {
                     saveSearchHistoryFunction(filteredCharacters, fileName);
                     if (saveStatistics == true) {

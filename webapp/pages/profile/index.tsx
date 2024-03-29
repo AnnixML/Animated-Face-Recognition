@@ -161,9 +161,9 @@ const profile = () => {
                     },
                     body: JSON.stringify({ field, data: processedValue })
                 });
-    
+                console.log(response)
                 if (!response.ok) {
-                    throw new Error('Failed to update');
+                    throw new Error('Failed to update, please upload or select a file before trying again!');
                 }
     
                 // Instead of setting state here, we'll rely on useEffect to refresh state
