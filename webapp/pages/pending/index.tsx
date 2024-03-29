@@ -1,10 +1,13 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useAuth } from '../../context/AuthContext';
+import {app} from '../api/register';
 
 const pending = () => {
-    const resend = () => {
-        //code for nick to fill out
+    const resend = async() => {
+        const { email } = useAuth();
+        await app.emailPasswordAuth.resendConfirmation({ email });
         return;
     }
 
