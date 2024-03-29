@@ -31,24 +31,22 @@ const search: React.FC = () => {
             console.log("FILE: " + fileName);
 
             setPath(fileName);
-            const response = await fetch('annixml.azurewebsites.net/predict', {
+            const response = await fetch('https://annixml.azurewebsites.net/predict', {
                 method: 'POST',
                 headers: requestHeaders,
                 body: imageFile,
             });
-            const data = await response.json();
-            console.log("CURRENT RESPONSE: " + data["prediction"]);
 
             if (response.ok) {
                 const data = await response.json();
                 const { top5_animes, top5_classes, top5_probs } = data;
-            
                 // Always include the first character, then filter others by confidence
-                const allCharacters: Character[] = top5_probs.map((prob: number[], index: number): Character => ({
+                const allCharacters: Character[] = top5_probs.map((prob: number, index: number): Character => ({
                     title: top5_animes[index],
                     name: top5_classes[index],
-                    confidence: prob[index],
+                    confidence: prob,
                 }));
+                console.log(allCharacters)
             
                 const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
                     index === 0 || character.confidence > 0.5);
@@ -138,11 +136,11 @@ const search: React.FC = () => {
                     <li key={index} className="mb-4">
                         {`${char.name} in ${char.title} - Confidence: ${(char.confidence * 100).toFixed(2)}%`}
                         <div>
-                            <a href={`https://www.amazon.com/s?k=${char.name.replace(/ /g, '+')}+${char.title.replace(/ /g, '+')}`} target="_blank" rel="noopener noreferrer" 
+                            <a href={`https://www.amazon.com/s?k=${char.name.replace(/_/g, '+')}+${char.title.replace(/ /g, '+')}`} target="_blank" rel="noopener noreferrer" 
                             className="inline-block py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2 mr-2">
                                 Merch
                             </a>
-                            <a href={`https://www.crunchyroll.com/search?from=&q=${char.title.replace(/ /g, '+')}`} target="_blank" rel="noopener noreferrer" 
+                            <a href={`https://www.crunchyroll.com/search?from=&q=${char.title.replace(/_/g, '+')}`} target="_blank" rel="noopener noreferrer" 
                             className="inline-block py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2">
                                 Watch
                             </a>
