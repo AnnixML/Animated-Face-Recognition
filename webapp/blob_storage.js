@@ -38,15 +38,41 @@ export async function uploadImageToStorage(image) {
     return blobName;
 }
 
-export async function getImageFromStorage(blobName, path) {
+export async function getBlobAsFile(blobName, path) {
     const containerClient = await login();
     const blobClient = containerClient.getBlockBlobClient(blobName);
     await blobClient.downloadToFile(path);
-    console.log(`download of ${blobName} success`);
+    console.log(`download of (file) ${blobName} success`);
 }
 
+export async function getBlobAsStream(blobName) {
+    const containerClient = await login();
+    const blobClient = containerClient.getBlockBlobClient(blobName);
+    const downloadBlockBlobResponse = await blobClient.download(0);
+    const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+    console.log(`download of (stream) ${blobName} success`);
+    return downloaded;
+}
+
+export async function getBlobAsBuffer(blobName) {
+    const containerClient = await login();
+    const blobClient = containerClient.getBlockBlobClient(blobName);
+    const downloadBlockBlobResponse = await blobClient.download(0);
+    const downloaded = await streamToBuffer(downloadBlockBlobResponse.readableStreamBody);
+    console.log(`download of (buffer) ${blobName} success`);
+    return downloaded;
+}
+
+export async function getBlobAsLink(blobName) {
+    const containerClient = await login();
+    const blobClient = containerClient.getBlockBlobClient(blobName);
+    console.log(`download of (link) ${blobName} success`);
+    return blobClient.url;
+}
+
+
 // async function main() {
-//     uploadImageToStorage("corn.jpg");
+//     getBlobAsFile("corn.jpg");
 //     getImageFromStorage("65255080-eca4-11ee-8d52-cf062308ad6c.jpeg", "./downloaded.jpg")
 // }
 // main()

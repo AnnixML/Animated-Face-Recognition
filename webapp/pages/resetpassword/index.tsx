@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import {app} from '../api/register'
 
 const ChangePassword = () => {
     const { UUID } = useAuth();
     const [email, setEmail] = useState('');
+    
 
     const handleEmail = async () => {
         if (!email) {
@@ -11,7 +13,7 @@ const ChangePassword = () => {
         }
         
         try {
-            //send email
+            await app.emailPasswordAuth.sendResetPasswordEmail({ email });
             return;
         }
         catch {
