@@ -19,8 +19,10 @@ COPY . .
 
 ARG mongoURI
 ARG nextCloudName
+ARG resendAPIKey
 ENV MONGODB_URI=$mongoURI
 ENV NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$nextCloudName
+ENV RESEND_API_KEY=$resendAPIKey
 
 # Build your Next.js application
 RUN npm run build
