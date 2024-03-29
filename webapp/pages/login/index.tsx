@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
+import clientPromise from '../../lib/mongodb';
+import { Db, MongoClient, ObjectId } from 'mongodb';
 
 const signin = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +16,11 @@ const signin = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(''); // Reset error message
-
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenId = urlParams.get('tokenId');
+        const token = urlParams.get('token');
+        var verifed = false;
+        
         const response = await fetch('/api/login', {
             method: 'POST',
             headers: {
@@ -22,13 +28,34 @@ const signin = () => {
             },
             body: JSON.stringify({ username, email, password }),
         });
-
         const data = await response.json();
-        
         if (response.ok) {
-            logIn(data.uuid);
-            router.push('/'); // Redirect to home page or dashboard
-        } else {
+            const uuid = data.uuid;
+            verifed = data.verif;
+
+            if (!verifed) {
+                setError("Didn't verify email");
+                return;
+            }
+
+            //old logic for no two fac authentication
+            if (!data.twofac) {
+                if (response.ok) {
+                    logIn(data.uuid);
+                    router.push('/');
+                    return;
+                }
+            }
+
+            if (response.ok) {
+                //send email specifically for 2fa
+
+                
+                
+                router.push('/pending'); // Redirect to home page or dashboard
+            } 
+            }
+        else {
             setError(data.message || 'An error occurred');
         }
     };

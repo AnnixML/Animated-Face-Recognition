@@ -3,6 +3,9 @@ import clientPromise from '../../lib/mongodb';
 import bcrypt from 'bcryptjs';
 import Realm from 'realm';
 
+export const app = new Realm.App({
+  id: "data-vkrre"
+});
 
 type Data = {
   message: string;
@@ -46,16 +49,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     //const hashedPassword = await bcrypt.hash(password, 10);
     const hashedPassword = password;
 
-    const app = new Realm.App({
-      id: "data-vkrre"
-    })
+    
     await app.emailPasswordAuth.registerUser({
       email: email,
       password: hashedPassword,
     });
 
     // Insert the new user
-    const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true, "logins": 1 });
+    const result = await db.collection("user_info").insertOne({ username, email, password: hashedPassword, saveSearchHist: true, "logins": 1 , verif: false, twofac: true});
 
     return res.status(201).json({ message: 'User created', userId: result.insertedId.toString() });
   } catch (error) {
