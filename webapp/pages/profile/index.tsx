@@ -120,7 +120,7 @@ const profile = () => {
                         // Fetch each image URL asynchronously
                         const imageUrls = await Promise.all(paths.map(async (fileName: string) => {
                             // Assuming blob_storage.getImageFromStorage returns the URL of the image
-                            const imageUrl = await blob_storage.getImageFromStorage(fileName, "download.jpg");
+                            const imageUrl = await blob_storage.getBlobAsLink(fileName);
                             return imageUrl;
                         }));
     
