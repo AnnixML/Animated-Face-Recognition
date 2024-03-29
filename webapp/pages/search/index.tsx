@@ -19,6 +19,37 @@ const search: React.FC = () => {
     const [submittingFeedback, setSubmittingFeedback] = useState<boolean>(false);
     const [revealThank, setRevealThank] = useState<boolean>(false);
     const [path, setPath] = useState('');
+    const [saveStatistics, setSaveStatistics] = useState(false);
+
+    useEffect(() => {
+        const fetchDetails = async () => {
+            if (UUID) {
+                try {
+                    const response = await fetch('../api/user/fetch', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': UUID,
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        setSaveStatistics(data.saveStatistics);
+                        
+                        // Update any other state variables as needed
+                    } else {
+                        throw new Error('Failed to fetch user details');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                    alert(error instanceof Error ? error.message : 'An unknown error occurred');
+                }
+            }
+        };
+
+        // Call fetchDetails to update component state
+        fetchDetails();
+    }, [UUID]); // Depend on UUID and refreshState
     
 
     const handleUpload = async (imageFile: Blob) => {
@@ -64,9 +95,11 @@ const search: React.FC = () => {
 
                 setCharacters(filteredCharacters);
                 setHiddenCharacters(hiddenCharacters); // Update to use the correct variable name
-                if (saveSearchHistory != true) {
+                if (saveSearchHistory == true) {
                     saveSearchHistoryFunction(filteredCharacters, fileName);
-                    saveMostRecChar(filteredCharacters);
+                    if (saveStatistics) {
+                        saveMostRecChar(filteredCharacters);
+                    }
                 }
             }            
              else {
