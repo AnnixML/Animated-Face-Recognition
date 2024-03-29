@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
-
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Creating the context
 const AuthContext = createContext({
@@ -21,22 +20,33 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [UUID, setUUID] = useState(null);
 
+  // Initialize state based on localStorage
+  useEffect(() => {
+    const storedUUID = localStorage.getItem('UUID');
+    if (storedUUID) {
+      setUUID(storedUUID);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const logIn = (newuuid) => {
+    localStorage.setItem('UUID', newuuid); // Save UUID to localStorage
     setUUID(newuuid);
     setIsLoggedIn(true);
   };
 
   const logOut = () => {
+    localStorage.removeItem('UUID'); // Clear UUID from localStorage
     setUUID(null);
     setIsLoggedIn(false);
   };
 
-  const changeSearchHistory = () => {
-    setSaveSearchHistory(!saveSearchHistory);
+  const changeSearchHistory = (newState) => {
+    // Assuming you'll manage this state and its persistence similarly
+    setSaveSearchHistory(newState);
   }
 
-
-  const value = { isLoggedIn, UUID, logIn, logOut };
+  const value = { isLoggedIn, UUID, saveSearchHistory, changeSearchHistory, logIn, logOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
