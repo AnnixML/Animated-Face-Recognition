@@ -30,7 +30,7 @@ const ChangePasswordPage = () => {
                 if (success) {
                     // If code verification is successful, update the password
                     const updateResponse = await fetch('/api/user/update', {
-                        method: 'POST',
+                        method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': UUID,
@@ -40,13 +40,10 @@ const ChangePasswordPage = () => {
 
                     if (updateResponse.ok) {
                         // Assuming the update API responds with JSON
-                        const updateData = await updateResponse.json();
-                        if(updateData.success) {
-                            alert('Password updated successfully!');
-                            router.push('/profile'); // Redirect after successful update
-                        } else {
-                            setError('Failed to update password. Please try again.');
-                        }
+                        //const updateData = await updateResponse.json();
+                        //console.log(updateData)
+                        alert('Password updated successfully!');
+                        router.push('/'); // Redirect after successful update
                     } else {
                         throw new Error('Failed to update password.');
                     }

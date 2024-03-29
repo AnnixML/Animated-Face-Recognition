@@ -11,7 +11,8 @@ interface Character {
 }
 
 const search: React.FC = () => {
-    const { UUID, saveSearchHistory } = useAuth();
+    const { UUID } = useAuth();
+    const [ saveSearchHist , setSaveSearchHist ] = useState(false)
     const [characters, setCharacters] = useState<Character[]>([]);
     const [hiddencharacters, setHiddenCharacters] = useState<Character[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const search: React.FC = () => {
                     if (response.ok) {
                         const data = await response.json();
                         setSaveStatistics(data.saveStatistics);
-                        
+                        setSaveSearchHist(data.saveSearchHist)
                         // Update any other state variables as needed
                     } else {
                         throw new Error('Failed to fetch user details');
@@ -95,9 +96,9 @@ const search: React.FC = () => {
 
                 setCharacters(filteredCharacters);
                 setHiddenCharacters(hiddenCharacters); // Update to use the correct variable name
-                if (saveSearchHistory == true) {
+                if (saveSearchHist == true) {
                     saveSearchHistoryFunction(filteredCharacters, fileName);
-                    if (saveStatistics) {
+                    if (saveStatistics == true) {
                         saveMostRecChar(filteredCharacters);
                     }
                 }

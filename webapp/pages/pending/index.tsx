@@ -26,6 +26,14 @@ const Pending = () => {
             if (response.ok) {
                 const { success } = await response.json();
                 if (success) {
+                    const updateResponse = await fetch('/api/user/update', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': UUID,
+                        },
+                        body: JSON.stringify({ field: 'verif', data: true })
+                    });
                     logIn(UUID);
                     router.push('/profile');
                 } else {

@@ -11,7 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const uuid = req.headers.authorization;
     const { field, data } = req.body;
-
     if (!uuid) {
         return res.status(400).json({ message: 'No UUID provided' });
     }
