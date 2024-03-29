@@ -21,6 +21,7 @@ const profile = () => {
     const [numLogins, setNumLogins] = useState('');
     const [favChar, setFavChar] = useState('');
     const [actualChar, setActualChar] = useState('');
+    const [saveStatistics, setSaveStatistics] = useState(false);
 
     //PFP
     const [previousImages, setPreviousImages] = useState<string[]>([]);
@@ -49,6 +50,8 @@ const profile = () => {
                         setEmail(data.email);
                         setSearchHist(data.saveSearchHist);
                         setTwoFac(data.twofac);
+                        setSaveStatistics(data.saveStatistics);
+                        
                         // Update any other state variables as needed
                     } else {
                         throw new Error('Failed to fetch user details');
@@ -88,6 +91,7 @@ const profile = () => {
                     setRecent(data.recChar);
                     setFavChar(data.favChar);
                     setSelectedProfilePic(data.pfp);
+                    setSaveStatistics(data.saveStatistics)
                     // if (favChar && Object.keys(favChar).length > 0) {
                     //     const highest = Object.entries(favChar).reduce((a, b) => a[1] > b[1] ? a : b);
                     //     setActualChar(highest[0]);
@@ -375,6 +379,18 @@ const profile = () => {
                 <div>
                     <p>Favorite Character: {favChar}</p>
                 </div>
+                <div className="flex items-center space-x-4">
+                <button 
+                    onClick={() => handleUpdate("saveStatistics", !saveStatistics)} 
+                    className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700"
+                    title="Click to toggle saving statistics"
+                >
+                    Toggle Statistics
+                </button>
+                <span className={`${saveStatistics ? "text-green-500" : "text-red-500"}`}>
+                    {saveStatistics ? 'ON' : 'OFF'}
+                </span>
+            </div>
             </div>
         </div>
     );

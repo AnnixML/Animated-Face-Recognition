@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useRouter } from 'next/router';
 
 const ChangePassword = () => {
     const { UUID } = useAuth();
     const [email, setEmail] = useState('');
-    const router = useRouter();
     
 
     const handleEmail = async () => {
-        //send email that lands on resetpassword2
+        //landing page for resetpassword email
     };
 
     return (
