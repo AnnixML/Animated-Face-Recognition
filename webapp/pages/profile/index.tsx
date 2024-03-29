@@ -4,13 +4,15 @@ import { useRouter } from 'next/router';
 import InfoTag from '../../components/Infotag';
 import ImageUploader from '../../components/ImageUploader';
 import * as blob_storage from '../../blob_storage';
+import search from '../search';
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [searchHist, setSearchHist] = useState<boolean>();
+    const [twoFac, setTwoFac] = useState(false);
+    const [searchHist, setSearchHist] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     //statistics
@@ -25,6 +27,42 @@ const profile = () => {
     const [selectedProfilePic, setSelectedProfilePic] = useState<string | null>(null);
 
     const router = useRouter();
+
+    const [refreshState, setRefreshState] = useState(false);
+
+    useEffect(() => {
+        const fetchDetails = async () => {
+            if (UUID) {
+                try {
+                    const response = await fetch('../api/user/fetch', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': UUID,
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Update all your state variables with the fetched data
+                        setUsername(data.username);
+                        setEmail(data.email);
+                        setSearchHist(data.saveSearchHist);
+                        setTwoFac(data.twofac);
+                        // Update any other state variables as needed
+                    } else {
+                        throw new Error('Failed to fetch user details');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                    alert(error instanceof Error ? error.message : 'An unknown error occurred');
+                }
+            }
+        };
+
+        // Call fetchDetails to update component state
+        fetchDetails();
+    }, [UUID, refreshState]); // Depend on UUID and refreshState
+
 
     useEffect(() => {
         // This function is now inside useEffect
@@ -43,6 +81,7 @@ const profile = () => {
                     setPassword(data.password);
                     setEmail(data.email);
                     setSearchHist(data.saveSearchHist);
+                    setTwoFac(data.twofac);
                     setNumLogins(data.logins);
                     setNumSearches(data.numSearches);
                     setRecent(data.recChar);
@@ -98,32 +137,68 @@ const profile = () => {
         fetchPreviousImages();
     }, [UUID]);
 
-    const handleUpdate = async (field: string, data: string) => {
+    const handleUpdate = async (field: string, value: string | number | boolean) => {
         if (UUID) {
             try {
+                const processedValue = value;
+    
                 const response = await fetch('../api/user/update', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'authorization': UUID,
+                        'Authorization': UUID,
                     },
-                    body: JSON.stringify({field, data})
+                    body: JSON.stringify({ field, data: processedValue })
                 });
-                if (response.ok) {
-                    null;
-                } else {
+    
+                if (!response.ok) {
                     throw new Error('Failed to update');
                 }
-            } catch (error: unknown) {
+    
+                // Instead of setting state here, we'll rely on useEffect to refresh state
+                // Trigger a state change to cause useEffect to run
+                setRefreshState(prev => !prev);
+            } catch (error) {
                 console.error('Error updating account:', error);
-                if (error instanceof Error) { // Type-checking the error
-                    alert(error.message);
-                } else {
-                    alert('An unknown error occurred'); // Fallback error message
-                }
+                alert(error instanceof Error ? error.message : 'An unknown error occurred');
             }
         }
     };
+
+    /*
+    const handleUpdate = async (field: string, value: string | number | boolean) => {
+        if (UUID) {
+            try {
+                // Convert value to actual boolean if field is searchHist or twoFac
+                let processedValue = value;
+                if (field === 'searchHist') {
+                    processedValue = value === 'true' ? true : false;
+                }
+                if (field === 'twoFac') {
+                    processedValue = value === 'true' ? true : false;
+                }
+    
+                const response = await fetch('../api/user/update', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': UUID,
+                    },
+                    body: JSON.stringify({ field, data: processedValue })
+                });
+    
+                if (!response.ok) {
+                    console.log(field, processedValue);
+                    throw new Error('Failed to update');
+                }
+            } catch (error) {
+                console.error('Error updating account:', error);
+                alert(error instanceof Error ? error.message : 'An unknown error occurred');
+            }
+        }
+    };
+    */
+    
 
     const handleProfilePicUpload = async (imageFile: File) => {
         // Assume uploadImageToStorage returns the path or URL of the uploaded image
@@ -244,18 +319,29 @@ const profile = () => {
                     Update Password
                 </button>
             </div>
-            <div className="space-y-4">
-                <button onClick={() => handleUpdate("saveSearchHist", (!searchHist).toString())} 
-                className="py-2 px-4 rounded
-                text-pl-3 border-2 border-rounded border-pl-3
-                bg-pl-2
-                dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                dark:bg-pd-2"
-                title="Click to enable/disable search history!"
+            <div className="flex items-center space-x-4">
+                <button 
+                    onClick={() => handleUpdate("saveSearchHist", !searchHist)} 
+                    className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700"
+                    title="Click to toggle search history"
                 >
-        
-                    Enable/Disable Search History
+                    Toggle Search History
                 </button>
+                <span className={`${searchHist ? "text-green-500" : "text-red-500"}`}>
+                    {searchHist ? 'ON' : 'OFF'}
+                </span>
+            </div>
+            <div className="flex items-center space-x-4">
+                <button 
+                    onClick={() => handleUpdate("twofac", !twoFac)} 
+                    className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700"
+                    title="Click to toggle Two-Factor Authentication"
+                >
+                    Toggle Two-Factor Authentication
+                </button>
+                <span className={`${twoFac ? "text-green-500" : "text-red-500"}`}>
+                    {twoFac ? 'ON' : 'OFF'}
+                </span>
             </div>
             <div className="space-y-20">
                 {!showDeleteConfirm ? (
