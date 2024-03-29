@@ -21,13 +21,6 @@ export default function Home() {
 
   const verify = async () => {
     try {
-      await fetch('/api/app', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-          body: JSON.stringify({token, tokenId}),
-      });
       const secondresponse = await fetch('/api/confirmUser', {
           method: 'POST',
           headers: {
