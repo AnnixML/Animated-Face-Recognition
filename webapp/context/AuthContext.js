@@ -42,11 +42,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const changeSearchHistory = (newState) => {
-    // Assuming you'll manage this state and its persistence similarly
     setSaveSearchHistory(newState);
   }
 
-  const value = { isLoggedIn, UUID, saveSearchHistory, changeSearchHistory, logIn, logOut };
+  const value = { isLoggedIn, UUID, logIn, logOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
