@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ImageUploader from '../../components/ImageUploader';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
@@ -13,6 +13,7 @@ interface Character {
 const search: React.FC = () => {
     const { UUID, saveSearchHistory } = useAuth();
     const [characters, setCharacters] = useState<Character[]>([]);
+    const [hiddencharacters, setHiddenCharacters] = useState<Character[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
     const [feedback, setFeedback] = useState<string>('');
     const [submittingFeedback, setSubmittingFeedback] = useState<boolean>(false);
@@ -40,23 +41,25 @@ const search: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 const { top5_animes, top5_classes, top5_probs } = data;
-                // Always include the first character, then filter others by confidence
+                // Map all characters
                 const allCharacters: Character[] = top5_probs.map((prob: number, index: number): Character => ({
                     title: top5_animes[index],
                     name: top5_classes[index],
                     confidence: prob,
                 }));
-                console.log(allCharacters)
             
+                // Filtered characters: always include the first character, then others by confidence > 0.5
                 const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
-                    index === 0 || character.confidence > 0.5);
-                // Update state and functions with the filteredCharacters array
-                const unfilteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
-                    index === 0 || character.confidence > 0.5);
+                     character.confidence > 0.4);
+            
+                // Hidden characters: include every character except the first one, regardless of confidence
+                const hiddenCharacters: Character[] = allCharacters.slice(1); // This takes all characters starting from the second one
+            
                 setCharacters(filteredCharacters);
+                setHiddenCharacters(hiddenCharacters); // Update to use the correct variable name
                 saveSearchHistoryFunction(filteredCharacters, fileName);
                 saveMostRecChar(filteredCharacters);
-            }
+            }            
              else {
                 throw new Error('Failed to get prediction');
             }
@@ -126,6 +129,12 @@ const search: React.FC = () => {
         setFeedback(event.target.value);
     };
 
+    useEffect(() => {
+        if (revealThank) {
+          setCharacters(current => [...current, ...hiddencharacters]); // Append hidden characters to current ones
+        }
+      }, [revealThank, hiddencharacters]);
+
     return (
         <div className="min-h-screen bg-pl-1 dark:bg-pd-4">
             <h1 className="text-black dark:text-white">Search for Characters</h1>
@@ -149,7 +158,7 @@ const search: React.FC = () => {
                     </li>
                 ))}
             </ul>
-            {characters.length > 0 && (
+            {characters.length > 0 && !revealThank && (
                 <form onSubmit={submitFeedback} className="mt-4">
                     <label htmlFor="feedback" className="block mb-2 text-pl-3 dark:text-white">Report Incorrect Results:</label>
                     <textarea
@@ -168,8 +177,13 @@ const search: React.FC = () => {
                     </button>
                 </form>
             )}
-            {revealThank && <p className="text-pl-3 dark:text-white">Thank you for your feedback!</p>}
-        </div>
+            {revealThank && (
+  <>
+    <h2 className="text-xl font-bold mb-4">Sorry we got it wrong! Before you go, is it any of these characters?</h2>
+    
+  </>
+)}
+</div>
     );
 };
 export default search;

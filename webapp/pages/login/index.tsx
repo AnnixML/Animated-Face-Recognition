@@ -81,6 +81,15 @@ const signin = () => {
                     title="Click to submit the above three fields"
                     >Sign In</button>
             </form>
+            <div className="py-4">
+                <button onClick={() => router.push('/resetpassword')} className="py-2 px-4 rounded
+                        text-pl-3 border-2 border-rounded border-pl-3
+                        bg-pl-2
+                        dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
+                        dark:bg-pd-2">
+                        Forgot Your Password?
+                    </button>
+            </div>
             <InfoTag text="Enter your username and password to log in. Ensure your details are correct. If you are new and don't have an account yet, please register by clicking the Register button. Keep your login credentials secure and do not share them with others." />
         </div>
     );
