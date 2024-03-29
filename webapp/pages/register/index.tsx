@@ -8,7 +8,7 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const { logIn } = useAuth(); // Destructure the logIn function from useAuth
+    const { logInNoAuth, saveEmail } = useAuth(); // Destructure the logIn function from useAuth
     const router = useRouter();
 
     const registerUser = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,6 +27,8 @@ const Register = () => {
 
         // If registration is successful, log the user in
         if (res.ok) {
+            saveEmail(email);
+            logInNoAuth(data.uuid);
             router.push('/pending');
         }
     };
