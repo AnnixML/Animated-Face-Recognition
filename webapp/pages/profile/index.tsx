@@ -121,6 +121,7 @@ const profile = () => {
                         const imageUrls = await Promise.all(paths.map(async (fileName: string) => {
                             // Assuming blob_storage.getImageFromStorage returns the URL of the image
                             const imageUrl = await blob_storage.getBlobAsLink(fileName);
+                            console.log(fileName);
                             return imageUrl;
                         }));
     
@@ -168,40 +169,6 @@ const profile = () => {
             }
         }
     };
-
-    /*
-    const handleUpdate = async (field: string, value: string | number | boolean) => {
-        if (UUID) {
-            try {
-                // Convert value to actual boolean if field is searchHist or twoFac
-                let processedValue = value;
-                if (field === 'searchHist') {
-                    processedValue = value === 'true' ? true : false;
-                }
-                if (field === 'twoFac') {
-                    processedValue = value === 'true' ? true : false;
-                }
-    
-                const response = await fetch('../api/user/update', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': UUID,
-                    },
-                    body: JSON.stringify({ field, data: processedValue })
-                });
-    
-                if (!response.ok) {
-                    console.log(field, processedValue);
-                    throw new Error('Failed to update');
-                }
-            } catch (error) {
-                console.error('Error updating account:', error);
-                alert(error instanceof Error ? error.message : 'An unknown error occurred');
-            }
-        }
-    };
-    */
     
 
     const handleProfilePicUpload = async (imageFile: File) => {
@@ -300,17 +267,12 @@ const profile = () => {
                     Update Email
                 </button>
             </div>
-            <div className="space-y-4">
-                    {/* Profile Picture Section */}
-                    <label htmlFor="profilePicture" className="text-black dark:text-white">Profile Picture. Upload an image or use a previous search!</label>
-                    <ImageUploader onUpload={handleProfilePicUpload} />
-                    <div className="grid grid-cols-5 gap-4 mt-4">
-                    {previousImages.map((imageUrl, index) => (
+                <div className="grid grid-cols-5 gap-4 mt-4">
+                    {previousImages.filter(Boolean).map((imageUrl, index) => (
                         <img key={index} src={imageUrl} alt={`Previous upload ${index + 1}`}
                             onClick={() => setSelectedProfilePic(imageUrl)}
                             className="w-full h-auto cursor-pointer" />
                     ))}
-                </div>
                 </div>
 
             <div className="space-y-4">

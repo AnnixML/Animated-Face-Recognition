@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { uuid, searchHistory } = req.body;
+    const { uuid, searchHistory, fileName } = req.body;
 
     if (!uuid || !searchHistory) {
         return res.status(400).json({ message: 'Missing required fields' });
@@ -19,7 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         await db.collection("search_history").insertOne({
             uuid,
-            searchHistory
+            searchHistory,
+            fileName,
         });
 
         res.status(201).json({ message: 'History saved' });

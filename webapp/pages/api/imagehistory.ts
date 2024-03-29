@@ -19,7 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .toArray();
 
             // Extract the paths from the imageHistory documents
-            const paths = imageHistory.map((doc) => doc.fileName); // Replace 'path' with the actual field name in your documents that holds the image path
+            const paths = imageHistory.map((doc) => doc.fileName);
+            console.log(paths);
 
             res.status(200).json({ paths });
         } catch (error) {

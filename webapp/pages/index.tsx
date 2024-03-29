@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import RootLayout from './layout';
 import { useAuth } from '../context/AuthContext';
-import { app } from './api/register';
 import { useRouter } from 'next/router';
 
 export default function Home() {
   const [verifying, setVerifying] = useState(false);
-  const urlParams = new URLSearchParams(window.location.search);
-  const tokenId = urlParams.get('tokenId');
-  const token = urlParams.get('token');
   const { UUID, logIn } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
+    const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
+    const tokenId = urlParams.get('tokenId');
+    const token = urlParams.get('token');
+
     if (token && tokenId) {
       setVerifying(true); // Start the verification process
       verify();
     }
-  }, [token, tokenId]); // Depend on token and tokenId
+  }, []);
 
   const verify = async () => {
     try {
-      await app.emailPasswordAuth.confirmUser({ token, tokenId });
+      await fetch('/api/app', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({token, tokenId}),
+      });
       const secondresponse = await fetch('/api/confirmUser', {
           method: 'POST',
           headers: {
