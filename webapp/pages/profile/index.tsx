@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/router';
 import InfoTag from '../../components/Infotag';
+import ImageUploader from '../../components/ImageUploader';
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
@@ -17,6 +18,10 @@ const profile = () => {
     const [numLogins, setNumLogins] = useState('');
     const [favChar, setFavChar] = useState('');
     const [actualChar, setActualChar] = useState('');
+
+    //PFP
+    const [previousImages, setPreviousImages] = useState<string[]>([]);
+    const [selectedProfilePic, setSelectedProfilePic] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -63,6 +68,26 @@ const profile = () => {
             fetchDetails(UUID);
         }
     }, [UUID]); // Runs only once when UUID changes, i.e., typically after initial render when UUID becomes available
+
+    useEffect(() => {
+        const fetchPreviousImages = async () => {
+            if (UUID) {
+                try {
+                    const response = await fetch(`../api/imagehistory?uuid=${UUID}`);
+                    if (response.ok) {
+                        const { paths } = await response.json();
+                        setPreviousImages(paths);
+                    } else {
+                        throw new Error('Failed to fetch previous images');
+                    }
+                } catch (error) {
+                    console.error('Error fetching previous images:', error);
+                }
+            }
+        };
+    
+        fetchPreviousImages();
+    }, [UUID]);
 
     const handleUpdate = async (field: string, data: string) => {
         if (UUID) {
@@ -170,6 +195,7 @@ const profile = () => {
                     Update Email
                 </button>
             </div>
+
             <div className="space-y-4">
                 <label htmlFor="password" className="text-black dark:text-white">Password:</label>
                 <input

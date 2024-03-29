@@ -6,7 +6,8 @@ import * as blob_storage from '../../blob_storage';
 
 interface Character {
     name: string;
-    confidence: number; // Assuming confidence is a decimal representing a percentage
+    confidence: number;
+    title: string;
 }
 
 const search: React.FC = () => {
@@ -26,35 +27,38 @@ const search: React.FC = () => {
         requestHeaders.set('Access-Control-Allow-Origin', '*');
 
         try {
-            //TODO: Upload imageFile to S3Bucket, then get path from S3 bucket, then pass path below
-            //TODO FOR ETHAN: create function for blob that takes in imagefile uploads it to blob and returns path
-            const fileName = await blob_storage.uploadImageToStorage(imageFile)
+            const fileName = await blob_storage.uploadImageToStorage(imageFile);
             console.log("FILE: " + fileName);
-            
-            // await blob_storage.getImageFromStorage(fileName, "download.jpg")
 
-            setPath("command_that_calls_imagefile_goes_here"); //ONE PLACEHOLDER HERE
-            const response = await fetch('INSERT_LEO_URL_HERE', { //ONE PLACEHOLDER HERE
+            setPath(fileName);
+            const response = await fetch('annixml.azurewebsites.net/predict', {
                 method: 'POST',
                 headers: requestHeaders,
-                body: path,
+                body: imageFile,
             });
             const data = await response.json();
             console.log("CURRENT RESPONSE: " + data["prediction"]);
 
             if (response.ok) {
-                const predictions = data['prediction'];
-                const parsed = JSON.parse(predictions);
-                const filteredCharacters = [];
-                for (const key in parsed) {
-                    if (parsed[key] > 0.5) {
-                        filteredCharacters.push({ name: key, confidence: parsed[key] }); //UPDATE TO TAKE IN TITLE OF SHOW AS WELL
-                    }
-                }
+                const data = await response.json();
+                const { top5_animes, top5_classes, top5_probs } = data;
+            
+                // Always include the first character, then filter others by confidence
+                const allCharacters: Character[] = top5_probs.map((prob: number[], index: number): Character => ({
+                    title: top5_animes[index],
+                    name: top5_classes[index],
+                    confidence: prob[index],
+                }));
+            
+                const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
+                    index === 0 || character.confidence > 0.5);
+            
+                // Update state and functions with the filteredCharacters array
                 setCharacters(filteredCharacters);
-                saveSearchHistoryFunction(filteredCharacters);
+                saveSearchHistoryFunction(filteredCharacters, fileName);
                 saveMostRecChar(filteredCharacters);
-            } else {
+            }
+             else {
                 throw new Error(data.error || 'Failed to get prediction');
             }
         } catch (error: any) {
@@ -65,7 +69,7 @@ const search: React.FC = () => {
         }
     };
 
-    const saveSearchHistoryFunction = async (searchResults: Character[]) => {
+    const saveSearchHistoryFunction = async (searchResults: Character[], path: string) => {
         if (!UUID) return;
         
         await fetch('../api/save', {
@@ -74,6 +78,7 @@ const search: React.FC = () => {
             body: JSON.stringify({
                 uuid: UUID,
                 searchHistory: searchResults.map(result => result.name),
+                fileName: path,
             }),
         });
     };
@@ -129,8 +134,20 @@ const search: React.FC = () => {
             <InfoTag text="Upload an image to search for characters. The system uses AI to predict characters present in the uploaded image. Results, including the character names and confidence levels, are displayed below. If you believe a character has been incorrectly identified or missed, please provide feedback in the form that appears after submission. Your input helps improve our recognition accuracy." />
             {uploading && <p>Uploading and analyzing image...</p>}
             <ul>
-                {characters.map((char, index) => (
-                    <li key={index}>{char.name} - Confidence: {(char.confidence * 100).toFixed(2)}%</li> //TODO: ALSO ADD TWO BUTTONS: MERCH AND WATCH, SEE TODOLIST
+                {characters.map((char: Character, index: number) => (
+                    <li key={index} className="mb-4">
+                        {`${char.name} in ${char.title} - Confidence: ${(char.confidence * 100).toFixed(2)}%`}
+                        <div>
+                            <a href={`https://www.amazon.com/s?k=${char.name.replace(/ /g, '+')}+${char.title.replace(/ /g, '+')}`} target="_blank" rel="noopener noreferrer" 
+                            className="inline-block py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2 mr-2">
+                                Merch
+                            </a>
+                            <a href={`https://www.crunchyroll.com/search?from=&q=${char.title.replace(/ /g, '+')}`} target="_blank" rel="noopener noreferrer" 
+                            className="inline-block py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2">
+                                Watch
+                            </a>
+                        </div>
+                    </li>
                 ))}
             </ul>
             {characters.length > 0 && (
@@ -156,5 +173,4 @@ const search: React.FC = () => {
         </div>
     );
 };
-
 export default search;
