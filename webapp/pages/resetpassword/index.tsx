@@ -10,7 +10,7 @@ const ChangePassword = () => {
 
     const handleEmail = async () => {
         try {
-            const reponsethesequel = await fetch('/api/email', {
+            const reponsethesequel = await fetch('/api/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

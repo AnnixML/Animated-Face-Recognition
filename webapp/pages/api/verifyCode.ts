@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json({ success: false });
         }
         else {
-            if (user && user['6dig'] === code) {
+            if (user && user.sixdig === code) {
                 res.status(200).json({ success: true });
             } else {
                 res.status(200).json({ success: false });

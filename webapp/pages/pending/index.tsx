@@ -46,7 +46,7 @@ const Pending = () => {
                 placeholder="6-digit code"
             />
             <button onClick={verifyCode} className="btn">Verify Code</button>
-            <p>If you didn't receive an email, <Link href="/register"><a className="text-blue-500">try registering again</a></Link>.</p>
+            <p>If you didn't receive an email, <Link legacyBehavior href="/register"><a className="text-blue-500">try registering again</a></Link>.</p>
         </div>
     );
 };

@@ -21,14 +21,21 @@ const Register = () => {
             },
             body: JSON.stringify({username, email, password }),
         });
-
+        
         const data = await res.json();
         setMessage(data.message);
-
+        
         // If registration is successful, log the user in
         if (res.ok) {
-            saveEmail(email);
+            //saveEmail(email);
             logInNoAuth(data.uuid);
+            const reponsethesequel = await fetch('../api/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: email})
+            })
             router.push('/pending');
         }
     };
