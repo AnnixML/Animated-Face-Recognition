@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { useAuth } from '../../../context/AuthContext';
+import { useRouter } from "next/router";
+import InfoTag from "../../Infotag";
 
 const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): JSX.Element => {
   //placeholder until user auth is setup
   const { isLoggedIn, logOut} = useAuth();
+  const router = useRouter(); // Use the useRouter hook to get access to the router object
+
+  const logOutAndRedirect = () => {
+    logOut(); // Assuming logOut is your function to handle the logout logic
+    router.push('/'); // Navigate to the home page after logging out
+  };
 
   return (
     <div
@@ -54,7 +62,7 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
           {isLoggedIn ? (
                 <>
                   <li><Link href="/profile" legacyBehavior><a onClick={toggle} className="block py-2" title = "View my Profile">View My Profile</a></Link></li>
-                  <li><button onClick={logOut} className="text-black bg-transparent"
+                  <li><button onClick={logOutAndRedirect} className="text-black bg-transparent"
                   title = "Log Out"
                   >Log Out</button></li>
                 </>
@@ -64,6 +72,7 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
                   <li><Link href="/register" legacyBehavior><a onClick={toggle} className="block py-2" title =  "Sign Up">Sign Up</a></Link></li>
                 </>
               )}
+              <InfoTag text="Welcome to our interactive navigation bar! Here, you can easily navigate to various parts of our platform. 'Search for Characters' allows you to find detailed information on your favorite characters. If logged in, you can access 'View Search History' to review your past searches. 'Request New Features' lets you suggest improvements or new features you'd like to see. Join discussions and connect with the community in the 'Forums' section. Have questions? 'FAQ' provides answers to common inquiries. For personalized options, 'View My Profile' takes you to your account details, where you can manage your settings and profile. Not a member yet? Click 'Register' to join us or 'Log In' to access your account. Navigate your way to a better experience with us!" />
         </ul>
       </div>
     </div>

@@ -53,15 +53,21 @@ const search: React.FC = () => {
             
                 // Filtered characters: always include the first character, then others by confidence > 0.5
                 const filteredCharacters: Character[] = allCharacters.filter((character: Character, index: number) => 
-                    index === 0 || character.confidence > 0.4);
+                    index === 0 || character.confidence > 0.8);
             
                 // Hidden characters: include every character except the first one, regardless of confidence
                 const hiddenCharacters: Character[] = allCharacters.slice(1); // This takes all characters starting from the second one
-            
+                if (filteredCharacters[0].confidence < 0.8) {
+                    setCharacters(current => [...current, ...hiddencharacters]);
+                    setHiddenCharacters([]);
+                }
+
                 setCharacters(filteredCharacters);
                 setHiddenCharacters(hiddenCharacters); // Update to use the correct variable name
-                saveSearchHistoryFunction(filteredCharacters, fileName);
-                saveMostRecChar(filteredCharacters);
+                if (saveSearchHistory != true) {
+                    saveSearchHistoryFunction(filteredCharacters, fileName);
+                    saveMostRecChar(filteredCharacters);
+                }
             }            
              else {
                 throw new Error('Failed to get prediction');

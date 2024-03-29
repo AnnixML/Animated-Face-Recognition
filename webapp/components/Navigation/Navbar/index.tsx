@@ -4,9 +4,17 @@ import Logo from "./logo";
 import Button from "./button";
 import RegisterButton from "./registerbutton";
 import { useAuth } from '../../../context/AuthContext';
+import { useRouter } from "next/router";
+import InfoTag from "../../Infotag";
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
     const { isLoggedIn, logOut } = useAuth();
+    const router = useRouter();
+    
+    const logOutAndRedirect = () => {
+        logOut();
+        router.push('/');
+      };
 
     return (
         <>
@@ -76,7 +84,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                                     <li><Link href="/profile" legacyBehavior><a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
                                     title="Click to view profile"
                                     >View My Profile</a></Link></li>
-                                    <li><button onClick={logOut} className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                                    <li><button onClick={logOutAndRedirect} className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
                                     title="Click to log out of your account"
                                     >Log Out</button></li>
                                 </>
@@ -86,6 +94,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                                     <li><RegisterButton /></li>
                                 </>
                             )}
+                            <InfoTag text="Welcome to our interactive navigation bar! Here, you can easily navigate to various parts of our platform. 'Search for Characters' allows you to find detailed information on your favorite characters. If logged in, you can access 'View Search History' to review your past searches. 'Request New Features' lets you suggest improvements or new features you'd like to see. Join discussions and connect with the community in the 'Forums' section. Have questions? 'FAQ' provides answers to common inquiries. For personalized options, 'View My Profile' takes you to your account details, where you can manage your settings and profile. Not a member yet? Click 'Register' to join us or 'Log In' to access your account. Navigate your way to a better experience with us!" />
                         </ul>
             <div className="flex gap-x-4">
             </div>

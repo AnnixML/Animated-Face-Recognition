@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
-import bcrypt from 'bcryptjs';
 import Realm from 'realm';
 
 export const app = new Realm.App({

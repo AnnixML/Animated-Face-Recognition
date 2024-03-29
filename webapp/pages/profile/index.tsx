@@ -141,6 +141,10 @@ const profile = () => {
         if (UUID) {
             try {
                 const processedValue = value;
+
+                if (field == "email" && value == '') {
+                    handleUpdate("twofac", false);
+                }
     
                 const response = await fetch('../api/user/update', {
                     method: 'PUT',
