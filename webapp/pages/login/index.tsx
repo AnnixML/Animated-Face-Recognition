@@ -77,8 +77,8 @@ const signin = () => {
 
     return (
         
-        <div className="bg-gradient-to-r from-cyan via-magenta to-tangerine dark:bg-gradient-to-r from-lightcyan via-pl-2 to-pl-3 background-animate flex items-center justify-center min-h-screen">
-          <div className="max-w-md w-full px-6 py-8 bg-pl-2 dark:bg-pd-3 rounded-lg shadow-md">
+        <div className="bg-gradient-to-r from-darkblue via-lightcyan to-pl-4 background-animate flex items-center justify-center min-h-screen">
+          <div className="max-w-md w-full px-6 py-8 bg-pl-2 dark:bg-pl-4 rounded-lg shadow-xl">
             <h2 className="text-2xl font-bold mb-6 text-pl-3 dark:text-pd-2">Sign In</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -126,9 +126,10 @@ const signin = () => {
               )}
 
 
-                <a className="animated-button"
-                title="Click to Sign In" type="submit">Sign In</a>
-
+                <button type="submit" 
+                className="animated-button"
+                title="Click to submit the fields above!"
+                >Sign In</button>
             </form>
             <div className="mt-4">
               <button
