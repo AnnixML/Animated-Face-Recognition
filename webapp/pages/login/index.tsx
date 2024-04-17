@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
 import clientPromise from '../../lib/mongodb';
 import { Db, MongoClient, ObjectId } from 'mongodb';
+import Link from "next/link";
 
 const signin = () => {
     const [email, setEmail] = useState('');
@@ -73,9 +74,11 @@ const signin = () => {
         }
     };
 
+
     return (
-        <div className="flex items-center justify-center min-h-screen bg-pl-1 dark:bg-pd-4">
-          <div className="max-w-md w-full px-6 py-8 bg-pl-2 dark:bg-pd-4 rounded-lg shadow-md">
+        
+        <div className="bg-gradient-to-r from-cyan via-magenta to-tangerine dark:bg-gradient-to-r from-lightcyan via-pl-2 to-pl-3 background-animate flex items-center justify-center min-h-screen">
+          <div className="max-w-md w-full px-6 py-8 bg-pl-2 dark:bg-pd-3 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-pl-3 dark:text-pd-2">Sign In</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -121,12 +124,11 @@ const signin = () => {
                   {error}
                 </div>
               )}
-              <button
-                type="submit"
-                className="w-full py-2 px-4 rounded bg-pl-3 text-pl-1 dark:bg-pd-2 dark:text-pd-4 hover:bg-pl-4 dark:hover:bg-pd-3 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
-              >
-                Sign In
-              </button>
+
+
+                <a className="animated-button"
+                title="Click to Sign In" type="submit">Sign In</a>
+
             </form>
             <div className="mt-4">
               <button

@@ -8,6 +8,10 @@ module.exports = {
   theme: {
     colors: {
       'white': '#ffffff',
+      'cyan': '#00ffff',
+      'lightcyan': "#1ae8b7",
+      'magenta': "#ff00ff",
+      'tangerine': "#f28500",
       'pl': { //primary-light
         /*
         '50': '#f4f9f4',
@@ -55,6 +59,9 @@ module.exports = {
     extend: {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
+      },
+      backgroundImage: {
+        'bocchi': "url('/makeit.jpg')",
       },
     },
   },
