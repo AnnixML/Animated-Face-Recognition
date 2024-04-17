@@ -50,7 +50,7 @@ export default function Home() {
           <h1 className="font-inter text-4xl font-bold text-black dark:text-white">Please wait while we verify your account...</h1>
         ) : (
           <>
-            <h1 className="font-inter text-4xl font-bold text-black dark:text-white">Welcome To The Annix Landing Page!</h1>
+            <h1 className="font-inter text-4xl font-bold text-black dark:text-white">Welcome To The Annix Landing Page!!!!</h1>
             <h2 className="font-inter text-4xl font-bold text-black dark:text-white">To get started, click one of the links in the Navigation Bar. Optionally, Create an Account.</h2>
           </>
         )}
