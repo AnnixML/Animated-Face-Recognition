@@ -1,5 +1,4 @@
 const { BlobServiceClient } = require("@azure/storage-blob");
-const { DefaultAzureCredential } = require('@azure/identity');
 const { v1: uuidv1 } = require("uuid");
 require("dotenv").config();
 
@@ -8,7 +7,7 @@ export async function login() {
     const accountName = "anniximagestorage";
     if (!accountName) throw Error('Azure Storage not found');
 
-    const AZURE_STORAGE_CONNECTION_STRING = process.env.BLOB_CONNECTION_STRING;
+    const AZURE_STORAGE_CONNECTION_STRING = String(process.env.BLOB_CONNECTION_STRING);
     console.log("connnect   " + AZURE_STORAGE_CONNECTION_STRING);
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
     console.log("connnect   " + blobServiceClient);
