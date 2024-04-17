@@ -44,7 +44,7 @@ jobs:
           docker tag annix ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
           docker push ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
           
-  deploy:
+  deploy_to_azure:
     runs-on: ubuntu-latest
     needs: build_and_push
 
