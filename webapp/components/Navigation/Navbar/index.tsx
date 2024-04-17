@@ -46,56 +46,49 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                                 </svg>
                             </button>
                         </div>
-                        <ul className="hidden md:flex gap-x-6 items-center justify-center align-middle">
-                            <li>
+                        <ul className="hidden md:flex gap-x-6 items-center justify-center">
+
                                 <Link href="/search" legacyBehavior>
                                     <a className="animated-button"
                                     title="Click to search for characters">Search for Characters</a>
                                 </Link>
-                            </li>
+
                             {isLoggedIn ? (
-                                <li>
                                     <Link href="/history" legacyBehavior>
                                         <a className="animated-button"
                                         title="Click to view search history">View Search History</a>
                                     </Link>
-                                </li>
                             ) : null}
-                            <li>
+
                                 <Link href="/faq" legacyBehavior>
                                     <a className="animated-button"
                                     title="Click to view FAQ">FAQ</a>
                                 </Link>
-                            </li>
-                            <li>
+
                                 <Link href="/contact" legacyBehavior>
                                     <a className="animated-button"
                                     title="Click to view contact information">Contact Us!</a>
                                 </Link>
-                            </li>
+
                             {isLoggedIn ? (
                                 <>
-                                    <li><Link href="/profile" legacyBehavior><a className="animated-button"
+                                    <Link href="/profile" legacyBehavior><a className="animated-button"
                                     title="Click to view profile"
-                                    >View My Profile</a></Link></li>
-                                    <li><button onClick={logOutAndRedirect} className="animated-button"
+                                    >View My Profile</a></Link>
+                                    <button onClick={logOutAndRedirect} className="animated-button"
                                     title="Click to log out of your account"
-                                    >Log Out</button></li>
+                                    >Log Out</button>
                                 </>
                             ) : (
                                 <>
-                                    <li>
-                                        <Link href="/login" legacyBehavior>
-                                            <a className="animated-button"
-                                            title="Click to login">Log In</a>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/register" legacyBehavior>
-                                            <a className="animated-button"
-                                            title="Click to register">Sign Up</a>
-                                        </Link>
-                                    </li>
+                                    <Link href="/login" legacyBehavior>
+                                        <a className="animated-button"
+                                        title="Click to login">Log In</a>
+                                    </Link>
+                                    <Link href="/register" legacyBehavior>
+                                        <a className="animated-button"
+                                        title="Click to register">Sign Up</a>
+                                    </Link>
                                 </>
                             )}
                             <InfoTag text="Welcome to our interactive navigation bar! Here, you can easily navigate to various parts of our platform. 'Search for Characters' allows you to find detailed information on your favorite characters. If logged in, you can access 'View Search History' to review your past searches. 'Request New Features' lets you suggest improvements or new features you'd like to see. Join discussions and connect with the community in the 'Forums' section. Have questions? 'FAQ' provides answers to common inquiries. For personalized options, 'View My Profile' takes you to your account details, where you can manage your settings and profile. Not a member yet? Click 'Register' to join us or 'Log In' to access your account. Navigate your way to a better experience with us!" />
