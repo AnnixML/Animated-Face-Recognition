@@ -74,56 +74,74 @@ const signin = () => {
     };
 
     return (
-        <div className="px-4 min-h-screen bg-pl-1 dark:bg-pd-4"> {}
-            <form onSubmit={handleSubmit} className="signin-form">
-            <div>
-                    <label htmlFor="username" className="block text-pl-3 dark:text-pd-2">Username:</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                        title="Type your username here!"
-                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
-                    />
+        <div className="flex items-center justify-center min-h-screen bg-pl-1 dark:bg-pd-4">
+          <div className="max-w-md w-full px-6 py-8 bg-pl-2 dark:bg-pd-4 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold mb-6 text-pl-3 dark:text-pd-2">Sign In</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="username" className="block text-pl-3 dark:text-pd-2 font-medium">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  title="Type your username here!"
+                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-pl-3 dark:text-pd-2 font-medium">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  title="Type your email here!"
+                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-pl-3 dark:text-pd-2 font-medium">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  title="Type your password here!"
+                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+                />
+              </div>
+              {error && (
+                <div className="w-full h-20 text-pl-3 dark:text-pd-2 bg-pl-1 dark:bg-pd-4 sticky top-0 z-50">
+                  {error}
                 </div>
-                <div>
-                    <label htmlFor="email" className="block text-pl-3 dark:text-pd-2">Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        title="Type your email here!"
-                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="password" className="block text-pl-3 dark:text-pd-2">Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        title="Type your password here!"
-                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
-                    />
-                </div>
-                <div className="py-2"> </div>
-                {error && <div className="w-full h-20 text-pl-3 dark:text-pd-2 bg-pl-1 dark:bg-pd-4 sticky top-0 z-50">{error}</div>}
-                <button type="submit" className="animated-button"
-                    
-                    title="Click to submit the above three fields"
-                    >Sign In</button>
+              )}
+              <button
+                type="submit"
+                className="w-full py-2 px-4 rounded bg-pl-3 text-pl-1 dark:bg-pd-2 dark:text-pd-4 hover:bg-pl-4 dark:hover:bg-pd-3 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+              >
+                Sign In
+              </button>
             </form>
-            <div className="py-4">
-                <button onClick={() => router.push('/resetpassword')} className="animated-button">
-                        Forgot Your Password?
-                    </button>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push('/resetpassword')}
+                className="text-pl-3 dark:text-pd-2 hover:text-pl-4 dark:hover:text-pd-3 focus:outline-none"
+              >
+                Forgot Your Password?
+              </button>
             </div>
-            <InfoTag text="Enter your username and password to log in. Ensure your details are correct. If you are new and don't have an account yet, please register by clicking the Register button. Keep your login credentials secure and do not share them with others." />
+            <div className="mt-6">
+              <InfoTag text="Enter your username and password to log in. Ensure your details are correct. If you are new and don't have an account yet, please register by clicking the Register button. Keep your login credentials secure and do not share them with others." />
+            </div>
+          </div>
         </div>
-    );
-};
+      );
+    };
 
 export default signin;
