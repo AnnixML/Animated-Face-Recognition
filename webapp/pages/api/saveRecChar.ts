@@ -23,11 +23,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await db.collection("user_info").updateOne(
             {_id: new ObjectId(uuid) }, { $set: {"recChar": searchHistory[0]}, $inc: {"numSearches": 1}}, {upsert:true});
         
+        await db.collection("user_info").updateOne(
+            {username: "TOTAL_COUNTER" }, {$inc: {"numSearches": 1}}, {upsert:true});
+            
         var name = "searchArray." + searchHistory[0];
         var name2 = {} as { [key: string]: any };
         name2[name] = 1;
         await db.collection("user_info").updateOne(
             {_id: new ObjectId(uuid) }, {$inc: name2}, {upsert:true});
+        await db.collection("user_info").updateOne(
+            {username: "TOTAL_COUNTER" }, {$inc: name2}, {upsert:true});
 
         const user = await db.collection("user_info").findOne({_id: new ObjectId(uuid) });
         var favChar = null;

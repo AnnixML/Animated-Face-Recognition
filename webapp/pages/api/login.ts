@@ -40,6 +40,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const uuid = user._id.toString();
         await db.collection("user_info").updateOne(
             {_id: new ObjectId(uuid) }, { $inc: {"logins": 1} }, {upsert:true});
+        await db.collection("user_info").updateOne(
+            {username: "TOTAL_COUNTER"}, { $inc: {"logins": 1} }, {upsert:true});
         
         //await db.collection("user_info").updateOne(
           //  {_id: new ObjectId(uuid) }, { $set: {"sixdig":  Math.floor(100000 + Math.random() * 900000)}}, {upsert:true})
