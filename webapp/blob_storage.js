@@ -7,7 +7,9 @@ export async function login() {
     const accountName = "anniximagestorage";
     if (!accountName) throw Error('Azure Storage not found');
 
-    const AZURE_STORAGE_CONNECTION_STRING = String(process.env.BLOB_CONNECTION_STRING);
+    process.env.blob = "BlobEndpoint=https://anniximagestorage.blob.core.windows.net/;QueueEndpoint=https://anniximagestorage.queue.core.windows.net/;FileEndpoint=https://anniximagestorage.file.core.windows.net/;TableEndpoint=https://anniximagestorage.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-04-17T11:26:17Z&st=2024-04-17T03:26:17Z&spr=https&sig=QlMoxK%2FX2m15xEtKECJ9wYezVSNZsDBjv%2F68yQ%2FW3%2BI%3D"
+    const AZURE_STORAGE_CONNECTION_STRING = (process.env.blob.toString());
+    // const AZURE_STORAGE_CONNECTION_STRING = "BlobEndpoint=https://anniximagestorage.blob.core.windows.net/;QueueEndpoint=https://anniximagestorage.queue.core.windows.net/;FileEndpoint=https://anniximagestorage.file.core.windows.net/;TableEndpoint=https://anniximagestorage.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-04-17T11:26:17Z&st=2024-04-17T03:26:17Z&spr=https&sig=QlMoxK%2FX2m15xEtKECJ9wYezVSNZsDBjv%2F68yQ%2FW3%2BI%3D"
     console.log("connnect   " + AZURE_STORAGE_CONNECTION_STRING);
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
     console.log("connnect   " + blobServiceClient);
