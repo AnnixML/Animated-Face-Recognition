@@ -55,5 +55,5 @@ jobs:
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          images: '${{ env.IMAGE_NAME }}:latest'
+          images: 'docker.io/library/${{ env.IMAGE_NAME }}:latest'
     
