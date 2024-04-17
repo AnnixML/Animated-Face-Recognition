@@ -7,6 +7,7 @@ module.exports = {
   ],
   theme: {
     colors: {
+      'white': '#ffffff',
       'pl': { //primary-light
         /*
         '50': '#f4f9f4',
@@ -42,10 +43,10 @@ module.exports = {
       '900': '#223224',
       '950': '#18251a',
       */ //rest of color palette
-      '1': '#201c1c', /* used for general background */
-      '2': '#18251a', /* used for box backgrounds */
-      '3': '#e2eae1', /* text and border of buttons */
-      '4': '#3d5e40', /* text in General */
+      '1': '#0C3E37', /* used for general background */
+      '2': '#1C3144', /* used for box backgrounds */
+      '3': '#3A471F', /* text and border of buttons */
+      '4': '#596F62', /* text in General */
     }, 'sd': { //secondary dark
       //to be added
     },

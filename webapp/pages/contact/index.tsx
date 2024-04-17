@@ -14,7 +14,7 @@ const contact = () => {
                                 <svg className="h-6 w-6 fill-current text-pl-3 dark:text-pd-3" viewBox="0 0 24 24">
                                     <path d="M2 2l20 20m0-20L2 22" />
                                 </svg>
-                                <span className="ml-2 text-white">[Corig#4803 on Discord]</span>
+                                <span className="ml-2 text-white">[Corig on Discord]</span>
                             </div>
                             <div className="flex items-center mt-4">
                                 <svg className="h-6 w-6 fill-current text-pl-3 dark:text-pd-3" viewBox="0 0 24 24">

@@ -74,59 +74,50 @@ const signin = () => {
     };
 
     return (
-        <div className="min-h-screen bg-pl-1 dark:bg-pd-4"> {}
+        <div className="px-4 min-h-screen bg-pl-1 dark:bg-pd-4"> {}
             <form onSubmit={handleSubmit} className="signin-form">
             <div>
-                    <label htmlFor="username" className="block text-pl-3 dark:text-white">Username:</label>
+                    <label htmlFor="username" className="block text-pl-3 dark:text-pd-2">Username:</label>
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                         title="Type your username here!"
-                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                     />
                 </div>
                 <div>
-                    <label htmlFor="email" className="block text-pl-3 dark:text-white">Email:</label>
+                    <label htmlFor="email" className="block text-pl-3 dark:text-pd-2">Email:</label>
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         title="Type your email here!"
-                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-pl-3 dark:text-white">Password:</label>
+                    <label htmlFor="password" className="block text-pl-3 dark:text-pd-2">Password:</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         title="Type your password here!"
-                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
                     />
                 </div>
-                
-                {error && <div className="w-full h-20 text-pl-3 dark:text-white bg-pl-1 dark:bg-pd-4 sticky top-0 z-50">{error}</div>}
-                <button type="submit" className="
-                    py-2 px-4 rounded
-                    text-pl-3 border-2 border-rounded border-pl-3
-                    bg-pl-2
-                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                    dark:bg-pd-2"
+                <div className="py-2"> </div>
+                {error && <div className="w-full h-20 text-pl-3 dark:text-pd-2 bg-pl-1 dark:bg-pd-4 sticky top-0 z-50">{error}</div>}
+                <button type="submit" className="animated-button"
                     
                     title="Click to submit the above three fields"
                     >Sign In</button>
             </form>
             <div className="py-4">
-                <button onClick={() => router.push('/resetpassword')} className="py-2 px-4 rounded
-                        text-pl-3 border-2 border-rounded border-pl-3
-                        bg-pl-2
-                        dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                        dark:bg-pd-2">
+                <button onClick={() => router.push('/resetpassword')} className="animated-button">
                         Forgot Your Password?
                     </button>
             </div>
