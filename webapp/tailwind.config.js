@@ -9,9 +9,10 @@ module.exports = {
     colors: {
       'white': '#ffffff',
       'cyan': '#00ffff',
-      'lightcyan': "#1ae8b7",
+      'lightcyan': "#87d3f8",
       'magenta': "#ff00ff",
       'tangerine': "#f28500",
+      'darkblue': "#203354",
       'pl': { //primary-light
         /*
         '50': '#f4f9f4',
