@@ -73,3 +73,4 @@ jobs:
           inlineScript: |
             az webapp stop --name ${{ env.WEBAPP_NAME }} --resource-group Annix
             az webapp start --name ${{ env.WEBAPP_NAME }} --resource-group Annix
+            az webapp restart --name ${{ env.WEBAPP_NAME }} --resource-group Annix
