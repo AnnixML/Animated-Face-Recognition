@@ -11,7 +11,7 @@ const InfoTag: React.FC<InfoTagProps> = ({ text }) => {
         <>
             <button 
                 onClick={() => setIsOpen(true)} 
-                className="bg-pl-3 dark:bg-pl-2 p-3 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
+                className="bg-pl-3 dark:bg-abc-1 p-3 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
                 title="Click for more information"
             >
                 <span className="text-pd-2 text-lg">i</span>

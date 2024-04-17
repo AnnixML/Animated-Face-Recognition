@@ -47,15 +47,17 @@ module.exports = {
       '900': '#223224',
       '950': '#18251a',
       */ //rest of color palette
-      '1': '#0C3E37', /* used for general background */
+      '1': '#699374', /* used for general background */
       '2': '#1C3144', /* used for box backgrounds */
       '3': '#3A471F', /* text and border of buttons */
-      '4': '#596F62', /* text in General */
+      '4': '#43464b', /* text in General */
+      '5': '#23262b', /* text in General */
     }, 'sd': { //secondary dark
       //to be added
-    },
-    
-    },
+    }, 'abc': {
+      '1': '#99adbe'
+    }
+  },
     extend: {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

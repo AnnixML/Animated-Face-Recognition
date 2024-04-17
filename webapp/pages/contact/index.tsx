@@ -2,12 +2,12 @@ import React from 'react';
 
 const contact = () => {
     return (
-        <div className="min-h-screen bg-pl-1 dark:bg-pd-4 flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-pl-1 dark:bg-gradient-to-r from-pd-4 to-pd-5 flex flex-col">
             <div className="container mx-auto px-4 py-10">
                 <h1 className="text-3xl font-bold text-black dark:text-white">Contact Us</h1>
                 <div className="mt-8 space-y-6">
                     <div className="bg-pl-2 dark:bg-pd-2 p-6 rounded-lg shadow-lg">
-                        <h2 className="text-xl font-semibold text-white">Reach Out to Us</h2>
+                        <h2 className="text-xl font-semibold text-white">Reach Out to Us!</h2>
                         <p className="text-white mt-2">Whether you need support or have any questions, feel free to get in touch with us!</p>
                         <div className="mt-4">
                             <div className="flex items-center mt-4">

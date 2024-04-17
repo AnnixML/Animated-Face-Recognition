@@ -180,11 +180,21 @@ const search: React.FC = () => {
 
     return (
         <div className="px-4 py-2 min-h-screen bg-pl-1 dark:bg-pd-4">
-            <h1 className="text-black dark:text-pd-2">Search for Characters</h1>
+            <h1 className="text-black dark:text-p">Search for Characters</h1>
             <ImageUploader onUpload={handleUpload} />
             <div className="py-2">  </div>
             <InfoTag text="Upload an image to search for characters. The system uses AI to predict characters present in the uploaded image. Results, including the character names and confidence levels, are displayed below. If you believe a character has been incorrectly identified or missed, please provide feedback in the form that appears after submission. Your input helps improve our recognition accuracy." />
-            {uploading && <p>Uploading and analyzing image...</p>}
+            {uploading && <div className="hourglassBackground">
+      <div className="hourglassContainer">
+        <div className="hourglassCurves"></div>
+        <div className="hourglassCapTop"></div>
+        <div className="hourglassGlassTop"></div>
+        <div className="hourglassSand"></div>
+        <div className="hourglassSandStream"></div>
+        <div className="hourglassCapBottom"></div>
+        <div className="hourglassGlass"></div>
+      </div>
+    </div>}
             <ul>
                 {characters.map((char: Character, index: number) => (
                     <li key={index} className="mb-4">
