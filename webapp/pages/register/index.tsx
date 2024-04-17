@@ -42,7 +42,7 @@ const Register = () => {
     };
 
     return (
-        <div className="px-4 min-h-screen bg-pl-1 dark:bg-pd-4 flex items-center justify-center min-h-screen">
+        <div className=" bg-gradient-to-r from-darkblue via-lightcyan to-pl-4 background-animate px-4 min-h-screen bg-pl-1 dark:bg-pd-4 flex items-center justify-center min-h-screen">
             <div className="max-w-md w-full px-6 py-8 bg-pl-2 dark:bg-pl-4 rounded-lg shadow-xl">
             <h2 className="text-2xl font-bold mb-6 text-pl-3 dark:text-pd-2">Sign Up</h2>
                 <form onSubmit={registerUser} className="space-y-4">
