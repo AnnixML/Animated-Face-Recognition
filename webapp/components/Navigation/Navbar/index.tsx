@@ -20,7 +20,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
         <>
             <div className="w-full h-20 bg-pl-4 dark:bg-pd-1 sticky top-0 z-50">
                 <div className="container mx-auto px-4 h-full">
-                    <div className="flex justify-between items-center h-full">
+                    <div className="flex justify-between items-center h-full justify-center">
                         <Logo />
                         <div className="md:hidden">
                             <button
@@ -46,7 +46,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                                 </svg>
                             </button>
                         </div>
-                        <ul className="hidden md:flex gap-x-6 items-center">
+                        <ul className="hidden md:flex gap-x-6 items-center justify-center align-middle">
                             <li>
                                 <Link href="/search" legacyBehavior>
                                     <a className="animated-button"
@@ -75,7 +75,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                             </li>
                             {isLoggedIn ? (
                                 <>
-                                    <li><Link href="/profile" legacyBehavior><a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                                    <li><Link href="/profile" legacyBehavior><a className="animated-button"
                                     title="Click to view profile"
                                     >View My Profile</a></Link></li>
                                     <li><button onClick={logOutAndRedirect} className="animated-button"
@@ -84,8 +84,18 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                                 </>
                             ) : (
                                 <>
-                                    <li><Button /></li>
-                                    <li><RegisterButton /></li>
+                                    <li>
+                                        <Link href="/login" legacyBehavior>
+                                            <a className="animated-button"
+                                            title="Click to login">Log In</a>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/register" legacyBehavior>
+                                            <a className="animated-button"
+                                            title="Click to register">Sign Up</a>
+                                        </Link>
+                                    </li>
                                 </>
                             )}
                             <InfoTag text="Welcome to our interactive navigation bar! Here, you can easily navigate to various parts of our platform. 'Search for Characters' allows you to find detailed information on your favorite characters. If logged in, you can access 'View Search History' to review your past searches. 'Request New Features' lets you suggest improvements or new features you'd like to see. Join discussions and connect with the community in the 'Forums' section. Have questions? 'FAQ' provides answers to common inquiries. For personalized options, 'View My Profile' takes you to your account details, where you can manage your settings and profile. Not a member yet? Click 'Register' to join us or 'Log In' to access your account. Navigate your way to a better experience with us!" />
