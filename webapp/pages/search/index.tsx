@@ -179,9 +179,10 @@ const search: React.FC = () => {
       }, [revealThank, hiddencharacters]);
 
     return (
-        <div className="min-h-screen bg-pl-1 dark:bg-pd-4">
-            <h1 className="text-black dark:text-white">Search for Characters</h1>
+        <div className="px-4 py-2 min-h-screen bg-pl-1 dark:bg-pd-4">
+            <h1 className="text-black dark:text-pd-2">Search for Characters</h1>
             <ImageUploader onUpload={handleUpload} />
+            <div className="py-2">  </div>
             <InfoTag text="Upload an image to search for characters. The system uses AI to predict characters present in the uploaded image. Results, including the character names and confidence levels, are displayed below. If you believe a character has been incorrectly identified or missed, please provide feedback in the form that appears after submission. Your input helps improve our recognition accuracy." />
             {uploading && <p>Uploading and analyzing image...</p>}
             <ul>

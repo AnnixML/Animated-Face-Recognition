@@ -25,7 +25,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                         <div className="md:hidden">
                             <button
                                 type="button"
-                                className="inline-flex items-center justify-center"
+                                className="animated-button"
                                 title="Click to go to the landing page"
                                 onClick={toggle}
                             >
@@ -49,34 +49,28 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                         <ul className="hidden md:flex gap-x-6 items-center">
                             <li>
                                 <Link href="/search" legacyBehavior>
-                                    <a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                                    <a className="animated-button"
                                     title="Click to search for characters">Search for Characters</a>
                                 </Link>
                             </li>
                             {isLoggedIn ? (
                                 <li>
                                     <Link href="/history" legacyBehavior>
-                                        <a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                                        <a className="animated-button"
                                         title="Click to view search history">View Search History</a>
                                     </Link>
                                 </li>
                             ) : null}
                             <li>
-                                <Link href="/request" legacyBehavior>
-                                    <a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
-                                    title="Click to request new features">Request New Features</a>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/forums" legacyBehavior>
-                                    <a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
-                                    title="Click to view forums">Forums</a>
-                                </Link>
-                            </li>
-                            <li>
                                 <Link href="/faq" legacyBehavior>
-                                    <a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                                    <a className="animated-button"
                                     title="Click to view FAQ">FAQ</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/contact" legacyBehavior>
+                                    <a className="animated-button"
+                                    title="Click to view contact information">Contact Us!</a>
                                 </Link>
                             </li>
                             {isLoggedIn ? (
@@ -84,7 +78,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                                     <li><Link href="/profile" legacyBehavior><a className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
                                     title="Click to view profile"
                                     >View My Profile</a></Link></li>
-                                    <li><button onClick={logOutAndRedirect} className="whitespace-nowrap min-h-10 min-w-32 py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2"
+                                    <li><button onClick={logOutAndRedirect} className="animated-button"
                                     title="Click to log out of your account"
                                     >Log Out</button></li>
                                 </>
