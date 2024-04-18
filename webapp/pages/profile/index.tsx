@@ -5,7 +5,7 @@ import InfoTag from '../../components/Infotag';
 import ImageUploader from '../../components/ImageUploader';
 import * as blob_storage from '../../blob_storage';
 import search from '../search';
-import { PieChart } from './pieChart'; // Import the PieChart component
+import { PieChart } from '../../components/pieChart'; // Import the PieChart component
 //import './style.css'; // Import any CSS styles for the pie chart
 
 const profile = () => {
