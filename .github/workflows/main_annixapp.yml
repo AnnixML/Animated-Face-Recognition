@@ -41,7 +41,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./../../webapp/
+          context: .
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
