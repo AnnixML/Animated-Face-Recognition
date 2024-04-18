@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
 const sgMail = require('@sendgrid/mail');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey("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");
 console.log(process.env.SENDGRID_API_KEY)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
