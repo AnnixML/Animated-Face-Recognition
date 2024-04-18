@@ -21,7 +21,7 @@ describe("Home component", () => {
     it("should render the initial state correctly", () => {
         render(<Home />);
         expect(
-            screen.getByText(/Welcome To The Annix Landing Page!!!!/i)
+            screen.getByText(/Welcome To The Annix Landing Page!/i)
         ).toBeInTheDocument();
         expect(
             screen.getByText(
