@@ -38,21 +38,30 @@ jobs:
       #   with:
       #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: webapp
-          file: webapp/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
-          build-args: |
-            resendAPIKey=${{ secrets.RESEND_API_KEY }}
-            mongoURI=${{ secrets.MONGODB_URI }}
-            nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
-            blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }}
-            sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: webapp
+      #     file: webapp/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
+      #     build-args: |
+      #       resendAPIKey=${{ secrets.RESEND_API_KEY }}
+      #       mongoURI=${{ secrets.MONGODB_URI }}
+      #       nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+      #       blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }}
+      #       sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }}
+      #     cache-from: type=gha
+      #     cache-to: type=gha,mode=max
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - name: build and push
+        run: |
+          docker buildx -t annix --build-arg resendAPIKey=${{ secrets.RESEND_API_KEY }} --build-arg mongoURI=${{ secrets.MONGODB_URI }} --build-arg nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }} --build-arg blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }} --build-arg sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }} . 
+          docker tag annix ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
+          docker push ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
           
   deploy_to_azure:
     runs-on: ubuntu-latest
