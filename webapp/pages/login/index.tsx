@@ -91,7 +91,7 @@ const signin = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   title="Type your username here!"
-                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-abc-1 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
                 />
               </div>
               <div>
@@ -103,7 +103,7 @@ const signin = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   title="Type your email here!"
-                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-abc-1 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
                 />
               </div>
               <div>
@@ -115,8 +115,8 @@ const signin = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  title="Type your password here!"
-                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
+                  title="Type your password here!"  
+                  className="w-full py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-1 dark:text-pd-2 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-abc-1 focus:outline-none focus:ring-2 focus:ring-pl-3 dark:focus:ring-pd-2"
                 />
               </div>
               {error && (
