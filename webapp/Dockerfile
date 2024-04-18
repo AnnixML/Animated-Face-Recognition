@@ -21,10 +21,12 @@ ARG mongoURI
 ARG nextCloudName
 ARG resendAPIKey
 ARG blobConnectionString
+ARG SENDGRID_API_KEY=$sendgridAPIKey
 ENV MONGODB_URI=$mongoURI
 ENV NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$nextCloudName
 ENV RESEND_API_KEY=$resendAPIKey
 ENV BLOB_CONNECTION_STRING=$blobConnectionString
+ENV SENDGRID_API_KEY=$sendgridAPIKey
 
 # Build your Next.js application
 RUN npm run build
