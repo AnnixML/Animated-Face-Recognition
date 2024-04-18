@@ -21,7 +21,7 @@ ARG mongoURI
 ARG nextCloudName
 ARG resendAPIKey
 ARG blobConnectionString
-ARG SENDGRID_API_KEY
+ARG sendgridAPIKey
 ENV MONGODB_URI=$mongoURI
 ENV NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$nextCloudName
 ENV RESEND_API_KEY=$resendAPIKey
