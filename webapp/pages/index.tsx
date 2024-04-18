@@ -36,7 +36,7 @@ export default function Home() {
           setVerifying(false);
           console.log("User confirmation failed.");
       }
-    }
+    } 
     catch (err) {
       setVerifying(false); // Verification failed or completed
       console.log(`User confirmation failed: ${err}`);
