@@ -98,7 +98,7 @@ describe('Signin component', () => {
 
         // Wait for the information to be displayed
         await waitFor(() => {
-            expect(screen.getByText(/Enter your username and password to log in. Ensure your details are correct. If you are new and don't have an account yet, please register by clicking the Register button. Keep your login credentials secure and do not share them with others./i)).toBeInTheDocument();
+            expect(screen.getByText(/FAILEnter your username and password to log in. Ensure your details are correct. If you are new and don't have an account yet, please register by clicking the Register button. Keep your login credentials secure and do not share them with others./i)).toBeInTheDocument();
         });
     });
 });
