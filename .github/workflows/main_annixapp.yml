@@ -57,7 +57,6 @@ jobs:
             nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
             blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }}
             sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }}
-            progress=plain
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
