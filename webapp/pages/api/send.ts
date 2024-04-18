@@ -1,11 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import  EmailTemplate from '../../components/EmailTemplate';
-import { Resend } from 'resend';
+
 import clientPromise from '../../lib/mongodb';
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { email } = req.body
@@ -19,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             { "email": email }, { $set: {"sixdig":  co}})
         const msg = {
             to: email,
-            from: "Annix <vevotheofficialbeanman12@gmail.com>",
+            from: "vevotheofficialbeanman12@gmail.com",
             subject: 'Your 6 digit verification code',
             text: `Your 6 digit verification code is ${co}`
         }
