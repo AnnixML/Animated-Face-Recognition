@@ -4,7 +4,7 @@ import clientPromise from '../../lib/mongodb';
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+console.log(process.env.SENDGRID_API_KEY)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { email } = req.body

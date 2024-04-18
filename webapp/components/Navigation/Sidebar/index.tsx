@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
       <div className="pt-[120px]">
         <ul className="text-center leading-relaxed text-xl">
           <li>
-            <Link href="/search" legacyBehavior><a onClick={toggle} className="animated-button"
+            <Link href="/search" legacyBehavior><a onClick={toggle} 
             title = "Search for Characters"
             >Search for Characters</a></Link>
           </li>

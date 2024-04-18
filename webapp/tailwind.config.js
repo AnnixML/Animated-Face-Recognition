@@ -53,6 +53,7 @@ module.exports = {
       '3': '#3A471F', /* text and border of buttons */
       '4': '#43464b', /* text in General */
       '5': '#23262b', /* text in General */
+      '6': '#cccccc',
     }, 'sd': { //secondary dark
       //to be added
     }, 'abc': {
