@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/router';
 import InfoTag from '../../components/Infotag';
 import ImageUploader from '../../components/ImageUploader';
 import * as blob_storage from '../../blob_storage';
 import search from '../search';
+import { PieChart } from './pieChart'; // Import the PieChart component
+//import './style.css'; // Import any CSS styles for the pie chart
 
 const profile = () => {
     const { UUID, logOut, saveSearchHistory, changeSearchHistory } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [vals, setValues] = useState('[1, 2, 3]');
+    const [labs, setLabels] = useState('["stupid1", "stupid2", "stupid3"]');
     const [twoFac, setTwoFac] = useState(false);
     const [searchHist, setSearchHist] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -31,6 +35,8 @@ const profile = () => {
     const router = useRouter();
 
     const [refreshState, setRefreshState] = useState(false);
+    const pieChartElementRef = useRef<HTMLCanvasElement>(null); // Ref for canvas element
+    const tooltipElementRef = useRef<HTMLCanvasElement>(null); // Ref for tooltip element
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -51,6 +57,46 @@ const profile = () => {
                         setSearchHist(data.saveSearchHist);
                         setTwoFac(data.twofac);
                         setSaveStatistics(data.saveStatistics);
+                        const canvas = document.getElementById('pieChart');
+                        if (data){
+                            var valus = [];
+                            var keys = [];
+                            let sortable = [];
+                            var added = 0;
+                            for (const key in data.searchArray) {
+                                sortable.push([key, data.searchArray[key]]);
+                                // if (found == -1) {
+                                //     found = 1;
+                                // } else {
+                                //     values = values + ", ";
+                                //     keys = keys + ", ";
+                                // }
+                                // values = values + data.searchArray[key];
+                                // keys = keys + key
+                                //valus.push(data.searchArray[key])
+                                //keys.push(key)
+                            }
+                            sortable.sort(function(a, b) {
+                                return b[1] - a[1];
+                            });
+                            var othercounter = 0;
+                            console.log(sortable);
+                            console.log(sortable.length)
+                            for (let i = 0; i < sortable.length; i++) {
+                                if (i >= 9) {
+                                    othercounter += sortable[i][1]
+                                } else {
+                                    keys.push(sortable[i][0]);
+                                    valus.push(sortable[i][1]);
+                                }
+                            }
+                            if (othercounter != 0) {
+                                keys.push("other");
+                                valus.push(othercounter);
+                            }
+                            setLabels(JSON.stringify(keys));
+                            setValues(JSON.stringify(valus));
+                        }
                         
                         // Update any other state variables as needed
                     } else {
@@ -67,6 +113,15 @@ const profile = () => {
         fetchDetails();
     }, [UUID, refreshState]); // Depend on UUID and refreshState
 
+     useEffect(() => {
+         console.log(vals);
+         if (pieChartElementRef.current && tooltipElementRef.current) {
+             console.log(labs);
+             console.log(vals);
+             const pieChart = new PieChart(pieChartElementRef.current, tooltipElementRef.current);
+             pieChart.render();
+         }
+      }, [labs, vals]);
 
     useEffect(() => {
         // This function is now inside useEffect
@@ -206,7 +261,6 @@ const profile = () => {
     const handleCancelDelete = () => {
         setShowDeleteConfirm(false); 
     };
-
     const handleConfirmDelete = async () => {
         if (UUID) {
             // delete
@@ -388,6 +442,15 @@ const profile = () => {
                 <div>
                     <p>Favorite Character: {favChar}</p>
                 </div>
+                <canvas
+                    id="pieChart"
+                    width="200"
+                    height="200" 
+                    data-values={vals}
+                    data-labels={labs} ref={pieChartElementRef}
+                    ></canvas>
+                
+                <canvas id="tip py-4" width="100" height="25" ref={tooltipElementRef}></canvas>
                 <div className="flex items-center space-x-4">
                 <button 
                     onClick={() => handleUpdate("saveStatistics", !saveStatistics)} 
