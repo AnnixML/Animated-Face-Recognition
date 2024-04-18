@@ -41,8 +41,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile
+          context: webapp
+          file: webapp/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
           build-args: |
@@ -51,6 +51,8 @@ jobs:
             nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
             blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }}
             sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           
   deploy_to_azure:
     runs-on: ubuntu-latest
