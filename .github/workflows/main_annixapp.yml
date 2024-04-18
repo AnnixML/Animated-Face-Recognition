@@ -55,7 +55,6 @@ jobs:
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          slot-name: 'Production'
           images: '${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}'
 
   restart_azure:
@@ -72,5 +71,6 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az webapp stop --name ${{ env.WEBAPP_NAME }} --resource-group Annix
-            az webapp start --name ${{ env.WEBAPP_NAME }} --resource-group Annix
+            # az webapp stop --name ${{ env.WEBAPP_NAME }} --resource-group Annix
+            # az webapp start --name ${{ env.WEBAPP_NAME }} --resource-group Annix
+            az webapp restart --name ${{ env.WEBAPP_NAME }} --resource-group Annix
