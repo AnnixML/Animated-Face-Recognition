@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v3.0.1
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
@@ -79,14 +79,13 @@ jobs:
 
     steps:
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v2.1.0
         with:
           creds: ${{ secrets.AZURE_CRED }}
       - name: Azure CLI script
-        uses: azure/CLI@v1
+        uses: Azure/cli@v2.0.0
         with:
           azcliversion: latest
           inlineScript: |
-            # az webapp stop --name ${{ env.WEBAPP_NAME }} --resource-group Annix
-            # az webapp start --name ${{ env.WEBAPP_NAME }} --resource-group Annix
             az webapp restart --name ${{ env.WEBAPP_NAME }} --resource-group Annix
+        
