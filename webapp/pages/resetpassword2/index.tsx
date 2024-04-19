@@ -10,6 +10,14 @@ const ChangePasswordPage = () => {
     const [error, setError] = useState('');
     const router = useRouter();
 
+    const hashPassword = async (password: string) => {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    };
+
     const verifyCodeAndUpdatePassword = async () => {
         if (!UUID) {
             setError("There's an issue with your session. Please try to log in again.");
@@ -29,13 +37,14 @@ const ChangePasswordPage = () => {
                 const { success } = await verifyResponse.json();
                 if (success) {
                     // If code verification is successful, update the password
+                    const hashedPassword = await hashPassword(password);
                     const updateResponse = await fetch('/api/user/update', {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': UUID,
                         },
-                        body: JSON.stringify({ field: 'password', data: password })
+                        body: JSON.stringify({ field: 'password', data: hashedPassword })
                     });
 
                     if (updateResponse.ok) {

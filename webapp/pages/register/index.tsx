@@ -11,15 +11,26 @@ const Register = () => {
     const { logInNoAuth, saveEmail } = useAuth(); // Destructure the logIn function from useAuth
     const router = useRouter();
 
+    
+    const hashPassword = async (password: string) => {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    };
+
     const registerUser = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        const hashedPassword = await hashPassword(password);
 
         const res = await fetch("../api/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username, email, password }),
+            body: JSON.stringify({ username, email, password: hashedPassword }),
         });
 
         const data = await res.json();
