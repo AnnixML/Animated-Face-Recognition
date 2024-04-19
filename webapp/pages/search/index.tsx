@@ -68,7 +68,7 @@ const search: React.FC = () => {
 
         try {
             const fileName = await blob_storage.uploadImageToStorage(imageFile);
-            // console.log("FILE: " + fileName);
+            console.log("FILE: " + fileName);
 
             setPath(fileName);
             const response = await fetch(
@@ -145,16 +145,23 @@ const search: React.FC = () => {
     };
 
     const saveMostRecChar = async (searchResults: Character[]) => {
-        const [dupUUID, setdupUUID] = useState("anonymous");
-        if (UUID) {
-            setdupUUID(UUID);
+        if (!UUID) {
+            await fetch("../api/saveRecChar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    uuid: "anonymous",
+                    searchHistory: searchResults.map((result) => result.name),
+                }),
+            });
+            return;
         }
 
         await fetch("../api/saveRecChar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                uuid: dupUUID,
+                uuid: UUID,
                 searchHistory: searchResults.map((result) => result.name),
             }),
         });
@@ -200,8 +207,8 @@ const search: React.FC = () => {
     }, [revealThank, hiddencharacters]);
 
     return (
-        <div className="px-4 py-2 min-h-screen min-w-screen bg-pl-1 dark:bg-pd-4 justify-center">
-            <h1 className="text-black dark:text-white">Search for Characters</h1>
+        <div className="px-4 py-2 min-h-screen bg-pl-1 dark:bg-pd-4 justify-center">
+            <h1 className="text-black dark:text-pd-2">Search for Characters</h1>
             <ImageUploader onUpload={handleUpload} />
             <div className="py-2"> </div>
             <InfoTag text="Upload an image to search for characters. The system uses AI to predict characters present in the uploaded image. Results, including the character names and confidence levels, are displayed below. If you believe a character has been incorrectly identified or missed, please provide feedback in the form that appears after submission. Your input helps improve our recognition accuracy." />
@@ -220,7 +227,7 @@ const search: React.FC = () => {
             )}
             <ul>
                 {characters.map((char: Character, index: number) => (
-                    <li key={index} className="mb-4 dark:text-white">
+                    <li key={index} className="mb-4">
                         {`${char.name} in ${char.title} - Confidence: ${(
                             char.confidence * 100
                         ).toFixed(2)}%`}
@@ -232,10 +239,9 @@ const search: React.FC = () => {
                                 )}+${char.title.replace(/ /g, "+")}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="animated-button">
+                                className="inline-block py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2 mr-2">
                                 Merch
                             </a>
-                            <span className="px-2"></span>
                             <a
                                 href={`https://www.crunchyroll.com/search?from=&q=${char.title.replace(
                                     /_/g,
@@ -243,7 +249,7 @@ const search: React.FC = () => {
                                 )}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-2 animated-button">
+                                className="inline-block py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2">
                                 Watch
                             </a>
                         </div>
@@ -267,7 +273,7 @@ const search: React.FC = () => {
                         placeholder="We're sorry we got the character wrong! Please describe the issue..."></textarea>
                     <button
                         type="submit"
-                        className="animated-button px-2"
+                        className="py-2 px-4 rounded text-pl-3 border-2 border-rounded border-pl-3 bg-pl-2 dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-2 mt-2"
                         title="Submit Feedback"
                         disabled={submittingFeedback}>
                         {submittingFeedback
