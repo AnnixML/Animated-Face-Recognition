@@ -28,7 +28,7 @@ beforeEach(() => {
 describe('Contact component', () => {
     test('submits feedback correctly', async () => {
         render(<Contact />);
-        const feedbackInput = screen.getByTitle('Write your feedback here');
+        const feedbackInput = screen.getByTitle('QWrite your feedback here');
         const submitButton = screen.getByTitle('Submit Feedback');
 
         // Change the feedback input
