@@ -144,6 +144,7 @@ const signin = () => {
                     )}
 
                     <button
+                        id = "submit"
                         type="submit"
                         className="animated-button"
                         title="Click to submit the fields above!">

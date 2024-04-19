@@ -21,7 +21,7 @@ const ChangePassword = () => {
 
       if (!allmy.ok) {
         console.log('real');
-        setMessage('Email not found mf go suck on it');
+        setMessage('Email not found');
         console.log(message);
       } else {
         const reponsethesequel = await fetch('/api/send', {

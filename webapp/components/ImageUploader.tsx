@@ -50,6 +50,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({ onUpload }) => {
             dark:bg-pd-2 justify-center"
             onDragOver={handleDragOver}
             onDrop={handleDrop}
+            id = "upload-area"
         >
             <input type="file" onChange={handleFileChange} accept="image/*" />
             {error && <p className="text-red-500">{error}</p>}

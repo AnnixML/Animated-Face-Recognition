@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ImageUploader from "../../components/ImageUploader";
 import { useAuth } from "../../context/AuthContext";
-import InfoTag from "../../components/Infotag";
-import * as blob_storage from "../../blob_storage";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 const Faq = () => {

@@ -16,6 +16,6 @@
     "types": ["@testing-library/jest-dom", "jquery"],
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.config.js", "__tests__/home.test.jsx", "blob_storage.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.config.js", "__tests__/home.test.jsx", "blob_storage.js", "__tests__/search.test.jsx"],
   "exclude": ["node_modules"]
 }
