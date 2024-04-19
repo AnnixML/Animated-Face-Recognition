@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import SignIn from '../pages/login/index';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
