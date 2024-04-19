@@ -145,13 +145,16 @@ const search: React.FC = () => {
     };
 
     const saveMostRecChar = async (searchResults: Character[]) => {
-        if (!UUID) return;
+        const [dupUUID, setdupUUID] = useState("anonymous");
+        if (UUID) {
+            setdupUUID(UUID);
+        }
 
         await fetch("../api/saveRecChar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                uuid: UUID,
+                uuid: dupUUID,
                 searchHistory: searchResults.map((result) => result.name),
             }),
         });
