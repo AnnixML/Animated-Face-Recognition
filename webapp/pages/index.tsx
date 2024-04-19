@@ -22,7 +22,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const colorhex = "#A3CBAB";
+const colorhex = "#43724a";
 export const options = {
   responsive: true,
   plugins: {
