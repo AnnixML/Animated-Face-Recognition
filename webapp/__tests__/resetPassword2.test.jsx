@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ChangePasswordPage from '../pages/resetPassword2/index';
+import ChangePasswordPage from '../pages/resetpassword2/index';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
 
