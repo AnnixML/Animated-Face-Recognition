@@ -24,7 +24,6 @@ const profile = () => {
     const [numSearches, setNumSearches] = useState('');
     const [numLogins, setNumLogins] = useState('');
     const [favChar, setFavChar] = useState('');
-    const [actualChar, setActualChar] = useState('');
     const [saveStatistics, setSaveStatistics] = useState(false);
 
     //PFP
@@ -65,16 +64,6 @@ const profile = () => {
                             var added = 0;
                             for (const key in data.searchArray) {
                                 sortable.push([key, data.searchArray[key]]);
-                                // if (found == -1) {
-                                //     found = 1;
-                                // } else {
-                                //     values = values + ", ";
-                                //     keys = keys + ", ";
-                                // }
-                                // values = values + data.searchArray[key];
-                                // keys = keys + key
-                                //valus.push(data.searchArray[key])
-                                //keys.push(key)
                             }
                             sortable.sort(function(a, b) {
                                 return b[1] - a[1];
@@ -119,7 +108,7 @@ const profile = () => {
              console.log(labs);
              console.log(vals);
              const pieChart = new PieChart(pieChartElementRef.current, tooltipElementRef.current);
-             pieChart.render();
+             pieChart.drawPie(100);
          }
       }, [labs, vals]);
 

@@ -14,11 +14,12 @@ interface IPie {
   
   export class PieChart {
   
-    private readonly colors = ['#9e0142', '#d53e4f', '#f46d43', '#fdae61', '#fee08b',  '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2'];
+    private readonly colors = ['#ff0000', '#ff8700', '#ffd300', '#deff0a', '#a1ff0a', '#0aff99', '#0aefff', '#147df5', '#580aff', '#be0aff'];
     private context: CanvasRenderingContext2D;
     private tipContext: CanvasRenderingContext2D;
     private data: IParts[];
     private pie: IPie;
+    private slices: number = 0;
   
     constructor(private canvas: HTMLCanvasElement, private tooltip: HTMLCanvasElement) {
       let a = canvas.getContext('2d');
@@ -67,6 +68,7 @@ interface IPie {
         let data: IParts[] = [];
         let startAngle = 0;
         const sum = this.sum(values);
+        this.slices = values.length;
   
         values.forEach((value, idx) => {
           let endAngle = startAngle + value / sum * 2 * Math.PI;
@@ -114,7 +116,7 @@ interface IPie {
       }, 60);
     }
   
-    private drawPie(p: number, pidx?: number) {
+    drawPie(p: number, pidx?: number) {
   
       const ctx = this.context;
       const pie = this.pie;
@@ -123,7 +125,8 @@ interface IPie {
       this.data.forEach((part, idx) => {
   
         // Set style
-        ctx.fillStyle = this.colors[idx % this.colors.length];
+        ctx.fillStyle = this.colors[Math.floor(((idx * this.colors.length) / this.slices) % this.colors.length)];
+        //console.log(((idx * this.colors.length) / this.slices) % this.colors.length)
         ctx.strokeStyle = 'grey';
   
         ctx.beginPath();
@@ -232,17 +235,18 @@ interface IPie {
         // Resize tooltip
         this.tipContext.font = 'bold 10px sans-serif';
         let tipWidth = this.tipContext.measureText(this.getInfo(dataIdx)).width;
-        this.tooltip.width = tipWidth * 1.6 + 5;
+        this.tooltip.width = tipWidth * 3 + 5;
   
          // Draw color box
         this.tipContext.rect(10, 7, 10, 10);
-        this.tipContext.fillStyle = this.colors[dataIdx % this.colors.length];
+        this.tipContext.fillStyle = this.colors[Math.floor(((dataIdx * this.colors.length) / this.slices) % this.colors.length)];
         this.tipContext.fill();
   
         // Write text
         this.tipContext.textAlign = "left";
         this.tipContext.fillStyle = "white";
-        this.tipContext.fillText(this.getInfo(dataIdx), 22, 15);
+        this.tipContext.font = "15px sans-serif";
+        this.tipContext.fillText(this.getInfo(dataIdx), 23, 18);
         
       }
       else {

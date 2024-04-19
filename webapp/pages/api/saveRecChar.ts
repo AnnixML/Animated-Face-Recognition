@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             {_id: new ObjectId(uuid) }, { $set: {"recChar": searchHistory[0]}, $inc: {"numSearches": 1}}, {upsert:true});
         
         await db.collection("user_info").updateOne(
-            {username: "TOTAL_COUNTER" }, {$inc: {"numSearches": 1}}, {upsert:true});
+            {username: "TOTAL_COUNTER" }, {$set: {"recChar": searchHistory[0]}, $inc: {"numSearches": 1}}, {upsert:true});
             
         var name = "searchArray." + searchHistory[0];
         var name2 = {} as { [key: string]: any };
@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await db.collection("user_info").updateOne(
             {username: "TOTAL_COUNTER" }, {$inc: name2}, {upsert:true});
 
-        const user = await db.collection("user_info").findOne({_id: new ObjectId(uuid) });
+        var user = await db.collection("user_info").findOne({_id: new ObjectId(uuid) });
         var favChar = null;
         var favCharNum = 0;
         if (user){
@@ -47,6 +47,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         await db.collection("user_info").updateOne(
             {_id: new ObjectId(uuid) }, { $set: {"favChar": favChar} }, {upsert:true});
+            
+        user = await db.collection("user_info").findOne({username: "TOTAL_COUNTER" });
+        favChar = null;
+        favCharNum = 0;
+        if (user){
+            for (const key in user.searchArray) {
+                if (user.searchArray[key] > favCharNum) {
+                    favChar = key;
+                    favCharNum = user.searchArray[key];
+                }
+            }
+        }
+        await db.collection("user_info").updateOne(
+            {username: "TOTAL_COUNTER" }, { $set: {"favChar": favChar} }, {upsert:true});
         res.status(201).json({ message: 'History saved' });
     } catch (error) {
         console.error(error);
