@@ -50,18 +50,19 @@ const Pending = () => {
 
     return (
         <div className="min-h-screen bg-pl-1 dark:bg-pd-4 flex flex-col items-center justify-center">
-            <h1 className="text-xl font-semibold">Authenticate Your Email</h1>
-            <p>Please enter the 6-digit code sent to your email.</p>
+            <h1 className="py-2 text-xl font-semibold text-black dark:text-white">Authenticate Your Email</h1>
+            <p className = "text-black dark:text-white">Please enter the 6-digit code sent to your email.</p>
             {error && <p className="text-red-500">{error}</p>}
             <input
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                className="text-input"
+                className="py-2 text-input text-black dark:text-white bg-pl-1 dark:bg-pd-4 border"
                 placeholder="6-digit code"
             />
-            <button onClick={verifyCode} className="animated-button">Verify Code</button>
-            <p>If you didn't receive an email, <Link legacyBehavior href="/register"><a className="text-blue-500">try registering again</a></Link>.</p>
+            <div className="py-2"></div>
+            <button onClick={verifyCode} className="py-5 animated-button">Verify Code</button>
+            <p className = "text-black dark:text-white">If you didn't receive an email, <Link legacyBehavior href="/register"><a className="text-black dark:text-white">try registering again</a></Link>.</p>
         </div>
     );
 };

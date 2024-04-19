@@ -201,36 +201,31 @@ export default function Home() {
         }
     };
 
-    return (
-        <div className="w-full h-screen bg-pl-1 dark:bg-pd-4 flex justify-center items-center">
-            <div className="container mx-auto px-4 text-center">
-                {verifying ? (
-                    <h1 className="font-inter text-4xl font-bold text-black dark:text-white">
-                        Please wait while we verify your account...
-                    </h1>
-                ) : (
-                    <>
-                        <h2 className="text-lg font-semibold">
-                            User Statistics Page
-                        </h2>
-                        <div>
-                            <p>Number of Searches: {numSearches}</p>
-                        </div>
-                        <div>
-                            <p>Number of Logins: {numLogins}</p>
-                        </div>
-                        <div>
-                            <p>Recent Character Search: {recent}</p>
-                        </div>
-                        <div>
-                            <p>Favorite Character: {favChar}</p>
-                        </div>
-                        <div className="bar1">
-                            <Bar options={options} data={data} />
-                        </div>
-                    </>
-                )}
-            </div>
-        </div>
-    );
+  return (
+    <div className="w-full h-screen bg-pl-1 dark:bg-pd-4 flex justify-center items-center">
+      <div className="container mx-auto px-4 text-center">
+        {verifying ? (
+          <h1 className="font-inter text-4xl font-bold text-black dark:text-white">Please wait while we verify your account...</h1>
+        ) : (
+          <>
+              <h2 className="text-lg font-semibold text-black dark:text-white">User Statistics</h2>
+              <div>
+                  <p className = "text-black dark:text-white">Number of Searches: {numSearches}</p>
+              </div>
+              <div>
+                  <p className = "text-black dark:text-white">Number of Logins: {numLogins}</p>
+              </div>
+              <div>
+                  <p className = "text-black dark:text-white">Recent Character Search: {recent}</p>
+              </div>
+              <div>
+                  <p className = "text-black dark:text-white">Favorite Character: {favChar}</p>
+              </div>
+              <div className='bar1'><Bar options={options} data={data}/></div>
+              
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
