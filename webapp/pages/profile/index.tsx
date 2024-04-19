@@ -333,9 +333,10 @@ const profile = () => {
                 )}
 
                 <ImageUploader onUpload={handleProfilePicUpload} />
-                <button onClick={() => setShowRecentImages(prev => !prev)}>
+                <button className="animated-button" onClick={() => setShowRecentImages(prev => !prev)}>
                     {showRecentImages ? 'Hide' : 'Display'} Recent Searches
                 </button>
+                <div className="space-y-2"> </div>
                 {showRecentImages && (
                     <div className="grid grid-cols-5 gap-4 mt-4">
                         {previousImages.filter(Boolean).map((imageUrl, index) => (
@@ -349,13 +350,12 @@ const profile = () => {
                 </button>
 
             <div className="space-y-4">
-                <label htmlFor="Change password" className="text-black dark:text-white">Password:</label>
                 <button onClick={() => handleResetPassword()} className="animated-button">
                     Update Password
                 </button>
             </div>
             <div className="flex items-center space-x-4">
-            <span>Toggle Search History</span>
+            <span className="dark:text-white">Toggle Search History</span>
                 <label className="switch">
                     <input
                         type="checkbox"
@@ -366,7 +366,7 @@ const profile = () => {
                 </label>
             </div>
             <div className="flex items-center space-x-4">
-            <span>Toggle Two-Factor Authentication</span>
+            <span  className="dark:text-white">Toggle Two-Factor Authentication</span>
                 <label className="switch">
                     <input
                         type="checkbox"
@@ -404,18 +404,18 @@ const profile = () => {
             
             {/* User Statistics */}
             <div className="space-y-4 bg-pl-1 dark:bg-pd-4 w-1/2 p-4 overflow-auto">
-                <h2 className="text-lg font-semibold">User Statistics</h2>
+                <h2 className="text-lg font-semibold dark:text-white">User Statistics</h2>
                 <div>
-                    <p>Number of Searches: {numSearches}</p>
+                    <p  className="dark:text-white">Number of Searches: {numSearches}</p>
                 </div>
                 <div>
-                    <p>Number of Logins: {numLogins}</p>
+                    <p className="dark:text-white">Number of Logins: {numLogins}</p>
                 </div>
                 <div>
-                    <p>Recent Character Search: {recent}</p>
+                    <p className="dark:text-white">Recent Character Search: {recent}</p>
                 </div>
                 <div>
-                    <p>Favorite Character: {favChar}</p>
+                    <p className="dark:text-white">Favorite Character: {favChar}</p>
                 </div>
                 <canvas
                     id="pieChart"
@@ -427,7 +427,7 @@ const profile = () => {
                 
                 <canvas id="tip py-4" width="100" height="25" ref={tooltipElementRef}></canvas>
                 <div className="flex items-center space-x-4">
-                <span>Save Statistics</span>
+                <span className="dark:text-white">Save Statistics</span>
                 <label className="switch">
                     <input
                     type="checkbox"
