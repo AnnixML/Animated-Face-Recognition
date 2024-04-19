@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import ImageUploader from "../../components/ImageUploader";
+import { useAuth } from "../../context/AuthContext";
+import InfoTag from "../../components/Infotag";
+import * as blob_storage from "../../blob_storage";
 
 const Faq = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -30,6 +34,49 @@ const Faq = () => {
         setActiveIndex(index === activeIndex ? null : index);
     };
 
+    const { UUID } = useAuth();
+    const [saveSearchHist, setSaveSearchHist] = useState(false);
+    const [uploading, setUploading] = useState<boolean>(false);
+    const [feedback, setFeedback] = useState<string>("");
+    const [submittingFeedback, setSubmittingFeedback] =
+        useState<boolean>(false);
+    const [revealThank, setRevealThank] = useState<boolean>(false);
+    const [path, setPath] = useState("");
+    const [saveStatistics, setSaveStatistics] = useState(false);
+
+    const submitFeedback = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevent default form submission
+        setSubmittingFeedback(true);
+        console.log(JSON.stringify({ feedback }));
+
+        try {
+            const response = await fetch("../api/feedback", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(feedback),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit feedback");
+            }
+            setRevealThank(true);
+        } catch (error: any) {
+            console.error("Error submitting feedback:", error);
+            alert((error as Error).message || "An unknown error occurred");
+        } finally {
+            setSubmittingFeedback(false);
+            setFeedback(""); // Clear the feedback after submission
+        }
+    };
+
+    const handleFeedbackChange = (
+        event: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+        setFeedback(event.target.value);
+    };
+
     return (
         <div className="min-h-screen dark:bg-gradient-to-r from-pd-4 to-pd-5 flex flex-col items-center justify-center">
             <div className="container mx-auto px-4 py-10">
@@ -53,6 +100,37 @@ const Faq = () => {
                             </div>
                         </div>
                     ))}
+                    <form onSubmit={submitFeedback} className="border rounded px-4 py-4 mt-4 dark:bg-pd-2">
+                                        <label
+                                            htmlFor="feedback"
+                                            className="block mb-2 text-pl-3 dark:text-white">
+                                            Alternatively, Give Feedback Here:
+                                        </label>
+                                        <textarea
+                                            id="feedback"
+                                            value={feedback}
+                                            onChange={handleFeedbackChange}
+                                            className="px-4 border rounded p-2 w-full text-pl-3 dark:text-white dark:border-2 dark:border-rounded dark:border-pd-3 dark:bg-pd-4"
+                                            title="Write your feedback here"
+                                            rows={4}
+                                            placeholder="Hi! Please write any feedback here..."></textarea>
+                                        <button
+                                            type="submit"
+                                            className="animated-button px-2"
+                                            title="Submit Feedback"
+                                            disabled={submittingFeedback}>
+                                            {submittingFeedback
+                                                ? "Submitting..."
+                                                : "Submit Feedback"}
+                                        </button>
+                                    </form>
+                                    {revealThank && (
+                                        <>
+                                            <h2 className="dark:text-white font-semibold mb-4">
+                                                Thank you for submitting feedback / reaching out!
+                                            </h2>
+                                        </>
+                                    )}
                 </div>
             </div>
         </div>
