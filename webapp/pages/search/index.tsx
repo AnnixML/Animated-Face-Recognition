@@ -68,7 +68,7 @@ const search: React.FC = () => {
 
         try {
             const fileName = await blob_storage.uploadImageToStorage(imageFile);
-            console.log("FILE: " + fileName);
+            // console.log("FILE: " + fileName);
 
             setPath(fileName);
             const response = await fetch(
