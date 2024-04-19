@@ -84,29 +84,29 @@ const Faq = () => {
     };
 
     return (
-        <div className="min-h-screen dark:bg-gradient-to-r from-pd-4 to-pd-5 flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-pl-1 dark:bg-gradient-to-r from-pd-4 to-pd-5 flex flex-col items-center justify-center">
             <div className="container mx-auto px-4 py-10">
-                <h1 className="text-3xl font-bold text-white">Frequently Asked Questions</h1>
+                <h1 className="text-3xl font-bold  text-black dark:text-white">Frequently Asked Questions</h1>
                 <div className="mt-8 space-y-2">
                     {questionsAnswers.map((qa, index) => (
                         <div key={index} className="w-full">
                             <button
                                 onClick={() => handleToggle(index)}
-                                className={`w-full py-4 px-6 text-left text-lg font-semibold rounded-lg text-white
-                                            ${activeIndex === index ? 'bg-pl-2 dark:bg-pd-2' : 'bg-pl-1 dark:bg-pd-2'}
+                                className={`w-full py-4 px-6 text-left text-lg font-semibold rounded-lg text-black dark:text-white
+                                            ${activeIndex === index ? 'bg-pl-2 dark:bg-pd-2' : 'bg-pl-2 dark:bg-pd-2'}
                                             transition duration-300 ease-in-out`}
                             >
                                 {qa.question}
                             </button>
                             <div className={`px-6 pt-0 pb-4 overflow-hidden transition-max-height duration-500 ease-in-out
                                             ${activeIndex === index ? 'max-h-40' : 'max-h-0'}`}>
-                                <p className={`text-white ${activeIndex === index ? 'block' : 'hidden'}`}>
+                                <p className={`text-black dark:text-white ${activeIndex === index ? 'block' : 'hidden'}`}>
                                     {qa.answer}
                                 </p>
                             </div>
                         </div>
                     ))}
-                    <div className="border rounded px-4 py-4 mt-4 dark:bg-pd-2">
+                    <div className="border rounded px-4 py-4 mt-4 bg-pl-2 dark:bg-pd-2">
                     <form onSubmit={submitFeedback} >
                                         <label
                                             htmlFor="feedback"
