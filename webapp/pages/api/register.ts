@@ -32,12 +32,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
     }
 
-    if (password.length < 6) {
-      return res.status(409).json({message: 'Password is too short'});
-    }
-    if (password.length > 128) {
-      return res.status(409).json({message: 'Password is too long'});
-    }
+    // if (password.length < 6) {
+    //   return res.status(409).json({message: 'Password is too short'});
+    // }
+    // if (password.length > 128) {
+    //   return res.status(409).json({message: 'Password is too long'});
+    // }
 
     // Hash the password before storing
     //const hashedPassword = await bcrypt.hash(password, 10);

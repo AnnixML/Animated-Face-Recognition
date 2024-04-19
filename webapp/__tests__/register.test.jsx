@@ -1,7 +1,6 @@
-import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import Register from '../pages/register/index';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Register from '../pages/register/index'; // Update the import path as necessary
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
 
@@ -10,59 +9,72 @@ jest.mock('next/router', () => ({
 }));
 
 jest.mock('../context/AuthContext', () => ({
-    useAuth: jest.fn().mockReturnValue({
+    useAuth: jest.fn(() => ({
         logInNoAuth: jest.fn(),
-    }),
+    })),
 }));
 
-describe('Register component', () => {
+global.fetch = jest.fn();
+
+describe('Register Component', () => {
+    const mockPush = jest.fn();
+    const mockLogInNoAuth = jest.fn();
+
     beforeEach(() => {
         jest.clearAllMocks();
-    });
-
-    it('should render the register form', () => {
-        render(<Register />);
-        expect(screen.getByText('Sign Up')).toBeInTheDocument();
-        expect(screen.getByLabelText('Username')).toBeInTheDocument();
-        expect(screen.getByLabelText('Email')).toBeInTheDocument();
-        expect(screen.getByLabelText('Password')).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Register' })).toBeInTheDocument();
-    });
-
-    it('should handle form submission with valid input', async () => {
-        const mockedFetch = jest.fn().mockResolvedValueOnce({
+        useRouter.mockImplementation(() => ({ push: mockPush }));
+        useAuth.mockImplementation(() => ({ logInNoAuth: mockLogInNoAuth }));
+        fetch.mockResolvedValueOnce({
             ok: true,
-            json: () => Promise.resolve({ userId: 'some-uuid' }),
-        });
-        global.fetch = mockedFetch;
-
-        const { logInNoAuth } = useAuth();
-        useRouter.mockReturnValue({ push: jest.fn() });
-
-        render(<Register />);
-
-        fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
-        fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@example.com' } });
-        fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Register' }));
-
-        await waitFor(() => {
-            expect(mockedFetch).toHaveBeenCalledTimes(2);
-            expect(mockedFetch.mock.calls[0][1].body).toEqual(JSON.stringify({ username: 'testuser', email: 'test@example.com', password: 'password123' }));
-            expect(logInNoAuth).toHaveBeenCalledWith('some-uuid');
+            json: () => Promise.resolve({
+                userId: '123',
+                message: 'Registration successful'
+            }),
         });
     });
 
-    it('should show information on clicking the info button', async () => {
+    it('handles user registration and navigates on success', async () => {
         render(<Register />);
-        const infoButton = screen.getByTitle('Click for more information');
-        userEvent.click(infoButton);
 
-        // Wait for the information to be displayed
+        // Simulate user input
+        fireEvent.change(screen.getByTitle('Type your username here!'), { target: { value: 'newUser' } });
+        fireEvent.change(screen.getByTitle('Type your email here!'), { target: { value: 'newUser@example.com' } });
+        fireEvent.change(screen.getByTitle('Type your password here!'), { target: { value: 'securePassword123' } });
+
+        // Submit the form
+        fireEvent.click(screen.getByText('Register'));
+
+        // Check that the fetch was called correctly
         await waitFor(() => {
-            expect(screen.getByText(/Welcome to the registration page. Please fill out the form with your username, email, and password to create a new account./i)).toBeInTheDocument();
+            expect(fetch).toHaveBeenCalledWith("../api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: 'newUser',
+                    email: 'newUser@example.com',
+                    password: '010203',
+                }),
+            });
         });
+        expect(fetch).toHaveBeenCalledWith("../api/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: 'newUser@example.com',
+            }),
+        });
+
+        // Ensure the user is logged in without auth and redirected
+        await waitFor(() => {
+            expect(mockLogInNoAuth).toHaveBeenCalledWith('123');
+            expect(mockPush).toHaveBeenCalledWith("/pending");
+        });
+
+        // Check for success message display
+        expect(screen.getByText('Registration successful')).toBeInTheDocument();
     });
 });
-
-

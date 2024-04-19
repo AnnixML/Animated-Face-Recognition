@@ -14,6 +14,14 @@ const signin = () => {
     const { logIn, logInNoAuth } = useAuth();
     const router = useRouter();
 
+    const hashPassword = async (password: string) => {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(""); // Reset error message
@@ -21,13 +29,15 @@ const signin = () => {
         const tokenId = urlParams.get("tokenId");
         const token = urlParams.get("token");
         var verifed = false;
+        
+        const hashedPassword = await hashPassword(password);
 
         const response = await fetch("/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username, email, password }),
+            body: JSON.stringify({ username, email, password: hashedPassword }),
         });
         const data = await response.json();
         if (response.ok) {
@@ -134,6 +144,7 @@ const signin = () => {
                     )}
 
                     <button
+                        data-testid = "submit"
                         type="submit"
                         className="animated-button"
                         title="Click to submit the fields above!">
