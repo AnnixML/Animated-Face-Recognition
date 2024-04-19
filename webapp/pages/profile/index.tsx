@@ -247,7 +247,8 @@ const profile = () => {
     }
     const handleProfilePicUpload = async (imageFile: File) => {
         // Assume uploadImageToStorage returns the path or URL of the uploaded image
-        const uploadedImagePath = await blob_storage.uploadImageToStorage(imageFile);
+        const uploadedImagePath = await blob_storage.getBlobAsLink(await blob_storage.uploadImageToStorage(imageFile));
+        console.log(uploadedImagePath);
         setPreviousImages((prevImages) => [...prevImages, uploadedImagePath]);
         setSelectedProfilePic(uploadedImagePath);
         const fileName = await blob_storage.uploadImageToStorage(imageFile);
