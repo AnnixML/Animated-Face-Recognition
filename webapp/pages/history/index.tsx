@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import InfoTag from '../../components/Infotag';
+import * as blob_storage from '../../blob_storage';
+import { isTemplateExpression } from 'typescript';
+
 const History = () => {
     const { UUID } = useAuth();
-    const [history, setHistory] = useState<string[]>([]);
+    const [history, setHistory] = useState<Array<string>[]>([]);
     const [page, setPage] = useState<number>(1);
     const [link, setLink] = useState('')
     const limit = 20;
@@ -31,7 +34,11 @@ const History = () => {
           link.remove();
         };
       
+<<<<<<< HEAD
         return <button className="animated-button" onClick={handleDownload}>Download CSV</button>;
+=======
+        return <button className="bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white" onClick={handleDownload}>Download CSV</button>;
+>>>>>>> b8942f9 (cooked)
       };
     useEffect(() => {
         const fetchHistory = async () => {
@@ -40,7 +47,16 @@ const History = () => {
                 const response = await fetch(`../api/history?uuid=${UUID}&page=${page}&limit=${limit}`);
                 if (response.ok) {
                     const data = await response.json();
-                    setHistory(data.map((item: any) => item.searchHistory));
+                    await console.log(data)
+                    setHistory(
+                        await Promise.all(
+                          data.map(async (item: any) => {
+                            const newFile = await blob_storage.getBlobAsLink(item.fileName);
+                            return [item.searchHistory, newFile];
+                          })
+                        )
+                      );
+                    await console.log(history)
                 }
             }
         };
@@ -56,13 +72,17 @@ const History = () => {
                     <tr className="text-black dark:text-white">
                         <th className="px-4 py-2">Index</th>
                         <th className="px-4 py-2">Search Term</th>
+                        <th className="px-4 py-2">Image</th>
                     </tr>
                 </thead>
                 <tbody>
                     {history.map((item, index) => (
                         <tr key={index} className="text-black dark:text-white">
                             <td className="border px-4 py-2">{index + 1 + (page - 1) * limit}</td>
-                            <td className="border px-4 py-2">{item}</td>
+                            <td className="border px-4 py-2">{item[0]}</td>
+                            <td className="border px-4 py-2 justify-center">
+                                <img src={item[1]} className="max-w-xs h-auto mx-auto" alt="Image" />
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -77,7 +97,7 @@ const History = () => {
                     Previous
                 </button>
                 <button 
-                    className="bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white"
+                    className="mr-4 bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white"
                     title = "Navigate to Next Page"
                     onClick={() => setPage(page + 1)}
                 >
