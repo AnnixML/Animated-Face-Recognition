@@ -34,11 +34,7 @@ const History = () => {
           link.remove();
         };
       
-<<<<<<< HEAD
-        return <button className="animated-button" onClick={handleDownload}>Download CSV</button>;
-=======
         return <button className="bg-pl-1 hover:bg-pl-2 text-black font-bold py-2 px-4 rounded dark:bg-pd-1 dark:hover:bg-pd-2 dark:text-white" onClick={handleDownload}>Download CSV</button>;
->>>>>>> b8942f9 (cooked)
       };
     useEffect(() => {
         const fetchHistory = async () => {
@@ -66,7 +62,6 @@ const History = () => {
 
     return (
         <div className="bg-pl-1 dark:bg-pd-4 min-h-screen">
-            <h1 className="text-black dark:text-white">Search History</h1>
             <table className="table-auto w-full">
                 <thead>
                     <tr className="text-black dark:text-white">
@@ -81,7 +76,7 @@ const History = () => {
                             <td className="border px-4 py-2">{index + 1 + (page - 1) * limit}</td>
                             <td className="border px-4 py-2">{item[0]}</td>
                             <td className="border px-4 py-2 justify-center">
-                                <img src={item[1]} className="max-w-xs h-auto mx-auto" alt="Image" />
+                                <img src={item[1]} className="max-w-xs h-auto mx-auto rounded-lg" alt="Image" />
                             </td>
                         </tr>
                     ))}
@@ -103,8 +98,9 @@ const History = () => {
                 >
                     Next
                 </button>
-                <div className="py-4"></div>
                 <DownloadButton />
+                <div className="py-4"></div>
+                
             </div>
             <div className="py-4"></div>
             <InfoTag text="This page displays your search history. Each entry shows the terms you've searched for. Navigate through your history using the 'Previous' and 'Next' buttons. The history is paginated for easier viewing, displaying 20 items per page." />
