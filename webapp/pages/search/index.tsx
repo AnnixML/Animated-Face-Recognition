@@ -197,7 +197,7 @@ const search: React.FC = () => {
     }, [revealThank, hiddencharacters]);
 
     return (
-        <div className="px-4 py-2 min-h-screen bg-pl-1 dark:bg-pd-4 justify-center">
+        <div className="px-4 py-2 min-h-screen min-w-screen bg-pl-1 dark:bg-pd-4 justify-center">
             <h1 className="text-black dark:text-pd-2">Search for Characters</h1>
             <ImageUploader onUpload={handleUpload} />
             <div className="py-2"> </div>
