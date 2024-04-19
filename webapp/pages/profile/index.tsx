@@ -237,7 +237,7 @@ const profile = () => {
                     },
                     body: JSON.stringify({ field, data: processedValue })
                 });
-                console.log(response)
+                // console.log(response)
                 if (!response.ok) {
                     //throw new Error('Failed to update, please upload or select a file before trying again!');
                 }
@@ -269,7 +269,7 @@ const profile = () => {
     const handleProfilePicUpload = async (imageFile: File) => {
         // Assume uploadImageToStorage returns the path or URL of the uploaded image
         const uploadedImagePath = await blob_storage.getBlobAsLink(await blob_storage.uploadImageToStorage(imageFile));
-        console.log(uploadedImagePath);
+        // console.log(uploadedImagePath);
         setPreviousImages((prevImages) => [...prevImages, uploadedImagePath]);
         setSelectedProfilePic(uploadedImagePath);
         const fileName = await blob_storage.uploadImageToStorage(imageFile);
