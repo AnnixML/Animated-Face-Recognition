@@ -218,7 +218,7 @@ const profile = () => {
                 });
                 console.log(response)
                 if (!response.ok) {
-                    throw new Error('Failed to update, please upload or select a file before trying again!');
+                    //throw new Error('Failed to update, please upload or select a file before trying again!');
                 }
     
                 // Instead of setting state here, we'll rely on useEffect to refresh state
