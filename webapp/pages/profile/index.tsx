@@ -406,6 +406,7 @@ const profile = () => {
                 <div>
                     <p className="dark:text-white">Favorite Character: {favChar}</p>
                 </div>
+                <div className = "bg-pl-3">
                 <canvas
                     id="pieChart"
                     width="200"
@@ -413,8 +414,8 @@ const profile = () => {
                     data-values={vals}
                     data-labels={labs} ref={pieChartElementRef}
                     ></canvas>
-                
                 <canvas id="tip py-4" width="100" height="25" ref={tooltipElementRef}></canvas>
+                </div>
                 <div className="flex items-center space-x-4">
                 <span className="dark:text-white">Save Statistics</span>
                 <label className="switch">
