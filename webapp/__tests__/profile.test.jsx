@@ -68,7 +68,7 @@ it('updates email when user edits and submits', async () => {
 
 it('updates username when user edits and submits', async () => {
     render(<Profile />);
-    const usernameInput = screen.getByTitle('Edit your username here!'); 
+    const usernameInput = screen.getByTitle('Edit your username here!');
     fireEvent.change(usernameInput, { target: { value: 'newUsername' } });
 
     // Simulate submitting the form or triggering the update
@@ -80,7 +80,7 @@ it('updates username when user edits and submits', async () => {
         expect(fetch.mock.calls[3][0]).toContain('../api/user/update');
         expect(fetch.mock.calls[3][1].method).toBe('PUT');
         expect(fetch.mock.calls[3][1].headers).toEqual({
-            'Authorization': 'test-uuid', 
+            'Authorization': 'test-uuid',
             'Content-Type': 'application/json',
         });
         expect(JSON.parse(fetch.mock.calls[3][1].body)).toEqual({
@@ -88,9 +88,7 @@ it('updates username when user edits and submits', async () => {
             field: 'username',
         });
     });
-
 });
-
 
 it('uploads a profile picture and updates it', async () => {
     render(<Profile />);
@@ -100,4 +98,16 @@ it('uploads a profile picture and updates it', async () => {
 
     await waitFor(() => expect(blob_storage.uploadImageToStorage).toHaveBeenCalledWith(file));
     expect(blob_storage.getBlobAsLink).toHaveBeenCalled();
+});
+
+it('opens the modal and displays data when "What\'s Annix Storing?" button is clicked', async () => {
+    render(<Profile />);
+
+    const button = screen.getByTitle("What's Annix Storing?");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+        expect(fetch).toHaveBeenCalled();
+        expect(fetch.mock.calls[3][0]).toContain('../api/user/fetchall');
+    });
 });
