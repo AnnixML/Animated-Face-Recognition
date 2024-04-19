@@ -62,7 +62,7 @@ const History = () => {
 
     return (
         <div className="bg-pl-1 dark:bg-pd-4 min-h-screen">
-            <table className="table-auto w-full">
+            <table className="table-auto w-10/12 mx-auto">
                 <thead>
                     <tr className="text-black dark:text-white">
                         <th className="px-4 py-2">Index</th>
