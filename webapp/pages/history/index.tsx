@@ -31,7 +31,7 @@ const History = () => {
           link.remove();
         };
       
-        return <button onClick={handleDownload}>Download CSV</button>;
+        return <button className="animated-button" onClick={handleDownload}>Download CSV</button>;
       };
     useEffect(() => {
         const fetchHistory = async () => {
@@ -83,8 +83,10 @@ const History = () => {
                 >
                     Next
                 </button>
+                <div className="py-4"></div>
                 <DownloadButton />
             </div>
+            <div className="py-4"></div>
             <InfoTag text="This page displays your search history. Each entry shows the terms you've searched for. Navigate through your history using the 'Previous' and 'Next' buttons. The history is paginated for easier viewing, displaying 20 items per page." />
         </div>
     );
