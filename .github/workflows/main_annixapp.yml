@@ -32,33 +32,33 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # - name: Extract metadata (tags, labels) for Docker
-      #   id: meta
-      #   uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-      #   with:
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      # - name: build and push
-      #   run: |
-      #     docker build -t annix --build-arg resendAPIKey=${{ secrets.RESEND_API_KEY }} --build-arg mongoURI=${{ secrets.MONGODB_URI }} --build-arg nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }} --build-arg blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }} --build-arg sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }} . 
-      #     docker tag annix ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
-      #     docker push ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          context: webapp
-          file: webapp/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
-          build-args: |
-            resendAPIKey=${{ secrets.RESEND_API_KEY }}
-            mongoURI=${{ secrets.MONGODB_URI }}
-            nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
-            blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }}
-            sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: build and push
+        run: |
+          docker build -t annix --build-arg resendAPIKey=${{ secrets.RESEND_API_KEY }} --build-arg mongoURI=${{ secrets.MONGODB_URI }} --build-arg nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }} --build-arg blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }} --build-arg sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }} . 
+          docker tag annix ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
+          docker push ${{ secrets.DOCKER_USER}}/${{ env.IMAGE_NAME }}
+
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: webapp
+#          file: webapp/Dockerfile
+#          push: true
+#          tags: ${{ secrets.DOCKER_USER }}/${{ env.IMAGE_NAME }}:latest
+#          build-args: |
+#            resendAPIKey=${{ secrets.RESEND_API_KEY }}
+#            mongoURI=${{ secrets.MONGODB_URI }}
+#            nextCloudName=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+#            blobConnectionString=${{ secrets.BLOB_CONNECTION_STRING }}
+#            sendgridAPIKey=${{ secrets.SENDGRID_API_KEY }}
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
           
   deploy_to_azure:
     runs-on: ubuntu-latest

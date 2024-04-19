@@ -207,7 +207,7 @@ const profile = () => {
                 });
                 console.log(response)
                 if (!response.ok) {
-                    throw new Error('Failed to update, please upload or select a file before trying again!');
+                    //throw new Error('Failed to update, please upload or select a file before trying again!');
                 }
     
                 // Instead of setting state here, we'll rely on useEffect to refresh state
@@ -236,7 +236,8 @@ const profile = () => {
     }
     const handleProfilePicUpload = async (imageFile: File) => {
         // Assume uploadImageToStorage returns the path or URL of the uploaded image
-        const uploadedImagePath = await blob_storage.uploadImageToStorage(imageFile);
+        const uploadedImagePath = await blob_storage.getBlobAsLink(await blob_storage.uploadImageToStorage(imageFile));
+        console.log(uploadedImagePath);
         setPreviousImages((prevImages) => [...prevImages, uploadedImagePath]);
         setSelectedProfilePic(uploadedImagePath);
         const fileName = await blob_storage.uploadImageToStorage(imageFile);
@@ -295,11 +296,7 @@ const profile = () => {
                     title="Edit your username here!"
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
-                <button onClick={() => handleUpdate("username", username)} className="py-2 px-4 rounded
-    text-pl-3 border-2 border-rounded border-pl-3
-    bg-pl-2
-    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-    dark:bg-pd-2">
+                <button onClick={() => handleUpdate("username", username)} className="animated-button">
                     Update Username
                 </button>
             </div>
@@ -314,11 +311,7 @@ const profile = () => {
                     title="Edit your email here!"
                     className="border rounded p-2 w-full text-black dark:text-white bg-pl-2 dark:bg-pd-4"
                 />
-                <button onClick={() => handleUpdate("email", email)} className="py-2 px-4 rounded
-                    text-pl-3 border-2 border-rounded border-pl-3
-                    bg-pl-2
-                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                    dark:bg-pd-2">
+                <button onClick={() => handleUpdate("email", email)} className="animated-button">
                     Update Email
                 </button>
             </div>
@@ -329,9 +322,10 @@ const profile = () => {
                 )}
 
                 <ImageUploader onUpload={handleProfilePicUpload} />
-                <button onClick={() => setShowRecentImages(prev => !prev)}>
+                <button className="animated-button" onClick={() => setShowRecentImages(prev => !prev)}>
                     {showRecentImages ? 'Hide' : 'Display'} Recent Searches
                 </button>
+                <div className="space-y-2"> </div>
                 {showRecentImages && (
                     <div className="grid grid-cols-5 gap-4 mt-4">
                         {previousImages.filter(Boolean).map((imageUrl, index) => (
@@ -340,69 +334,50 @@ const profile = () => {
                     </div>
                 )}
 
-                <button onClick={() => handleChangeProfilePic()} className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700 mt-4">
+                <button onClick={() => handleChangeProfilePic()} className="animated-button">
                     Change Profile Picture
                 </button>
 
             <div className="space-y-4">
-                <label htmlFor="Change password" className="text-black dark:text-white">Password:</label>
-                <button onClick={() => handleResetPassword()} className="py-2 px-4 rounded
-                    text-pl-3 border-2 border-rounded border-pl-3
-                    bg-pl-2
-                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                    dark:bg-pd-2">
+                <button onClick={() => handleResetPassword()} className="animated-button">
                     Update Password
                 </button>
             </div>
             <div className="flex items-center space-x-4">
-                <button 
-                    onClick={() => handleUpdate("saveSearchHist", !searchHist)} 
-                    className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700"
-                    title="Click to toggle search history"
-                >
-                    Toggle Search History
-                </button>
-                <span className={`${searchHist ? "text-green-500" : "text-red-500"}`}>
-                    {searchHist ? 'ON' : 'OFF'}
-                </span>
+            <span className="dark:text-white">Toggle Search History</span>
+                <label className="switch">
+                    <input
+                        type="checkbox"
+                        checked={searchHist}
+                        onChange={() => handleUpdate("saveSearchHist", !searchHist)}
+                    />
+                    <span className="slider" /> {  /* This is the actual slider */}
+                </label>
             </div>
             <div className="flex items-center space-x-4">
-                <button 
-                    onClick={() => handleUpdate("twofac", !twoFac)} 
-                    className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700"
-                    title="Click to toggle Two-Factor Authentication"
-                >
-                    Toggle Two-Factor Authentication
-                </button>
-                <span className={`${twoFac ? "text-green-500" : "text-red-500"}`}>
-                    {twoFac ? 'ON' : 'OFF'}
-                </span>
+            <span  className="dark:text-white">Toggle Two-Factor Authentication</span>
+                <label className="switch">
+                    <input
+                        type="checkbox"
+                        checked={twoFac}
+                        onChange={() => handleUpdate("twofac", !twoFac)}
+                    />
+                    <span className="slider" /> {/* This is the actual slider */}
+                </label>
             </div>
             <div className="space-y-20">
                 {!showDeleteConfirm ? (
-                    <button onClick={revealHidden} className="py-2 px-4 rounded
-                    text-pl-3 border-2 border-rounded border-pl-3
-                    bg-pl-2
-                    dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                    dark:bg-pd-2"
+                    <button onClick={revealHidden} className="animated-button"
                     title="Delete your account">
                         Delete My Account
                     </button>
                 ) : (
                     <div className="flex space-x-2">
-                        <button onClick={handleCancelDelete} className="py-2 px-4 rounded
-                        text-pl-3 border-2 border-rounded border-pl-3
-                        bg-pl-2
-                        dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                        dark:bg-pd-2"
+                        <button onClick={handleCancelDelete} className="animated-button"
                         title="Cancel deletion">
                             Cancel
                         </button>
-                        <button onClick={handleConfirmDelete} className="py-2 px-4 rounded
-                            text-pl-3 border-2 border-rounded border-pl-3
-                            bg-pl-2
-                            dark:text-pd-3 dark:border-2 dark:border-rounded dark:border-pd-3
-                            dark:bg-pd-2"
+                        <button onClick={handleConfirmDelete} className="animated-button"
                             title="Delete your account">
                             Confirm
                         </button>
@@ -418,18 +393,18 @@ const profile = () => {
             
             {/* User Statistics */}
             <div className="space-y-4 bg-pl-1 dark:bg-pd-4 w-1/2 p-4 overflow-auto">
-                <h2 className="text-lg font-semibold">User Statistics</h2>
+                <h2 className="text-lg font-semibold dark:text-white">User Statistics</h2>
                 <div>
-                    <p>Number of Searches: {numSearches}</p>
+                    <p  className="dark:text-white">Number of Searches: {numSearches}</p>
                 </div>
                 <div>
-                    <p>Number of Logins: {numLogins}</p>
+                    <p className="dark:text-white">Number of Logins: {numLogins}</p>
                 </div>
                 <div>
-                    <p>Recent Character Search: {recent}</p>
+                    <p className="dark:text-white">Recent Character Search: {recent}</p>
                 </div>
                 <div>
-                    <p>Favorite Character: {favChar}</p>
+                    <p className="dark:text-white">Favorite Character: {favChar}</p>
                 </div>
                 <canvas
                     id="pieChart"
@@ -441,16 +416,15 @@ const profile = () => {
                 
                 <canvas id="tip py-4" width="100" height="25" ref={tooltipElementRef}></canvas>
                 <div className="flex items-center space-x-4">
-                <button 
-                    onClick={() => handleUpdate("saveStatistics", !saveStatistics)} 
-                    className="py-2 px-4 rounded text-white font-bold bg-blue-500 hover:bg-blue-700"
-                    title="Click to toggle saving statistics"
-                >
-                    Toggle Statistics
-                </button>
-                <span className={`${saveStatistics ? "text-green-500" : "text-red-500"}`}>
-                    {saveStatistics ? 'ON' : 'OFF'}
-                </span>
+                <span className="dark:text-white">Save Statistics</span>
+                <label className="switch">
+                    <input
+                    type="checkbox"
+                    checked={saveStatistics}
+                    onChange={() => handleUpdate("saveStatistics", !saveStatistics)}
+                    />
+                    <span className="slider" /> {  /* This is the actual slider */}
+                </label>
             </div>
             </div>
         </div>

@@ -57,6 +57,7 @@ export async function getBlobAsBuffer(blobName) {
 }
 
 export async function getBlobAsLink(blobName) {
+    console.log(blobName)
     const containerClient = await login();
     const blobClient = containerClient.getBlockBlobClient(blobName);
     // console.log(`download of (link) ${blobName} success`);

@@ -41,7 +41,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({ onUpload }) => {
 
     return (
         <div
-            className="rounded-lg shadow-xl 
+            className="size-1/2 rounded-lg shadow-xl 
             upload-area border-2 border-dashed p-10 text-center
             py-2 px-4 rounded
             text-pl-3 border-2 border-rounded border-pl-3

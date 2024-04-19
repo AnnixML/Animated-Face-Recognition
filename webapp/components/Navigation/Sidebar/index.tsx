@@ -35,7 +35,7 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
           {isLoggedIn ? (
             <>
               <li>
-              <Link href="/history" legacyBehavior><a onClick={toggle} className="animated-button"
+              <Link href="/history" legacyBehavior><a onClick={toggle} 
               title = "history"
               >View Search History</a></Link>
               </li>
@@ -44,12 +44,12 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
             null
           )}
           <li>
-            <Link href="/faq" legacyBehavior><a onClick={toggle} className="animated-button"
+            <Link href="/faq" legacyBehavior><a onClick={toggle} 
             title = "Frequently Asked Questions"
             >Frequently Asked Questions</a></Link>
           </li>
           <li>
-            <Link href="/contact" legacyBehavior><a onClick={toggle} className="animated-button"
+            <Link href="/contact" legacyBehavior><a onClick={toggle} 
             title = "Contact Us"
             >Contact Us</a></Link>
           </li>
@@ -58,15 +58,15 @@ const Sidebar = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }): J
           <div className="py-1"></div>
           {isLoggedIn ? (
                 <>
-                  <li><Link href="/profile" legacyBehavior><a onClick={toggle} className="animated-button" title = "View my Profile">View My Profile</a></Link></li>
-                  <li><button onClick={logOutAndRedirect} className="animated-button"
+                  <li><Link href="/profile" legacyBehavior><a onClick={toggle} title = "View my Profile">View My Profile</a></Link></li>
+                  <li><button onClick={logOutAndRedirect}
                   title = "Log Out"
                   >Log Out</button></li>
                 </>
               ) : (
                 <>
-                  <li><Link href="/login" legacyBehavior><a onClick={toggle} className="animated-button" title = "Log In">Log In</a></Link></li>
-                  <li><Link href="/register" legacyBehavior><a onClick={toggle} className="animated-button" title =  "Sign Up">Sign Up</a></Link></li>
+                  <li><Link href="/login" legacyBehavior><a onClick={toggle} title = "Log In">Log In</a></Link></li>
+                  <li><Link href="/register" legacyBehavior><a onClick={toggle} title =  "Sign Up">Sign Up</a></Link></li>
                 </>
               )}
               <InfoTag text="Welcome to our interactive navigation bar! Here, you can easily navigate to various parts of our platform. 'Search for Characters' allows you to find detailed information on your favorite characters. If logged in, you can access 'View Search History' to review your past searches. 'Request New Features' lets you suggest improvements or new features you'd like to see. Join discussions and connect with the community in the 'Forums' section. Have questions? 'FAQ' provides answers to common inquiries. For personalized options, 'View My Profile' takes you to your account details, where you can manage your settings and profile. Not a member yet? Click 'Register' to join us or 'Log In' to access your account. Navigate your way to a better experience with us!" />
