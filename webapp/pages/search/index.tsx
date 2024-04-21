@@ -12,7 +12,7 @@ interface Character {
 
 const search: React.FC = () => {
     const { UUID } = useAuth();
-    const [saveSearchHist, setSaveSearchHist] = useState(false);
+    const [saveSearchHist, setSaveSearchHist] = useState(true);
     const [characters, setCharacters] = useState<Character[]>([]);
     const [hiddencharacters, setHiddenCharacters] = useState<Character[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
@@ -21,7 +21,7 @@ const search: React.FC = () => {
         useState<boolean>(false);
     const [revealThank, setRevealThank] = useState<boolean>(false);
     const [path, setPath] = useState("");
-    const [saveStatistics, setSaveStatistics] = useState(false);
+    const [saveStatistics, setSaveStatistics] = useState(true);
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -146,6 +146,7 @@ const search: React.FC = () => {
 
     const saveMostRecChar = async (searchResults: Character[]) => {
         if (!UUID) {
+            console.log("No uuid?");
             await fetch("../api/saveRecChar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -156,7 +157,7 @@ const search: React.FC = () => {
             });
             return;
         }
-
+        console.log(UUID);
         await fetch("../api/saveRecChar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
