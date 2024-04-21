@@ -7,12 +7,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: 'Method not allowed' });
     }
     try {
-        const { data } = req.body;
-        console.log(data);
+        const data  = req.body;
+        console.log(JSON.stringify(data));
         const client = await clientPromise;
         const db = client.db("feedback");
         await db.collection("annix_feedback").insertOne({
-            "data":data
+            "feedback":data.feedback
         });
         res.status(201).json({ message: 'Feedback saved' });
     } catch (error) {

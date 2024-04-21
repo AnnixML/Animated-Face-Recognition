@@ -57,7 +57,7 @@ const Faq = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(feedback),
+                body: JSON.stringify({feedback}),
             });
 
             if (!response.ok) {
