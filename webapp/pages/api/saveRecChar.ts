@@ -39,11 +39,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
             await db.collection("user_info").updateOne(
                 {username: "TOTAL_COUNTER" }, { $set: {"favChar": favChar} }, {upsert:true});
-            res.status(201).json({ message: 'History saved' });
+            return res.status(201).json({ message: 'History saved' });
             
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Internal server error' });
+            return res.status(500).json({ message: 'Internal server error' });
         }
     }
 
